@@ -703,8 +703,8 @@ catch(mysqli_sql_exception $e) {
 
                                      if(v[0] == id) {
 
-
-                                       if(cant <= parseFloat(v[1])) {
+                                       
+                                       if(cant <= v[2]) {
 
 
 

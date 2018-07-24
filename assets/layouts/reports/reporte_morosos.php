@@ -298,10 +298,11 @@ h1 {
 <head>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> ABARROTERIA EVEN EZER II </h1></div>
-    <div> </div>
-    <!--    <div style="text-align:center;">San Agustín Acasaguastlán, El Progreso</div> -->
-    <div style="text-align:left;"><h1> Reporte de Créditos</h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1>REPORTE DE CRÉDITOS </h1></div>
+    <div style="text-align:center;"> ABARROTERIA EVEN EZER II</div> 
+    <!-- <div style="text-align:left;"><h1> Reporte de Créditos</h1></div> -->
+    <div></div>
+    
     <table width="100%" border="1" align="center">
 
     <tr align='center'>

@@ -301,9 +301,9 @@ h1 {
     <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> ABARROTERIA EVEN EZER II </h1></div>
-    <div style="text-align:center;"></div>
-    <div style="text-align:left;"><h1> Ventas del día $fecha </h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> VENTAS DEL DIA </h1></div>
+    <div style="text-align:center;">ABARROTERIA EVEN EZER II</div>
+    <div style="text-align:left;"><h1> Fecha: $fecha </h1></div>
     <table width="100%" border="1" align="center">
 
     <tr align='center'>

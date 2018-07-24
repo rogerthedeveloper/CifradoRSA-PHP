@@ -745,9 +745,12 @@ $("button.cargaGas").on("click", function()  {
 
     console.log(arrayFields);
 
+    var product_name = $(".select2-selection__rendered").text();
+
+
     swal({
-          title: 'Carga de Gas',
-          html: "¿Seguro que deseas cargar? </br></br> <strong>"+arrayFields["cantidad"]+"</strong> tambos más de <strong>"+arrayFields["idproducto"]+"</strong> en existencia.",
+          title: 'Compras',
+          html: "¿Seguro que deseas agregar? </br></br> <strong>"+arrayFields["cantidad"]+"</strong> artículos más de <strong>"+product_name+"</strong> en existencia.",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -1180,7 +1183,7 @@ printManager = $("button.print").on("click", function()  {
 
     }
 
-    var fields = $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea, select");
+    var fields = $(this).closest(".panel").find("input, textarea, select");
 
     var arrayFields = [];
 
@@ -1201,8 +1204,7 @@ printManager = $("button.print").on("click", function()  {
 
     var cod = $(this).closest(".panel").find("input").first().val();
 
-
-    printWindow('../classes/Api.php?action=print&template='+template, { "data": obj, "table": table, "key": key, "cod": cod });
+    printWindow('../classes/Api.php?action=print&template='+template, { "data": JSON.stringify(obj), "table": table, "key": key, "cod": cod });
 
 
 });
@@ -1567,6 +1569,30 @@ $(".datepicker").datepicker({
 
 });
 
+$(document).ready(function()
+{   
+    $(".date_mensual").datepicker({
+        dateFormat: 'yy-mm',
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+
+        onChangeMonthYear: function(dateText, inst) {
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).val($.datepicker.formatDate('yy-mm', new Date(year, month, 1)));
+        }
+    });
+
+    $(".date_mensual").focus(function () {
+        $(".ui-datepicker-calendar").hide();
+        $("#ui-datepicker-div").position({
+            my: "center top",
+            at: "center bottom",
+            of: $(this)
+        });
+    });
+});
 
 
 $('input, button, select').keydown(function (e) {

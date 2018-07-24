@@ -1,12 +1,8 @@
 <?php
 
 $data = $_POST["data"];
-
-
 $table = $_POST["table"];
-
 $key = $_POST["key"];
-
 $cod = $_POST["cod"];
 
 
@@ -25,7 +21,7 @@ inner join tipo_venta as tp on tp.idtipo_venta = v.idtipo_venta
 where v.fecha = '$cod' order by v.idventa asc");
 
 // Conlsuta de Devoluciones
-$queryDevolucion = Controller::$connection->query("SELECT d.id_devolucion, d.idventa, d.idcliente, fecha, total from devolucion as d
+$queryDevolucion = Controller::$connection->query("SELECT d.id_devolucion, d.idventa, d.idcliente, c.nombre as nombredevo, fecha, total from devolucion as d
 inner join cliente as c on d.idcliente = c.idcliente
 where d.fecha = '$cod' order by d.idventa asc");
 
@@ -134,7 +130,7 @@ foreach($dataDevolucion as $key => $value) {
     $detalle2 .= "<tr>
     <td>".$value["id_devolucion"]."</td>
     <td>".$value["idcliente"]."</td>
-    <td>".$value["nombre"]."</td>
+    <td>".$value["nombredevo"]."</td>
     <td>"."Q. ".$value["total"]."</td>
     </tr>";
 
@@ -191,13 +187,14 @@ h1 {
     <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> ABARROTERIA EVEN EZER II </h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Ventas y Devoluciones del día </h1></div>
+    
+    <div style="text-align:center;"><big> ABARROTERIA EVEN EZER II </big></div>
     <div> </div>
-    <!-- <div style="text-align:center;">San Agustín Acasaguastlán, El Progreso</div> -->
     <br>
 
-    <div style="text-align:left;">Fecha: $fecha </div>
-    <div style="text-align:left;">Ventas:</div>
+    <div style="text-align:left;"><strong><big><u>Fecha:</u></big></strong> $fecha </div>
+    <div style="text-align:left;"><strong><big><u>Ventas:</u></big></strong></div>
     <br>
 
     <table width="100%" cellpadding="5" border="1" align="center">
@@ -217,7 +214,7 @@ h1 {
     <br>
     <br>
     <br>
-    <div style="text-align:left;">Devoluciones:</div>
+    <div style="text-align:left;"><strong><big><u>  Devoluciones:</u></big></strong></div>
     <br>
     <table width="100%" cellpadding="5" border="1" align="center">
 

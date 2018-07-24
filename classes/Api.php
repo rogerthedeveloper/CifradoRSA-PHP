@@ -750,26 +750,6 @@ class Api extends Controller  {
 
                $totalDevolucion = 0;
 
-               $tipo_devolucion = $data["tipo_devolucion"];
-
-
-               if($tipo_devolucion == 1) {
-
-
-               foreach ($data_detalle as $key => $value) {
-
-
-                   $values = "('$insert', '$value[0]', $value[1], $value[3])";
-
-
-                   $query = Controller::$connection->query("INSERT INTO detalle_devolucion (id_devolucion, idproducto, cantidad, subtotal) VALUES $values");
-
-
-               }
-
-
-             }
-             else if($tipo_devolucion == 2) {
 
 
                foreach ($data_detalle as $key => $value) {
@@ -790,7 +770,7 @@ class Api extends Controller  {
 
                $this->actualizarCaja($totalDevolucion, $data, "egreso");
 
-             }
+             
 
 
                $output[0] = ["Inserted"];

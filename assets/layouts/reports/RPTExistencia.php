@@ -104,11 +104,11 @@ h1 {
     <title> Existencia </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> ABARROTERIA EVEN EZER II </h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Existencia de Productos </h1></div>
+    <div style="text-align:center;">ABARROTERIA EVEN EZER II</div>
     <div> </div>
-    <!-- <div style="text-align:center;">San Agustín Acasaguastlán, El Progreso</div> -->
-    <div style="text-align:left;"><strong><u><big>REPORTE DE EXISTENCIA DE PRODUCTO</big></u></strong></div>
-    <div style="text-align:left;"><strong>Fecha:</strong> $cod </div>
+    <!-- <div style="text-align:left;"><strong><u><big>REPORTE DE EXISTENCIA DE PRODUCTO</big></u></strong></div> -->
+    <!-- <div style="text-align:left;"><strong>Fecha:</strong> $cod </div> -->
     <br>
 
     <table width="100%" cellpadding="5" border="1" align="center">
@@ -118,9 +118,9 @@ h1 {
     </tr> -->
 
     <tr align='center'>
-        <td><strong>Código de Producto</strong></td>
-        <td><strong>Nombre del Producto</strong></td>
-        <td><strong>Cantidad</strong></td>
+        <td><strong><big>Código de Producto</big></strong></td>
+        <td><strong><big>Nombre del Producto</big></strong></td>
+        <td><strong><big>Cantidad</big></strong></td>
     </tr>
 
         $detalle

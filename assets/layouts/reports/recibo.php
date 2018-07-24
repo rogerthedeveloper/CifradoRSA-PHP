@@ -277,8 +277,8 @@ h1 {
     <title> Pago </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> ABARROTERIA EVEN EZER II </h1></div>
-    <div style="text-align:center;"></div>
+    <div style="text-align:center; line-height: 1px;"><h1> RECIBO DE PAGO </h1></div>
+    <div style="text-align:center;">ABARROTERIA EVEN EZER II</div>
 
     <div style="text-align:right; float:right"> <strong>Fecha:</strong> $fecha</div>
     <div> <strong>No. Pago:</strong> $idpago_cliente </div>

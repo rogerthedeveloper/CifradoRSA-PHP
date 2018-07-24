@@ -137,13 +137,14 @@ h1 {
     <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> ABARROTERIA EVEN EZER II </h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte Ventas al Crédito </h1></div>
+    
+    <div style="text-align:center;">ABARROTERIA EVEN EZER II</div> 
     <div> </div>
-    <!-- <div style="text-align:center;">San Agustín Acasaguastlán, El Progreso</div> -->
     <br>
 
     <div style="text-align:left;"><strong><big><u>Ventas al $nombreTipoVenta:</u></big></strong></div>
-    <div style="text-align:left;"><strong>Fecha:</strong> $fecha </div>
+    <div style="text-align:left;"><strong><u>Fecha:</u></strong> $fecha </div>
     
     <br>
 
