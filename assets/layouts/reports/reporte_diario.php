@@ -214,7 +214,7 @@ h1 {
     <br>
     <br>
     <br>
-    <div style="text-align:left;"><strong><big><u>  Devoluciones:</u></big></strong></div>
+    <div style="text-align:left;"><strong><big><u>Devoluciones:</u></big></strong></div>
     <br>
     <table width="100%" cellpadding="5" border="1" align="center">
 

@@ -335,7 +335,7 @@ h1 {
     <div></div>
 
     <div style="text-align:center; line-height: 1px;"><h1>  </h1></div>
-    <div style="text-align:left; line-height: 1px;"><big><Strong><u>Pago de ISR del trimestre $trimestre</u></strong></big></div>
+    <div style="text-align:center; line-height: 1px;"><h1><Strong>Pago de ISR del trimestre $trimestre:</strong></h1></div>
     <div></div> 
 
     <table width="100%" cellpadding="5" border="1" align="center">

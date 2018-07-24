@@ -717,14 +717,13 @@ class Api extends Controller  {
 
     }
 
-    // Hacer Venta
+    // Hacer Devolucion
 
    public function hacerDevolucion($table, $data, $data_detalle) {
 
-
        header('Content-Type: application/json');
 
-
+       print_r($data);
 
            foreach($data_detalle as $key => $value) {
 
@@ -768,9 +767,18 @@ class Api extends Controller  {
 
                }
 
-               $this->actualizarCaja($totalDevolucion, $data, "egreso");
+               $idVentaDevoluocion = $data["idventa"];
 
-             
+               $query = Controller::$connection->query("SELECT * FROM venta WHERE idventa = '$idVentaDevoluocion'");
+
+               $dataVentaDevolucion = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
+                if($dataVentaDevolucion[0]["idtipo_venta"] == 1) {
+
+                    $this->actualizarCaja($totalDevolucion, $data, "egreso");
+
+                }
 
 
                $output[0] = ["Inserted"];

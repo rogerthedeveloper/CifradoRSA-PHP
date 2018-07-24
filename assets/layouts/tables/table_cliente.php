@@ -255,18 +255,18 @@ catch(mysqli_sql_exception $e) {
 													// Put video listeners into place
 													if(navigator.getUserMedia) { // Standard
 														navigator.getUserMedia(videoObj, function(stream) {
-															video.src = stream;
+															video.srcObject = stream;
 															video.play();
 														}, errBack);
 													} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
 														navigator.webkitGetUserMedia(videoObj, function(stream){
-															video.src = window.webkitURL.createObjectURL(stream);
+															video.srcObject = stream;
 															video.play();
 														}, errBack);
 													}
 													else if(navigator.mozGetUserMedia) { // Firefox-prefixed
 														navigator.mozGetUserMedia(videoObj, function(stream){
-															video.src = window.URL.createObjectURL(stream);
+															video.srcObject = stream;
 															video.play();
 														}, errBack);
 													}
