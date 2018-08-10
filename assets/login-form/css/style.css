@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
 
 
 
@@ -17,14 +18,25 @@ body {
 }
 .login {
 	position: absolute;
-	top: 35%;
-	left: 50%;
+	top: 38%;
+	left: 51%;
 	margin: -150px 0 0 -150px;
 	width:300px;
 	height:300px;
 	text-align: center;
 }
-.login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
+.login2 {
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	margin: -230px 0 0 -230px;
+	width:495px;
+	height:300px;
+	text-align: center;
+}
+.login h1 { color: #fff; text-shadow: 0 0 300px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; 	font-family: 'Josefin Sans', sans-serif; }
+.login2 h1 { color: #fff; text-shadow: 0 0 300px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; 	font-family: 'Josefin Sans', sans-serif; }
+
 
 input {
 	width: 100%;

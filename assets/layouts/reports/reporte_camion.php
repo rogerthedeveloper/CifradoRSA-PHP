@@ -267,7 +267,7 @@ h1 {
 <body>
     <div style="text-align:center; line-height: 1px;"><h1> ABARROTERIA EVEN EZER II </h1></div>
     <div> </div>
-    <!-- <div style="text-align:center;">San Agustín Acasaguastlán, El Progreso</div> -->
+    <!-- <div style="text-align:center;">ESPECIAS Y DESECHABLES EBEN EZER 2</div> -->
 
     <div style="text-align:center; font-size: 14px;"><strong>Reporte de Ventas en Camiones del dia:</strong> $fecha</div>
     <br>

@@ -498,21 +498,21 @@ catch(mysqli_sql_exception $e) {
 
                 </div>
 
-                <div>
+               <!--<div>
 
                 <input value="1" name="unidadVenta" type="radio" checked>
                 <label for="unidadVenta">
                     Unidad
                 </label>
-                </div>
+                </div>-->
 
-                <div>
+                <!--<div>
 
                   <input value="0.01" name="unidadVenta" type="radio">
                   <label for="unidadVenta">
                       Libra
                   </label>
-                </div>
+                </div>-->
                 
 
             </div>
@@ -769,7 +769,7 @@ catch(mysqli_sql_exception $e) {
                         
 
 
-                        cant = $("#cantidadCtn").val() * $("input[name=unidadVenta]:checked").val();
+                        cant = $("#cantidadCtn").val(); /* * $("input[name=unidadVenta]:checked").val(); */
 
 
                         descuento = $("#descuentoCtn").val();

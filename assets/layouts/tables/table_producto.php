@@ -154,16 +154,16 @@ catch(mysqli_sql_exception $e) {
 
                 <?php $counter++; else: ?>
 
-        <div class="form-group">
+                    <div class="form-group">
 
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </span>
-                <input id="<?php echo $value[0]; ?>" type="text" class="<?php if($value[1] == "date") { echo "datepicker"; } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if($value[5] == "auto_increment") { echo "disabled"; } ?>>
-            </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            </span>
+                            <input id="<?php echo $value[0]; ?>" type="text" class="<?php if($value[1] == "date") { echo "datepicker"; } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if($value[5] == "auto_increment") { echo "disabled"; } ?>>
+                        </div>
 
-        </div>
+                    </div>
 
                 <?php endif; ?>
 

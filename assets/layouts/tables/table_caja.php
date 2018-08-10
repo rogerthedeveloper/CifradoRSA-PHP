@@ -97,7 +97,7 @@ catch(mysqli_sql_exception $e) {
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </span>
 
-                <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon">
+                <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon" disabled>
 
                     <option value="nothing"><?php echo strtoupper($value[0]); ?></option>
 
@@ -164,7 +164,7 @@ catch(mysqli_sql_exception $e) {
                 <span class="input-group-addon" id="basic-addon">
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                 </span>
-                <input id="<?php echo $value[0]; ?>" type="text" class="<?php if($value[1] == "date") { echo "datepicker"; } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if($value[5] == "auto_increment") { echo "disabled"; } ?>>
+                <input disabled id="<?php echo $value[0]; ?>" type="text" class="<?php if($value[1] == "date") { echo "datepicker"; } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if($value[5] == "auto_increment") { echo "disabled"; } ?>>
             </div>
 
         </div>
@@ -342,7 +342,7 @@ function retirarCaja(control) {
 
   swal({
         title: '¿Cúanto es el monto a <br>retirar de Caja?',
-        input: 'number',
+        input: 'text',
         type: 'info',
         showCancelButton: true,
         confirmButtonText: 'Retirar',
@@ -380,7 +380,7 @@ function retirarCaja(control) {
 
                 swal({
                   title: 'Retiro de Caja',
-                  text: "Retiro excede el saldo de la caja.",
+                  text: "Retiro excede el saldo de la caja o hay un error en la cantdad.",
                   type: 'error',
                   confirmButtonColor: '#3085d6',
                   confirmButtonText: 'Aceptar'

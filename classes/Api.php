@@ -723,7 +723,7 @@ class Api extends Controller  {
 
        header('Content-Type: application/json');
 
-       print_r($data);
+       
 
            foreach($data_detalle as $key => $value) {
 
@@ -1001,7 +1001,6 @@ class Api extends Controller  {
     public function cargaGas($table, $data) {
 
 
-
             $values = Controller::values($data);
 
             $query = Controller::$connection->query("INSERT INTO $table $values");
@@ -1015,6 +1014,8 @@ class Api extends Controller  {
             $this->cambiarExistencia($table, $data);
 
             echo json_encode(["Inserted"]);
+
+            $this->actualizarCaja($data["precio_total"], $data, "egreso");
 
         }
         else {

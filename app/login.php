@@ -11,23 +11,27 @@
 
 ?>
 
+
 <link rel="stylesheet" href="../assets/login-form/css/normalize.css">
 
 <link rel="stylesheet" href="../assets/login-form/css/style.css">
+<div class="login2">
+    <h1><strong><big>ESPECIAS Y DESECHABLES <br> "EBEN EZER 2"</big></strong></h1> 
+</div>
 
 <div class="login">
 
-    <br>
+
 
     <img src="../assets/login-form/logo.png">
-    <h1>ABARROTERIA</h1>
-
+    
+    <br>
 	<br>
 
     <form class="loginForm">
 
         <input id="user" type="text" placeholder="Usuario" required="required" />
-        <input id="pass" type="password" placeholder="Password" required="required" />
+        <input id="pass" type="password" placeholder="Contraseña" required="required" />
 
         <button type="submit" class="btn btn-default btn-block btn-large">
 

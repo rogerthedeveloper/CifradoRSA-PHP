@@ -27,7 +27,7 @@
 
       <div id="CLIENTE" class="panel panel-default">
 
-    <div class="panel-heading">
+   <!-- <div class="panel-heading">
         <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 
             <a data-toggle="collapse" data-target="#CLIENTE-panel">
@@ -36,7 +36,7 @@
 
         </h3>
 
-    </div>
+    </div> -->
 
     <div id="CLIENTE-panel" class="panel-collapse collapse in">
 
@@ -77,7 +77,7 @@
     <div class="col-md-4">
 
       <div class="form-group">
-
+        <br>
       <button id="print" template="reporte_diario" type="button" class="print btn btn-default btn-md btn-block">
           <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte del Día
       </button>
@@ -125,7 +125,7 @@
     <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 
         <a data-toggle="collapse" data-target="#CLIENTE-panel">
-            <strong>Opciones de Reporte</strong>
+            <strong>Informe Financiero del Mes y de Impuestos</strong>
         </a>
 
     </h3>
@@ -184,7 +184,8 @@
 <div class="col-md-4">
 
   <div class="form-group">
-
+    <br>
+    
   <button id="print" template="RPTMensual" type="button" class="print btn btn-default btn-md btn-block">
       <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte Mensual
   </button>
@@ -238,7 +239,7 @@
   <div class="col-md-12 text-center">
 
     <div class="form-group">
-
+        
     <button id="print" template="RPTExistencia" type="button" class="print btn btn-default btn-md">
         <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte de Existencia
     </button>
@@ -309,7 +310,7 @@
   <div class="col-md-4">
 
     <div class="form-group">
-
+    <br>
     <button id="print" template="RPTVentaCredito" type="button" class="print btn btn-default btn-md btn-block">
         <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte de Créditos
         </button>

@@ -129,6 +129,7 @@ foreach($dataDevolucion as $key => $value) {
 
     $detalle2 .= "<tr>
     <td>".$value["id_devolucion"]."</td>
+    <td>".$value["idventa"]."</td>
     <td>".$value["idcliente"]."</td>
     <td>".$value["nombredevo"]."</td>
     <td>"."Q. ".$value["total"]."</td>
@@ -157,12 +158,22 @@ where d.fecha = '$cod'");
         $gananciaDevolucion = $gananciaDevolucion->fetchAll(PDO::FETCH_NUM);
 
     }
-
+    //echo($gananciaDelDia[0][0]);
+    
     $gananciaDelDia = 0 + $gananciaDelDia[0][0] - $gananciaDevolucion[0][0];
 
     $totalDevolucion = 0 + $gananciaDevolucion[0][1];
 
-    $ventasNetas = $totalContado - $totalDevolucion;
+    //echo($totalContado);
+    //echo($totalDevolucion);
+    //Ventas Netas
+    //if ($totalContado == 0) {
+    //   $ventasNetas = 0 ;
+   // }elseif ($totalContado > 0) {
+        $ventasNetas = $totalContado - $totalDevolucion;
+   // }
+
+    
 
 
 // define some HTML content with style
@@ -189,7 +200,7 @@ h1 {
 <body>
     <div style="text-align:center; line-height: 1px;"><h1> Reporte de Ventas y Devoluciones del día </h1></div>
     
-    <div style="text-align:center;"><big> ABARROTERIA EVEN EZER II </big></div>
+    <div style="text-align:center;"><big> ESPECIAS Y DESECHABLES EBEN EZER 2 </big></div>
     <div> </div>
     <br>
 
@@ -220,6 +231,7 @@ h1 {
 
     <tr align='center'>
         <td><strong>ID Devolución</strong></td>
+        <td><strong>ID Venta</strong></td>
         <td><strong>ID Cliente</strong></td>
         <td><strong>Nombre</strong></td>
         <td><strong>Total de Devolución</strong></td>

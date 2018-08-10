@@ -90,6 +90,7 @@
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Opciones <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#" onclick="supportInfo()"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Soporte</a></li>
+                        <li><a href="../Manual_de_Usuario_PDF.pdf" target="_blank"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Manual de Usuario</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a class="btnLogout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Salir</a></li>
                     </ul>
