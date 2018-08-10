@@ -208,7 +208,7 @@ h1 {
     <div style="text-align:left;"><strong><big><u>Ventas:</u></big></strong></div>
     <br>
 
-    <table width="100%" cellpadding="5" border="1" align="center">
+    <table width="100%" cellpadding="5" border="1" align="center ">
 
     <tr align='center'>
         <td><strong>ID Venta</strong></td>
