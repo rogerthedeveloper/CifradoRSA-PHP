@@ -195,7 +195,6 @@ inner join cliente as c on c.idcliente = v.idcliente
 inner join tipo_venta as tp on v.idtipo_venta = tp.idtipo_venta
 where v.idventa = $cod");
 
-
 if($queryVenta) {
 
     $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);

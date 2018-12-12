@@ -16,14 +16,14 @@
 
 <link rel="stylesheet" href="../assets/login-form/css/style.css">
 <div class="login2">
-    <h1><strong><big>ESPECIAS Y DESECHABLES <br> "EBEN EZER 2"</big></strong></h1> 
+    <h1><strong><big>MISCELANEA <br> "EL EDEN 2"</big></strong></h1> 
 </div>
 
 <div class="login">
 
 
 
-    <img src="../assets/login-form/logo.png">
+    <img src="../assets/login-form/planificacion (2).png">
     
     <br>
 	<br>

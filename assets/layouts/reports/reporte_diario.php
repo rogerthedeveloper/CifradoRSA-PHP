@@ -204,8 +204,10 @@ h1 {
     <div> </div>
     <br>
 
-    <div style="text-align:left;"><strong><big><u>Fecha:</u></big></strong> $fecha </div>
-    <div style="text-align:left;"><strong><big><u>Ventas:</u></big></strong></div>
+    <h4>Fecha: $fecha </h4>
+    
+    <h2><u>Ventas:</u></h2> 
+
     <br>
 
     <table width="100%" cellpadding="5" border="1" align="center ">
@@ -217,7 +219,7 @@ h1 {
         <td><strong>Total de Venta</strong></td>
         <td><strong>Tipo de Venta</strong></td>
     </tr>
-
+    
         $detalle
 
     </table>
@@ -225,7 +227,8 @@ h1 {
     <br>
     <br>
     <br>
-    <div style="text-align:left;"><strong><big><u>Devoluciones:</u></big></strong></div>
+    
+    <h2><u>Devoluciones:</u></h2>
     <br>
     <table width="100%" cellpadding="5" border="1" align="center">
 

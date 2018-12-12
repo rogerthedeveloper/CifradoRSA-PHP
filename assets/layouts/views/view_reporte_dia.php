@@ -187,7 +187,7 @@
     <br>
     
   <button id="print" template="RPTMensual" type="button" class="print btn btn-default btn-md btn-block">
-      <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte Mensual
+      <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte
   </button>
     <br>
    <div class="input-group">

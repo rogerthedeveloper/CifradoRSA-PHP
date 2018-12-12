@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div id="header-title">ABARROTERIA</div>
+            <div id="header-title">MISCELANEA</div>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

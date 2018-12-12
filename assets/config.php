@@ -19,13 +19,13 @@ include("../classes/permissions.inc");
 
 ?>
 
-<title>ABARROTERIA</title>
+<title>MISCELANEA</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
 
 <meta charset="UTF-8">
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 
 <!-- jQuery v2 -->
 <script src="../assets/libs/js/jquery.js"></script>
@@ -84,11 +84,11 @@ include("../classes/permissions.inc");
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <!-- Main Style -->
-<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/main.css"> 
 
 <!-- Responsive Voice -->
 <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-<script> idioma = "Spanish Female"; </script>
+<script> idioma = "Spanish Female"; </script> ]
 
 <script type="text/javascript">            
                               

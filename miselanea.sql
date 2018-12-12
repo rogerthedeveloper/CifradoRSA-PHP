@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-08-2018 a las 05:29:16
+-- Tiempo de generación: 12-12-2018 a las 03:47:18
 -- Versión del servidor: 10.1.33-MariaDB
 -- Versión de PHP: 7.2.6
 
@@ -47,7 +47,6 @@ INSERT INTO `caja` (`id`, `fecha`, `ingreso`, `retiro`, `saldo`, `motivo`) VALUE
 (3, '0000-00-00', 100, 0, '195.00', ''),
 (4, '2018-07-11', 200, 0, '395.00', ''),
 (5, '0000-00-00', 45, 0, '440.00', ''),
-(6, '0000-00-00', 0, 20, '420.00', 'compra de bolsas de basura'),
 (7, '0000-00-00', 75, 0, '495.00', ''),
 (8, '0000-00-00', 28, 0, '523.00', ''),
 (9, '0000-00-00', 50, 0, '573.00', ''),
@@ -55,7 +54,6 @@ INSERT INTO `caja` (`id`, `fecha`, `ingreso`, `retiro`, `saldo`, `motivo`) VALUE
 (11, '0000-00-00', 60, 0, '678.00', ''),
 (12, '0000-00-00', 4, 0, '682.00', ''),
 (13, '0000-00-00', 60, 0, '742.00', ''),
-(14, '0000-00-00', 4, 0, '746.00', ''),
 (15, '0000-00-00', 4, 0, '750.00', ''),
 (16, '0000-00-00', 4, 0, '754.00', ''),
 (17, '0000-00-00', 4, 0, '758.00', ''),
@@ -127,7 +125,16 @@ INSERT INTO `caja` (`id`, `fecha`, `ingreso`, `retiro`, `saldo`, `motivo`) VALUE
 (83, '2018-07-30', 0, 100, '9900.50', ''),
 (84, '2018-07-30', 0, 100, '9800.50', ''),
 (85, '2018-07-30', 0, 0.5, '9800.00', 'Choco'),
-(86, '2018-07-30', 0, 0.5, '9799.50', 'Chocobanano');
+(86, '2018-07-30', 0, 0.5, '9799.50', 'Chocobanano'),
+(87, '2018-08-02', 90, 0, '9889.50', ''),
+(88, '2018-08-02', 0, 150, '9739.50', ''),
+(89, '2018-08-02', 0, 100, '9639.50', ''),
+(90, '2018-08-02', 510, 0, '10149.50', ''),
+(91, '2018-10-20', 1600, 0, '11749.50', ''),
+(92, '2018-11-30', 0, 100, '11649.50', ''),
+(93, '2018-12-03', 668, 0, '12317.50', ''),
+(94, '2018-12-03', 4800, 0, '17117.50', ''),
+(95, '2018-12-04', 1400, 0, '18517.50', '');
 
 -- --------------------------------------------------------
 
@@ -159,7 +166,10 @@ INSERT INTO `carga` (`idcarga`, `fecha`, `idproducto`, `cantidad`, `precio_unita
 (8, '2018-07-30', '1001', 20, '5.00', '100.00'),
 (9, '2018-07-30', '1001', 20, '5.00', '100.00'),
 (10, '2018-07-30', '1001', 20, '5.00', '100.00'),
-(11, '2018-07-30', '1001', 20, '5.00', '100.00');
+(11, '2018-07-30', '1001', 20, '5.00', '100.00'),
+(12, '2018-08-02', '1005', 10, '15.00', '150.00'),
+(13, '2018-08-02', '1005', 10, '10.00', '100.00'),
+(14, '2018-11-30', '1005', 10, '10.00', '100.00');
 
 -- --------------------------------------------------------
 
@@ -181,12 +191,11 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`idcliente`, `nombre`, `dpi`, `direccion`, `telefono`, `saldo`) VALUES
-(1, 'Oscar Antonio Valiente Arreaga', 1705762480201, '1a. ave 2-23 zona 6, Bo. El Porvenir, Guastatoya', '59600502', '2686.00'),
-(5, 'Valiente', 123123, NULL, NULL, '6360.00'),
 (6, 'Juan Nepomuseno Cortina', 123456789, 'Guatemala', '596054', '825.00'),
 (7, 'Fabian Estrada', 123145678, 'Guatemalam', '1564866', '1766.00'),
-(8, 'Byron Fernando Calderon Ferrera', 2775412360201, 'Guastatoya, El Progreso.', '30345261', '0.00'),
-(9, 'Rony David Catalan Aldana', 4152362160201, 'Guatemala.', '45789632', '5668.00');
+(8, 'Byron Fernando Calderon Ferrera', 2775412360201, 'Guastatoya, El Progreso.', '30345261', '85.00'),
+(9, 'Rony David Catalan Aldana', 4152362160201, 'Guatemala.', '45789632', '8860.00'),
+(10, 'Leonidas Belteton', 123453648, 'Ciudad de Guastaoya', '789979', '10.00');
 
 -- --------------------------------------------------------
 
@@ -207,10 +216,7 @@ CREATE TABLE `detalle_devolucion` (
 --
 
 INSERT INTO `detalle_devolucion` (`id_detalle_devolucion`, `id_devolucion`, `idproducto`, `cantidad`, `subtotal`) VALUES
-(1, 6, '1004', 1, '1600.00'),
-(2, 7, '1004', 1, '1600.00'),
 (3, 8, '1004', 1, '1600.00'),
-(4, 9, '1002', 1, '60.00'),
 (5, 10, '1004', 1, '1600.00'),
 (6, 11, '1004', 1, '1600.00'),
 (7, 12, '1004', 1, '1600.00'),
@@ -230,10 +236,10 @@ INSERT INTO `detalle_devolucion` (`id_detalle_devolucion`, `id_devolucion`, `idp
 (21, 26, '1004', 1, '1600.00'),
 (22, 27, '1004', 1, '1600.00'),
 (23, 28, '1004', 1, '1600.00'),
-(24, 29, '1003', 3, '1200.00'),
 (25, 30, '1004', 1, '1600.00'),
 (26, 31, '1004', 1, '1600.00'),
-(27, 32, '1002', 1, '60.00');
+(27, 32, '1002', 1, '60.00'),
+(28, 33, '1004', 2, '3200.00');
 
 -- --------------------------------------------------------
 
@@ -345,7 +351,16 @@ INSERT INTO `detalle_venta` (`id_detalle_venta`, `idventa`, `idproducto`, `canti
 (89, 81, '1002', 6, '360.00'),
 (90, 82, '1007', 6, '18.00'),
 (91, 82, '1006', 5, '90.00'),
-(92, 82, '1003', 10, '4000.00');
+(92, 82, '1003', 10, '4000.00'),
+(93, 83, '1005', 3, '90.00'),
+(94, 84, '1005', 5, '150.00'),
+(95, 84, '1002', 6, '360.00'),
+(96, 85, '1004', 1, '1600.00'),
+(97, 86, '1004', 3, '4800.00'),
+(98, 87, '1004', 1, '1400.00'),
+(99, 88, '1004', 2, '3200.00'),
+(100, 88, '1002', 12, '660.00'),
+(101, 89, '1005', 3, '85.00');
 
 -- --------------------------------------------------------
 
@@ -367,12 +382,9 @@ CREATE TABLE `devolucion` (
 
 INSERT INTO `devolucion` (`id_devolucion`, `fecha`, `idcliente`, `idventa`, `total`) VALUES
 (1, '2018-05-11', 1, 11, '4.00'),
-(2, '2018-05-11', 1, 11, '4.00'),
 (3, '2018-07-20', 5, 58, '1600.00'),
-(4, '2018-07-20', 5, 58, '1600.00'),
 (5, '2018-07-20', 5, 58, '1600.00'),
 (6, '2018-07-20', 5, 58, '1600.00'),
-(7, '2018-07-20', 5, 58, '1600.00'),
 (8, '2018-07-20', 5, 58, '1600.00'),
 (9, '2018-07-23', 9, 62, '60.00'),
 (10, '2018-07-23', 5, 63, '1600.00'),
@@ -397,7 +409,8 @@ INSERT INTO `devolucion` (`id_devolucion`, `fecha`, `idcliente`, `idventa`, `tot
 (29, '2018-07-22', 1, 64, '1200.00'),
 (30, '2018-07-24', 7, 65, '1600.00'),
 (31, '2018-07-24', 7, 66, '1600.00'),
-(32, '2018-07-24', 6, 67, '60.00');
+(32, '2018-07-24', 6, 67, '60.00'),
+(33, '2018-12-04', 9, 88, '3200.00');
 
 -- --------------------------------------------------------
 
@@ -419,6 +432,8 @@ CREATE TABLE `login` (
 
 INSERT INTO `login` (`user`, `pass`, `nombre`, `rol`, `token`) VALUES
 ('admin', '202cb962ac59075b964b07152d234b70', 'Administrador', 1, '0'),
+('francisco', '77b585384d28bc492651b3b28a5d288f', 'Francisco', 1, '0'),
+('otto', '77b585384d28bc492651b3b28a5d288f', 'Otto', 1, '0'),
 ('user', '202cb962ac59075b964b07152d234b70', 'Usuario', 0, '0');
 
 -- --------------------------------------------------------
@@ -459,7 +474,8 @@ INSERT INTO `pago_cliente` (`idpago_cliente`, `fecha`, `idcliente`, `total_abono
 (17, '2018-05-11', 5, '200.00', 4900),
 (18, '2018-05-11', 6, '75.00', 100),
 (19, '2018-05-12', 7, '50.00', 200),
-(20, '2018-07-15', 9, '1000.00', 6600);
+(20, '2018-07-15', 9, '1000.00', 6600),
+(21, '2018-12-03', 9, '668.00', 5668);
 
 -- --------------------------------------------------------
 
@@ -482,10 +498,10 @@ CREATE TABLE `producto` (
 
 INSERT INTO `producto` (`idproducto`, `nombre`, `preciocosto`, `precioventamenor`, `precioventamayor`, `cantidad`) VALUES
 ('1001', 'Jabón Protex', '2.50', '4.00', '3.75', 100),
-('1002', 'Jarabe para la tos', '50.00', '60.00', '55.00', 160),
+('1002', 'Jarabe para la tos', '50.00', '60.00', '55.00', 142),
 ('1003', 'Frijol', '350.00', '400.00', '390.00', 420.32),
-('1004', 'Moto', '1100.00', '1600.00', '1400.00', 67),
-('1005', 'Escoba ', '10.00', '30.00', '20.00', 53),
+('1004', 'Moto', '1100.00', '1600.00', '1400.00', 62),
+('1005', 'Escoba ', '10.00', '30.00', '20.00', 72),
 ('1006', 'Sidras', '10.00', '18.00', '16.00', 135),
 ('1007', 'Maiz', '1.00', '3.00', '2.50', 484);
 
@@ -603,7 +619,14 @@ INSERT INTO `venta` (`idventa`, `fecha`, `idcliente`, `idtipo_venta`, `total`) V
 (79, '2018-07-26', 6, 1, '8000.00'),
 (80, '2018-07-26', 8, 1, '108.00'),
 (81, '2018-07-26', 8, 1, '390.00'),
-(82, '2018-07-29', 9, 1, '4108.00');
+(82, '2018-07-29', 9, 1, '4108.00'),
+(83, '2018-08-02', 10, 1, '90.00'),
+(84, '2018-08-02', 7, 1, '510.00'),
+(85, '2018-10-20', 7, 1, '1600.00'),
+(86, '2018-12-03', 8, 1, '4800.00'),
+(87, '2018-12-04', 9, 1, '1400.00'),
+(88, '2018-12-04', 9, 2, '3860.00'),
+(89, '2018-12-04', 8, 2, '85.00');
 
 --
 -- Índices para tablas volcadas
@@ -693,43 +716,43 @@ ALTER TABLE `venta`
 -- AUTO_INCREMENT de la tabla `caja`
 --
 ALTER TABLE `caja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT de la tabla `carga`
 --
 ALTER TABLE `carga`
-  MODIFY `idcarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idcarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_devolucion`
 --
 ALTER TABLE `detalle_devolucion`
-  MODIFY `id_detalle_devolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_detalle_devolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_venta`
 --
 ALTER TABLE `detalle_venta`
-  MODIFY `id_detalle_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id_detalle_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT de la tabla `devolucion`
 --
 ALTER TABLE `devolucion`
-  MODIFY `id_devolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_devolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `pago_cliente`
 --
 ALTER TABLE `pago_cliente`
-  MODIFY `idpago_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idpago_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_venta`
@@ -741,7 +764,7 @@ ALTER TABLE `tipo_venta`
 -- AUTO_INCREMENT de la tabla `venta`
 --
 ALTER TABLE `venta`
-  MODIFY `idventa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `idventa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- Restricciones para tablas volcadas
