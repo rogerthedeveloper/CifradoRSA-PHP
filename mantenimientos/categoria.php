@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: RSpro
- * Date: 22/05/16
- * Time: 13:59
+ * User: BCalderon
+ * Date: 01/30/19
+ * Time: 10:34
  */
 
  require_once("../assets/config.php");
@@ -16,7 +16,7 @@
 
     <div class="col-md-12"><?php
 
-        View::showViewFromTable("COMPRA", "Control de Compras", Array("photo" => false, "detail" => true), "table_compras");
+        View::showViewFromTable("CATEGORIA", "Categoria", Array("photo" => false, "detail" => true));
 
         ?></div>
 
@@ -25,10 +25,3 @@
 </div>
 
 <?php include("../assets/layouts/footer.php"); ?>
-
-
-
-
-
-
-

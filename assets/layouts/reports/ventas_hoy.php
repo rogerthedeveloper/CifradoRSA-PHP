@@ -302,7 +302,7 @@ h1 {
 </head>
 <body>
     <div style="text-align:center; line-height: 1px;"><h1> VENTAS DEL DIA </h1></div>
-    <div style="text-align:center;">ABARROTERIA EVEN EZER II</div>
+    <div style="text-align:center;">MISCELANEA EL EDEN</div>
     <div style="text-align:left;"><h1> Fecha: $fecha </h1></div>
     <table width="100%" border="1" align="center">
 

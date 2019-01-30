@@ -139,7 +139,7 @@ h1 {
 <body>
     <div style="text-align:center; line-height: 1px;"><h1> Reporte Ventas al Crédito </h1></div>
     
-    <div style="text-align:center;"> ESPECIAS Y DESECHABLES EBEN EZER 2 </div> 
+    <div style="text-align:center;"> MISCELANEA EL EDEN </div> 
     <div> </div>
     <br>
 

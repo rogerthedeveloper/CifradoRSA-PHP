@@ -128,13 +128,10 @@ catch(mysqli_sql_exception $e) {
         <script>
 
 
-
-
-
             $(document).ready(function() {
 
 
-              $("button.nextDevolucion").on("click", function()    {
+              $("button.nextCompra").on("click", function()    {
 
 
                   var control = this;
@@ -155,7 +152,7 @@ catch(mysqli_sql_exception $e) {
                   $.ajax({
 
 
-                      url: "../classes/Api.php?action=nextDevolucion",
+                      url: "../classes/Api.php?action=nextCompra",
                       method: "POST",
                       data: { "data": fields, "table": table, "key": key, "cod": cod },
                       dataType: "JSON",
@@ -168,9 +165,9 @@ catch(mysqli_sql_exception $e) {
 
                         }
 
-                          $(".detalle_devolucion_table").DataTable().clear().draw();
+                          $(".detalle_compra_table").DataTable().clear().draw();
 
-                          $(".detalle_devolucion_table").DataTable().rows.add(r[1]).draw();
+                          $(".detalle_compra_table").DataTable().rows.add(r[1]).draw();
 
 
                           $.each(r[0][0], function(key, value) {
@@ -201,7 +198,7 @@ catch(mysqli_sql_exception $e) {
               });
 
 
-              $("button.prevDevolucion").on("click", function()    {
+              $("button.prevCompra").on("click", function()    {
 
 
                   var control = this;
@@ -220,7 +217,7 @@ catch(mysqli_sql_exception $e) {
 
                   $.ajax({
 
-                      url: "../classes/Api.php?action=prevDevolucion",
+                      url: "../classes/Api.php?action=prevCompra",
                       method: "POST",
                       data: { "data": fields, "table": table, "key": key, "cod": cod },
                       dataType: "JSON",
@@ -233,9 +230,9 @@ catch(mysqli_sql_exception $e) {
 
                         }
 
-                          $(".detalle_devolucion_table").DataTable().clear().draw();
+                          $(".detalle_compra_table").DataTable().clear().draw();
 
-                          $(".detalle_devolucion_table").DataTable().rows.add(r[1]).draw()
+                          $(".detalle_compra_table").DataTable().rows.add(r[1]).draw()
 
 
                           $.each(r[0][0], function(key, value) {
@@ -279,7 +276,7 @@ catch(mysqli_sql_exception $e) {
                         data: { id: "nothing" }
                     });
 
-                     $(".detalle_devolucion_table").DataTable().clear().draw();
+                     $(".detalle_compra_table").DataTable().clear().draw();
 
                     switchUDDevolucion(control, false);
                     refreshDetailDevolucion(form);
@@ -369,7 +366,7 @@ catch(mysqli_sql_exception $e) {
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
                     </button>
 
-                     <button id="create" type="button" class="hacerDevolucion btn btn-primary btn-md btn-md" disabled>
+                     <button id="create" type="button" class="hacerCompra btn btn-primary btn-md btn-md" disabled>
                         <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Devolución
                     </button>
 
@@ -377,11 +374,11 @@ catch(mysqli_sql_exception $e) {
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Borrar
                     </button> -->
 
-                    <button id="prev" type="button" class="prevDevolucion btn btn-warning btn-md">
+                    <button id="prev" type="button" class="prevCompra btn btn-warning btn-md">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior
                     </button>
 
-                    <button id="next" type="button" class="nextDevolucion btn btn-warning btn-md">
+                    <button id="next" type="button" class="nextCompra btn btn-warning btn-md">
                         Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </button>
 
@@ -425,7 +422,7 @@ catch(mysqli_sql_exception $e) {
 
     <div class="col-md-7">
 
-            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Devolución</b>
+            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Compra</b>
 
 
             <div class="well">
@@ -458,17 +455,15 @@ catch(mysqli_sql_exception $e) {
                         <script type="text/javascript">
 
 
-                        var j = <?php echo json_encode($FKData); ?>;
-
 
                             function enableAdd(cantidad) {
-
+                    
 
                                 if($("select#producto").val() != 0 && $(cantidad).val() > 0) {
 
                                     $("#add").removeAttr("disabled");
 
-
+                                    
                                 }
                                 else {
 
@@ -550,7 +545,7 @@ catch(mysqli_sql_exception $e) {
 
             </center>
 
-            <table id="" class="detalle_devolucion_table display" cellspacing="0" width="100%">
+            <table id="" class="detalle_compra_table display" cellspacing="0" width="100%">
                 <thead>
                 <tr>
 
@@ -564,7 +559,7 @@ catch(mysqli_sql_exception $e) {
 
                 <tbody>
 
-
+                        
 
 
                 </tbody>
@@ -580,15 +575,15 @@ catch(mysqli_sql_exception $e) {
 
     <?php if($options["detail"] == true): ?>
 
-
+                
         <div class="col-md-5">
-
-            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> <b>Registro de Devoluciones</b>
+        
+            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> <b>Registro de Compras</b>
 
             <div class="well">
 
 
-            <table id="<?php echo $table_name; ?>" class="detail_table_devolucion display" cellspacing="0" width="100%">
+            <table id="<?php echo $table_name; ?>" class="detail_table_compra display" cellspacing="0" width="100%">
                 <thead>
                 <tr>
 
@@ -649,7 +644,7 @@ catch(mysqli_sql_exception $e) {
                     $("#remove").on('click', function() {
 
 
-                        r = detalle_devolucion_table.row().data();
+                        r = detalle_compra_table.row().data();
 
                         total = total - parseFloat(r[3]);
 
@@ -657,7 +652,7 @@ catch(mysqli_sql_exception $e) {
                         $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
 
-                        detalle_devolucion_table.row().remove().draw();
+                        detalle_compra_table.row().remove().draw();
 
                         $("#remove").attr("disabled", true);
 
@@ -665,7 +660,7 @@ catch(mysqli_sql_exception $e) {
                     });
 
 
-                    $('.detalle_devolucion_table tbody').on( 'click', 'tr', function () {
+                    $('.detalle_compra_table tbody').on( 'click', 'tr', function () {
 
                             $("#remove").attr("disabled", false);
 
@@ -682,17 +677,17 @@ catch(mysqli_sql_exception $e) {
                       cant = $("#cantidadCtn").val();
 
 
-
-
                       $.ajax({
 
-                          url: "../classes/Api.php?action=oneVenta",
+                          url: "../classes/Api.php?action=oneCompra",
                           method: "POST",
-                          data: { "data": cod, "table": "venta", "key": "idventa", "cod": cod },
+                          data: { "data": cod, "table": "compra", "key": "idCompra", "cod": cod },
                           dataType: "JSON",
                           success: function(r) {
 
                             var flag = false;
+
+                            alert(JSON.stringify(r));
 
 
                                 if(r[1]) {
@@ -710,7 +705,7 @@ catch(mysqli_sql_exception $e) {
 
                                         flag = 1;
 
-                                         $(".hacerDevolucion").attr("disabled", false);
+                                         $(".hacerCompra").attr("disabled", false);
 
 
                                          $("#add").attr("disabled", true);
@@ -732,10 +727,9 @@ catch(mysqli_sql_exception $e) {
                                          });
 
 
-
                                            $.ajax({
 
-                                             url: "../classes/Api.php?action=addItemDevolucion",
+                                             url: "../classes/Api.php?action=addItemCompra",
                                              method: "POST",
                                              data: { "data": cant, "table": "producto", "key": "idproducto", "cod": id},
                                              dataType: "JSON",
@@ -746,20 +740,15 @@ catch(mysqli_sql_exception $e) {
 
                                                  $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
-                                                 $(".detalle_devolucion_table").DataTable().rows.add(r).draw();
+                                                 $(".detalle_compra_table").DataTable().rows.add(r).draw();
 
                                                  $("#remove").attr("disabled", true);
-
 
 
                                              }
 
 
                                          });
-
-
-
-
 
 
                                        }
@@ -776,8 +765,6 @@ catch(mysqli_sql_exception $e) {
 
 
                                        }
-
-
 
 
                                      }
@@ -808,17 +795,10 @@ catch(mysqli_sql_exception $e) {
                       });
 
 
-
-
-
-
-
                     });
 
 
-
-
-                    table_details_devolucion = $('.detail_table_devolucion').DataTable({
+                   table_details_compra = $('.detail_table_compra').DataTable({
 
                         responsive: true,
                         dom: 'Bfrtlip',
@@ -856,9 +836,7 @@ catch(mysqli_sql_exception $e) {
                     });
 
 
-
-
-                    $('.detail_table_devolucion tbody').on( 'click', 'tr', function () {
+                    $('.detail_table_compra tbody').on( 'click', 'tr', function () {
 
                       $("#create").attr("disabled", true);
 
@@ -871,11 +849,11 @@ catch(mysqli_sql_exception $e) {
                                 var form = $(control).closest(".panel");
 
 
-                                var table = $(this).closest(".detail_table_devolucion").attr("id");
+                                var table = $(this).closest(".detail_table_compra").attr("id");
 
-                                var key = $(this).closest(".detail_table_devolucion").find("th").first().text();
+                                var key = $(this).closest(".detail_table_compra").find("th").first().text();
 
-                                var cod = table_details_devolucion.row(this).data()[0];
+                                var cod = table_details_compra.row(this).data()[0];
 
                                 switchUDDevolucion(control, true);
 
@@ -883,7 +861,7 @@ catch(mysqli_sql_exception $e) {
 
                             $.ajax({
 
-                                url: "../classes/Api.php?action=oneDevolucion",
+                                url: "../classes/Api.php?action=oneCompra",
                                 method: "POST",
                                 data: { "data": cod, "table": table, "key": key, "cod": cod },
                                 dataType: "JSON",
@@ -911,10 +889,10 @@ catch(mysqli_sql_exception $e) {
 
                                     if(r[1]) {
 
-                                         $(".detalle_devolucion_table").DataTable().clear().draw();
+                                         $(".detalle_compra_table").DataTable().clear().draw();
 
 
-                                        $(".detalle_devolucion_table").DataTable().rows.add(r[1]).draw();
+                                        $(".detalle_compra_table").DataTable().rows.add(r[1]).draw();
 
 
                                     }

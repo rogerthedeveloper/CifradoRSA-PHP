@@ -83,12 +83,12 @@ include("../classes/permissions.inc");
 
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-<!-- Main Style -->
+<!-- Main Style agrega imagen-->
 <link rel="stylesheet" href="../assets/css/main.css"> 
 
 <!-- Responsive Voice -->
 <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-<script> idioma = "Spanish Female"; </script> ]
+<script> idioma = "Spanish Female"; </script> 
 
 <script type="text/javascript">            
                               

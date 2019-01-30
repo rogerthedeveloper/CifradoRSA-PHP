@@ -575,7 +575,7 @@ catch(mysqli_sql_exception $e) {
 
                   <div class="form-group ">
 
-                  <label for="Descuento">Descuento del Total</label>
+                  <label for="Descuento">Descuento</label>
 
                       <div class="input-group">
                           <span class="input-group-addon" id="basic-addon">

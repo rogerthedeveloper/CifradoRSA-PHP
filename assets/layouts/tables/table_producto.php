@@ -265,7 +265,10 @@ catch(mysqli_sql_exception $e) {
                         <th>Precio Costo</th>
                         <th>Precio venta al menor</th>
                         <th>Precio venta al mayor</th>
-                        <th>Existencia</th>
+                        <th>Marca</th>
+                        <th>Serie</th>
+                        <th>Modelo</th>
+                        <th>Cantidad</th>
 
 
 

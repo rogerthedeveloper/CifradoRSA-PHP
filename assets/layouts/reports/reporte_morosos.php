@@ -299,7 +299,7 @@ h1 {
 </head>
 <body>
     <div style="text-align:center; line-height: 1px;"><h1>REPORTE DE CRÉDITOS </h1></div>
-    <div style="text-align:center;"> ESPECIAS Y DESECHABLES EBEN EZER 2 </div> 
+    <div style="text-align:center;"> MISCELANEA EL EDEN </div> 
     <!-- <div style="text-align:left;"><h1> Reporte de Créditos</h1></div> -->
     <div></div>
     

@@ -140,6 +140,20 @@ var detalle_devolucion_table = $('.detalle_devolucion_table').DataTable({
 
 });
 
+var detalle_compra_table = $('.detalle_compra_table').DataTable({
+
+    responsive: true,
+    order: [ 0, "desc" ],
+    dom: 'rtlip',
+    select: true,
+    pageLength: 50,
+    scrollY:    220,
+    oLanguage:  {
+        "sUrl": "../assets/libs/datatables/Spanish.json"
+    }
+
+});
+
 
 var table_details = $('.detail_table').DataTable({
 
@@ -479,6 +493,122 @@ $("button.hacerPago").on("click", function()  {
 });
 
 $("button.hacerDevolucion").on("click", function()  {
+
+
+    var control = this;
+
+    var fields = $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea, select");
+
+    var form = $(control).closest(".panel");
+
+
+    var arrayFields = [];
+
+
+    $.each(fields, function(key, value) {
+
+
+        arrayFields[value.id] = $(value).val();
+
+
+    });
+
+    var obj = $.extend({}, arrayFields);
+
+
+    var table = $(this).closest(".panel").attr("id");
+
+    var key = $(this).closest(".panel").find("input").first().attr("id");
+
+    var cod = $(this).closest(".panel").find("input").first().val();
+
+    var data_detalle = detalle_devolucion_table.rows().data().toArray();
+
+
+if(!cod) {
+
+        $.ajax({
+
+        url: "../classes/Api.php?action=hacerDevolucion",
+        method: "POST",
+        data: { "data": obj, "table": table, "key": key, "cod": cod, "data_detalle":  data_detalle},
+        dataType: "JSON",
+        success: function(r) {
+
+
+            if(r[0] == "Inserted") {
+
+                $(control).closest(".panel").find("input").first().val(r[1]);
+
+                    swal({
+                      title: 'Devolución Relizada',
+                      text: "¿Quieres imprimir el recibo?",
+                      type: 'success',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Sí',
+                      cancelButtonText: 'No'
+                    }).then((result) => {
+                      if (result.value) {
+
+                            printManager.trigger("click");
+                            $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                            $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                                data: { id: "nothing" }
+                            });
+
+														$(".detalle_devolucion_table").DataTable().clear().draw();
+
+
+
+                      }else {
+
+												$(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+												$(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+														data: { id: "nothing" }
+												});
+
+												$(".detalle_devolucion_table").DataTable().clear().draw();
+
+											}
+                    });
+
+										total = 0;
+
+                    switchUDDevolucion(control, false);
+                    refreshDetailDevolucion(control);
+
+
+            }
+
+            if(r[0] == "producto_no_existencia") {
+
+
+                swal({
+                      title: 'Error!',
+                      html: "Del producto <strong>" + r[1][0][0]+"</strong> no hay existencias para cubrir la venta, hay "+ r[1][0][5]+" en existencia.",
+                      type: 'error',
+                      cancelButtonText: 'Aceptar',
+                    });
+
+
+            }
+
+
+        }
+
+
+    });
+
+
+	}
+
+
+});
+
+
+$("button.hacerCompra").on("click", function()  {
 
 
     var control = this;

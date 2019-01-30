@@ -105,7 +105,7 @@ h1 {
 </head>
 <body>
     <div style="text-align:center; line-height: 1px;"><h1> Reporte de Existencia de Productos </h1></div>
-    <div style="text-align:center;"> ESPECIAS Y DESECHABLES EBEN EZER 2 </div>
+    <div style="text-align:center;"> MISCELANEA EL EDEN </div>
     <div> </div>
     <!-- <div style="text-align:left;"><strong><u><big>REPORTE DE EXISTENCIA DE PRODUCTO</big></u></strong></div> -->
     <!-- <div style="text-align:left;"><strong>Fecha:</strong> $cod </div> -->

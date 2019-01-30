@@ -71,10 +71,11 @@ class Api extends Controller  {
 
         foreach($data[1] as $key => $value) {
 
+
             $itemVenta[$key][0] = $value[2]; // ID
             $itemVenta[$key][1] = $value[6]; // PRODUCTO
-            $itemVenta[$key][2] = $value[3]; // Cantidad
-            $itemVenta[$key][3] = $value[4] / $value[3]; // Precio
+            $itemVenta[$key][2] = $value[13]; // Cantidad
+            $itemVenta[$key][3] = $value[4] / $value[13]; // Precio
             $itemVenta[$key][4] = $value[4];   // Subtotal
 
         }
@@ -89,6 +90,42 @@ class Api extends Controller  {
 
     }
 
+    public function oneRegistryCompra($table, $key, $cod) {
+
+
+        $query1 = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
+
+        $query2 = Controller::$connection->query("SELECT * FROM detalle_compra INNER JOIN PRODUCTO ON detalle_compra.idproducto = PRODUCTO.idproducto WHERE idCompra = '$cod'");
+
+
+
+        if($query1 && $query2) {
+
+            $data[0] = $query1->fetchAll(PDO::FETCH_ASSOC);
+            $data[1] = $query2->fetchAll(PDO::FETCH_NUM);
+
+        }
+
+        foreach($data[1] as $key => $value) {
+
+
+            $itemVenta[$key][0] = $value[2]; // ID
+            $itemVenta[$key][1] = $value[6]; // PRODUCTO
+            $itemVenta[$key][2] = $value[13]; // Cantidad
+            $itemVenta[$key][3] = $value[4] / $value[13]; // Precio
+            $itemVenta[$key][4] = $value[4];   // Subtotal
+
+        }
+
+
+        $data[1] = $itemVenta;
+
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+
+    }
 
         public function oneRegistryDevolucion($table, $key, $cod) {
 
@@ -121,6 +158,29 @@ class Api extends Controller  {
             header('Content-Type: application/json');
 
             echo json_encode($data);
+
+        }
+
+        public function addItemCompra($table, $key, $cod, $param) {
+
+
+            $query = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
+
+            if($query) {
+
+                $data = $query->fetchAll(PDO::FETCH_NUM);
+            }
+
+            $itemVenta[0][0] = $data[0][0]; // ID
+            $itemVenta[0][1] = $param;      // Cantidad
+            $itemVenta[0][2] = $data[0][3]; // Precio
+            $itemVenta[0][3] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
+
+
+
+            header('Content-Type: application/json');
+
+            echo json_encode($itemVenta);
 
         }
 
@@ -396,6 +456,42 @@ class Api extends Controller  {
 
     }
 
+    public function prevCompra($table, $key, $cod) {
+
+
+        $query1 = Controller::$connection->query("SELECT * FROM $table WHERE $key < '$cod' ORDER BY $key DESC LIMIT 1");
+
+        if($query1) {
+
+            $data[0] = $query1->fetchAll(PDO::FETCH_ASSOC);
+
+            $id = $data[0][0]["idCompra"];
+
+            $query2 = Controller::$connection->query("SELECT * FROM detalle_compra WHERE idCompra = '$id'");
+
+            $data[1] = $query2->fetchAll(PDO::FETCH_NUM);
+
+        }
+
+        foreach($data[1] as $key => $value) {
+
+            $itemVenta[$key][0] = $value[2]; // ID
+            $itemVenta[$key][1] = $value[3]; // Cantidad
+            $itemVenta[$key][2] = $value[4] / $value[3]; // Precio
+            $itemVenta[$key][3] = $value[4];   // Subtotal
+
+        }
+
+
+        $data[1] = $itemVenta;
+
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+
+    }
+
 
     public function next($table, $key, $cod) {
 
@@ -468,6 +564,44 @@ class Api extends Controller  {
             $id = $data[0][0]["id_devolucion"];
 
             $query2 = Controller::$connection->query("SELECT * FROM detalle_devolucion WHERE id_devolucion = '$id'");
+
+            $data[1] = $query2->fetchAll(PDO::FETCH_NUM);
+
+        }
+
+        foreach($data[1] as $key => $value) {
+
+            $itemVenta[$key][0] = $value[2]; // ID
+            $itemVenta[$key][1] = $value[3]; // Cantidad
+            $itemVenta[$key][2] = $value[4] / $value[3]; // Precio
+            $itemVenta[$key][3] = $value[4];   // Subtotal
+
+        }
+
+
+        $data[1] = $itemVenta;
+
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+
+    }
+
+    public function nextCompra($table, $key, $cod) {
+
+
+        $query1 = Controller::$connection->query("SELECT * FROM $table WHERE $key > '$cod' ORDER BY $key ASC LIMIT 1");
+
+
+
+        if($query1) {
+
+            $data[0] = $query1->fetchAll(PDO::FETCH_ASSOC);
+
+            $id = $data[0][0]["idCompra"];
+
+            $query2 = Controller::$connection->query("SELECT * FROM detalle_Compra WHERE idCompra = '$id'");
 
             $data[1] = $query2->fetchAll(PDO::FETCH_NUM);
 
@@ -716,6 +850,90 @@ class Api extends Controller  {
 
 
     }
+
+
+    // Hacer Compra
+
+   public function hacerCompra($table, $data, $data_detalle) {
+
+    header('Content-Type: application/json');
+
+
+        foreach($data_detalle as $key => $value) {
+
+
+            $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
+
+            $producto = $query->fetchAll(PDO::FETCH_NUM);
+
+            $mensaje = true;
+
+        }
+
+
+        if($mensaje === true) {
+
+
+            $values = Controller::values($data);
+
+            $query = Controller::$connection->query("INSERT INTO $table $values");
+
+            $insert = Controller::$connection->lastInsertId();
+
+
+            $totalDevolucion = 0;
+
+
+
+            foreach ($data_detalle as $key => $value) {
+
+
+                $values = "('$insert', '$value[0]', $value[1], $value[3])";
+
+
+                $query = Controller::$connection->query("INSERT INTO detalle_devolucion (id_devolucion, idproducto, cantidad, subtotal) VALUES $values");
+
+
+                $query = Controller::$connection->query("UPDATE producto SET cantidad = cantidad + $value[1] WHERE idproducto = '$value[0]'");
+
+
+                $totalDevolucion = $totalDevolucion + $value[3];
+
+            }
+
+            $idVentaDevoluocion = $data["idventa"];
+
+            $query = Controller::$connection->query("SELECT * FROM venta WHERE idventa = '$idVentaDevoluocion'");
+
+            $dataVentaDevolucion = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
+             if($dataVentaDevolucion[0]["idtipo_venta"] == 1) {
+
+                 $this->actualizarCaja($totalDevolucion, $data, "egreso");
+
+             }
+
+
+            $output[0] = ["Inserted"];
+            $output[1] = [$insert];
+
+
+            echo json_encode($output);
+
+
+        }
+        else {
+
+
+            echo json_encode($out);
+
+        }
+
+
+
+ }
+
 
     // Hacer Devolucion
 
@@ -1027,7 +1245,6 @@ class Api extends Controller  {
         }
 
 
-
     }
 
     // Cambia la existencia de un producto
@@ -1051,8 +1268,6 @@ class Api extends Controller  {
 
 
         header('Content-Type: application/json');
-
-
 
     }
 
@@ -1204,6 +1419,11 @@ class Api extends Controller  {
                     $request->hacerVenta($table, $data, $data_detalle);
 
                     break;
+                case 'hacerCompra':
+
+                    $request->hacerCompra($table, $data, $data_detalle);
+
+                    break;
                 case 'addItemVenta':
 
                     $request->addItemVenta($table, $key, $cod, $data);
@@ -1214,6 +1434,11 @@ class Api extends Controller  {
                     $request->oneRegistryVenta($table, $key, $cod, $data);
 
                 break;
+                case 'oneCompra':
+
+                    $request->oneRegistryCompra($table, $key, $cod, $data);
+
+                break;
                 case 'hacerDevolucion':
 
                     $request->hacerDevolucion($table, $data, $data_detalle);
@@ -1222,6 +1447,11 @@ class Api extends Controller  {
                 case 'addItemDevolucion':
 
                     $request->addItemDevolucion($table, $key, $cod, $data);
+
+                break;
+                case 'addItemCompra':
+
+                    $request->addItemCompra($table, $key, $cod, $data);
 
                 break;
                 case 'oneDevolucion':
@@ -1239,9 +1469,19 @@ class Api extends Controller  {
                     $request->nextVenta($table, $key, $cod);
 
                 break;
+                case 'nextCompra':
+
+                    $request->nextCompra($table, $key, $cod);
+
+                break;
                 case 'prevVenta':
 
                     $request->prevVenta($table, $key, $cod);
+
+                break;
+                case 'prevCompra':
+
+                    $request->prevCompra($table, $key, $cod);
 
                 break;
                 case 'nextDevolucion':
