@@ -1304,6 +1304,7 @@ class Api extends Controller  {
 
     public function manageInventario($id_producto, $tipo_movimiento) {
 
+        
         switch($tipo_movimiento) {
 
             case "compra":
