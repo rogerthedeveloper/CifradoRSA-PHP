@@ -17,8 +17,6 @@ include("permissions.inc");
 
 class Api extends Controller  {
 
-
-
     public function allRegistries($table, $key) {
 
         $query = Controller::$connection->query("SELECT * FROM $table ORDER BY $key DESC");
@@ -59,7 +57,6 @@ class Api extends Controller  {
         $query1 = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
 
         $query2 = Controller::$connection->query("SELECT * FROM detalle_venta INNER JOIN PRODUCTO ON detalle_venta.idproducto = PRODUCTO.idproducto WHERE idventa = '$cod'");
-
 
 
         if($query1 && $query2) {
@@ -740,7 +737,7 @@ class Api extends Controller  {
 
                 $producto = $query->fetchAll(PDO::FETCH_NUM);
 
-
+                //Calcular Existencia
                 if(($producto[0][5] - $value[2]) >= 0) {
 
                     $mensaje = true;
@@ -787,6 +784,7 @@ class Api extends Controller  {
 
                       $c = $value[0];
 
+                      //CARDEX
                       $query = Controller::$connection->query("UPDATE producto SET cantidad = cantidad -  $cant WHERE idproducto = '$c'");
 
 
@@ -1084,8 +1082,7 @@ class Api extends Controller  {
 
     }
 
-        // Actualiza Saldo de la Caja
-
+    // Actualiza Saldo de la Caja
     public function actualizarCaja($param, $data, $type) {
 
 
@@ -1146,8 +1143,6 @@ class Api extends Controller  {
             $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
         }
-
-
 
 
 
@@ -1215,7 +1210,6 @@ class Api extends Controller  {
     }
 
     // Carga de Gas
-
     public function cargaGas($table, $data) {
 
 
@@ -1247,8 +1241,8 @@ class Api extends Controller  {
 
     }
 
-    // Cambia la existencia de un producto
 
+    // Cambia la existencia de un producto
     public function cambiarExistencia($table, $param) {
 
 
@@ -1308,14 +1302,58 @@ class Api extends Controller  {
     }
 
 
+    public function manageInventario($id_producto, $tipo_movimiento) {
+
+        switch($tipo_movimiento) {
+
+            case "compra":
+
+                $query = Controller::$connection->query("SELECT * FROM inventario");
+                    
+                if($query) {
+
+                    $data = $query->fetch(PDO::FETCH_ASSOC);
+                    echo $data;
+
+                }
+                else {
+
+                    print_r(Controller::$connection->errorInfo());
+
+                }
+
+            break;
+            case "venta":
+
+                $query = Controller::$connection->query("SELECT * FROM inventario");
+                    
+                if($query) {
+
+                    $data = $query->fetch(PDO::FETCH_ASSOC);
+                    echo $data;
+
+                }
+                else {
+
+                    print_r(Controller::$connection->errorInfo());
+
+                }
+
+            break;
+
+       
+        }
+
+    }
+
 
 }
 
 
 
-    if(isset($_POST["data"]) && isset($_GET["action"])) {
+if(isset($_POST["data"]) && isset($_GET["action"])) {
 
-
+       
         $data = $_POST["data"];
 
         if(isset( $_POST["table"])) {
@@ -1347,6 +1385,9 @@ class Api extends Controller  {
 
 
             $request = new Api();
+
+
+            $request->manageInventario(1, "compra");
 
 
             switch ($action) {
@@ -1519,4 +1560,4 @@ class Api extends Controller  {
         }
 
 
-    }
+}
