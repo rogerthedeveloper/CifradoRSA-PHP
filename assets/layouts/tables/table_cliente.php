@@ -314,8 +314,14 @@ catch(mysqli_sql_exception $e) {
                         <th>idcliente</th>
                         <th>Nombre</th>
                         <th>DPI</th>
+                        <th>NIT</th>
                         <th>Dirección</th>
+                        <th>Departamento</th>
+                        <th>Municipio</th>
+                        <th>Referencia</th>
                         <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Tipo Cliente</th>
                         <th>Saldo</th>
 
 

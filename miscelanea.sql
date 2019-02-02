@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-01-2019 a las 17:25:02
+-- Tiempo de generación: 02-02-2019 a las 02:05:10
 -- Versión del servidor: 10.1.33-MariaDB
 -- Versión de PHP: 7.2.6
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `miselanea`
+-- Base de datos: `miscelanea`
 --
 
 -- --------------------------------------------------------
@@ -99,6 +99,14 @@ CREATE TABLE `categoria` (
   `descripcion` varchar(45) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`idCategoria`, `descripcion`) VALUES
+(1, 'Linea blanca'),
+(2, 'Linea de sala');
+
 -- --------------------------------------------------------
 
 --
@@ -120,6 +128,14 @@ CREATE TABLE `cliente` (
   `saldo` decimal(8,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ucs2 COLLATE=ucs2_spanish2_ci;
 
+--
+-- Volcado de datos para la tabla `cliente`
+--
+
+INSERT INTO `cliente` (`idcliente`, `nombre`, `dpi`, `nit`, `direccion`, `departamento`, `municipio`, `referencia`, `telefono`, `email`, `idTipo_cliente`, `saldo`) VALUES
+(1, 'Byron Fernando Calderon Ferrera ', 2743342160201, '8847961-7', 'Aldea Santa Lucia', 'El Progreso', 'Guastatoya', 'Donde hay una funeraria', '30349707', 'bcalderonf18@gmail.com', 1, '5000.00'),
+(2, 'Roger Sosa', 2314035500101, '8357481-6', 'Barrio las Joyas', 'El Progreso', 'Guastatoya', 'En el callejon despues del mine. de trabajo, hasta adentro.', '53436438', 'rogerthedeveloper@gmail.com', 1, '0.00');
+
 -- --------------------------------------------------------
 
 --
@@ -132,7 +148,7 @@ CREATE TABLE `compra` (
   `noFactura` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `idTipoCompra` int(11) NOT NULL,
-  `formaPago` varchar(45) NOT NULL,
+  `idFormaPago` int(11) NOT NULL,
   `noCheque` bigint(15) NOT NULL,
   `banco` varchar(80) NOT NULL,
   `total` double NOT NULL
@@ -217,6 +233,14 @@ CREATE TABLE `formapago` (
   `idFormapago` int(11) NOT NULL,
   `descripcion` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `formapago`
+--
+
+INSERT INTO `formapago` (`idFormapago`, `descripcion`) VALUES
+(1, 'Efectivo'),
+(2, 'Cheque');
 
 -- --------------------------------------------------------
 
@@ -311,9 +335,16 @@ CREATE TABLE `producto` (
   `precioTop` decimal(8,2) DEFAULT NULL,
   `marca` varchar(50) COLLATE ucs2_spanish2_ci NOT NULL,
   `serie` varchar(50) COLLATE ucs2_spanish2_ci NOT NULL,
-  `modelo` varchar(50) COLLATE ucs2_spanish2_ci NOT NULL,
-  `cantidad` float DEFAULT NULL
+  `modelo` varchar(50) COLLATE ucs2_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ucs2 COLLATE=ucs2_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `producto`
+--
+
+INSERT INTO `producto` (`idproducto`, `idCategoria`, `nombre`, `preciocosto`, `precioSugerido`, `precioTop`, `marca`, `serie`, `modelo`) VALUES
+('1001', 2, 'Amueblado de sala', '3000.00', '6000.00', '5500.00', 'Salami', '7as6s56d56d4f', '2019'),
+('1010', 1, 'Platera', '1500.00', '3000.00', '2600.00', 'Patito', '1245a6s2e3d3', '2018');
 
 -- --------------------------------------------------------
 
@@ -336,6 +367,13 @@ CREATE TABLE `proveedor` (
   `saldo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `proveedor`
+--
+
+INSERT INTO `proveedor` (`idProveedor`, `nombre`, `nombreComercial`, `direccion`, `departamento`, `municipio`, `telefono`, `http`, `email`, `contacto`, `telefonoContacto`, `saldo`) VALUES
+(1, 'Vida en Linea', 'Vid@Online', 'Barrio el Porvenir', 'El Progreso', 'Guastatoya', 79456321, 'www.vidaenlinea.com', 'vidalinea@gmail.com', 'Oscar Antonio Valiente Arreaga', 5960, 6000);
+
 -- --------------------------------------------------------
 
 --
@@ -346,6 +384,13 @@ CREATE TABLE `tipocliente` (
   `idTipoCliente` int(11) NOT NULL,
   `descripcion` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tipocliente`
+--
+
+INSERT INTO `tipocliente` (`idTipoCliente`, `descripcion`) VALUES
+(1, 'Mayorista');
 
 -- --------------------------------------------------------
 
@@ -369,6 +414,14 @@ CREATE TABLE `tipocompra` (
   `idTipoCompra` int(11) NOT NULL,
   `descripcion` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tipocompra`
+--
+
+INSERT INTO `tipocompra` (`idTipoCompra`, `descripcion`) VALUES
+(1, 'Credito'),
+(2, 'Contado');
 
 -- --------------------------------------------------------
 
@@ -476,7 +529,8 @@ ALTER TABLE `cliente`
 ALTER TABLE `compra`
   ADD PRIMARY KEY (`idCompra`),
   ADD KEY `fk_compra_proveedor` (`idProveedor`),
-  ADD KEY `fk_compra_tipo_compra` (`idTipoCompra`);
+  ADD KEY `fk_compra_tipo_compra` (`idTipoCompra`),
+  ADD KEY `fk_03_compra_forma_pago` (`idFormaPago`);
 
 --
 -- Indices de la tabla `descuento`
@@ -645,13 +699,13 @@ ALTER TABLE `catalogoegresos`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `compra`
@@ -693,7 +747,7 @@ ALTER TABLE `devolucion`
 -- AUTO_INCREMENT de la tabla `formapago`
 --
 ALTER TABLE `formapago`
-  MODIFY `idFormapago` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFormapago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
@@ -711,13 +765,13 @@ ALTER TABLE `pago_cliente`
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `idProveedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tipocliente`
 --
 ALTER TABLE `tipocliente`
-  MODIFY `idTipoCliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTipoCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tipocombustible`
@@ -729,7 +783,7 @@ ALTER TABLE `tipocombustible`
 -- AUTO_INCREMENT de la tabla `tipocompra`
 --
 ALTER TABLE `tipocompra`
-  MODIFY `idTipoCompra` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTipoCompra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipodocumento`
@@ -775,8 +829,9 @@ ALTER TABLE `cliente`
 -- Filtros para la tabla `compra`
 --
 ALTER TABLE `compra`
-  ADD CONSTRAINT `fk_compra_proveedor` FOREIGN KEY (`idProveedor`) REFERENCES `proveedor` (`idProveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_compra_tipo_compra` FOREIGN KEY (`idTipoCompra`) REFERENCES `tipocompra` (`idTipoCompra`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_01_compra_proveedor` FOREIGN KEY (`idProveedor`) REFERENCES `proveedor` (`idProveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_02_compra_tipo_compra` FOREIGN KEY (`idTipoCompra`) REFERENCES `tipocompra` (`idTipoCompra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_03_compra_forma_pago` FOREIGN KEY (`idFormaPago`) REFERENCES `formapago` (`idFormapago`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `detalle_compra`
