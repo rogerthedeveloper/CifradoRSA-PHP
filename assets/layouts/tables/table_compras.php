@@ -367,7 +367,7 @@ catch(mysqli_sql_exception $e) {
                     </button>
 
                      <button id="create" type="button" class="hacerCompra btn btn-primary btn-md btn-md" disabled>
-                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Devolución
+                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Compra
                     </button>
 
                     <!-- <button id="delete" type="button" class="deleteDevolucion btn btn-danger btn-md" disabled>

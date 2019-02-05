@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-02-2019 a las 02:05:10
+-- Tiempo de generación: 05-02-2019 a las 01:34:40
 -- Versión del servidor: 10.1.33-MariaDB
 -- Versión de PHP: 7.2.6
 
@@ -274,6 +274,7 @@ CREATE TABLE `gasto` (
 CREATE TABLE `inventario` (
   `idInventario` int(9) NOT NULL,
   `idproducto` varchar(20) CHARACTER SET ucs2 COLLATE ucs2_spanish2_ci NOT NULL,
+  `fecha` date NOT NULL,
   `ingreso` int(9) NOT NULL,
   `egreso` int(9) NOT NULL,
   `tipoMovimiento` text NOT NULL,
