@@ -137,6 +137,16 @@ a {
 
 }
 
+.border-radius {
+
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border: 1px solid #CCC;
+  display: inline-block;
+  padding: 15px; width: 100%;
+
+}
+
 .checkbox {
   padding-left: 20px; }
   .checkbox label {

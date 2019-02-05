@@ -437,13 +437,15 @@ catch(mysqli_sql_exception $e) {
 
         <?php endif; ?>
 
-    <div class="col-md-7">
+    <div class="col-md-12">
 
+           
             <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Venta</b>
 
 
             <div class="well">
 
+            <div class="border-radius">
 
                 <div class="col-md-8">
 
@@ -515,7 +517,7 @@ catch(mysqli_sql_exception $e) {
                 </div>-->
                 
 
-            </div>
+                </div>
 
                 <br>
 
@@ -558,6 +560,7 @@ catch(mysqli_sql_exception $e) {
 
                 </script>
 
+           
             <center>
 
               <div class="col-md-7">
@@ -599,6 +602,32 @@ catch(mysqli_sql_exception $e) {
                 </button>
 
             </center>
+
+            </div>
+            <br>
+            <br>
+
+            <script>
+
+                var code = "";
+
+                    window.addEventListener("keydown", (e) => {
+
+                    if(e.keyCode === 13) {
+
+                        alert(code);
+                        code = "";
+
+                    }
+                    else {
+
+                        code += String.fromCharCode(e.keyCode);  
+
+                    }
+                   
+                });
+
+            </script>
 
             <table id="" class="detalle_venta_table display" cellspacing="0" width="100%">
                 <thead>
