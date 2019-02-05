@@ -16,7 +16,7 @@
 
     <div class="col-md-12"><?php
 
-        View::showViewFromTable("TIPO_VENTA", "Tipo de Venta", Array("photo" => false, "detail" => true));
+        View::showViewFromTable("TIPO_VENTA", "Cómo va a ser la venta", Array("photo" => false, "detail" => true));
 
         ?></div>
 
