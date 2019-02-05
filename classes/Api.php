@@ -1302,19 +1302,34 @@ class Api extends Controller  {
     }
 
 
-    public function manageInventario($id_producto, $tipo_movimiento) {
+    public function manageInventario($id_producto, $fecha, $cantidad, $tipo_movimiento) {
 
         
         switch($tipo_movimiento) {
-
+            
+        
             case "compra":
 
-                $query = Controller::$connection->query("SELECT * FROM inventario");
-                    
+
+                $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = $id_producto");
+            
+
                 if($query) {
 
-                    $data = $query->fetch(PDO::FETCH_ASSOC);
-                    echo $data;
+                    // Datos Producto
+                    $dataProducto = $query->fetch(PDO::FETCH_ASSOC);
+
+                    $query = Controller::$connection->query("SELECT * FROM inventario WHERE idproducto = $id_producto ORDER BY idInventario DESC LIMIT 1");
+                   
+                    // Datos Inventario
+                    $dataInventario = $query->fetch(PDO::FETCH_ASSOC);
+
+                    $existencia = $dataInventario["existencia"];
+
+                    // Nueva Existencia
+                    $existencia = $existencia + $cantidad;
+
+                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES($id_producto, $fecha, $cantidad, 'Venta', $existencia)");
 
                 }
                 else {
@@ -1326,19 +1341,33 @@ class Api extends Controller  {
             break;
             case "venta":
 
-                $query = Controller::$connection->query("SELECT * FROM inventario");
-                    
-                if($query) {
 
-                    $data = $query->fetch(PDO::FETCH_ASSOC);
-                    echo $data;
+            $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = $id_producto");
+            
 
-                }
-                else {
+            if($query) {
 
-                    print_r(Controller::$connection->errorInfo());
+                // Datos Producto
+                $dataProducto = $query->fetch(PDO::FETCH_ASSOC);
 
-                }
+                $query = Controller::$connection->query("SELECT * FROM inventario WHERE idproducto = $id_producto ORDER BY idInventario DESC LIMIT 1");
+               
+                // Datos Inventario
+                $dataInventario = $query->fetch(PDO::FETCH_ASSOC);
+
+                $existencia = $dataInventario["existencia"];
+
+                // Nueva Existencia
+                $existencia = $existencia - $cantidad;
+
+                $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, egreso, tipoMovimiento, existencia) VALUES($id_producto, $fecha, $cantidad, 'Venta', $existencia)");
+
+            }
+            else {
+
+                print_r(Controller::$connection->errorInfo());
+
+            }
 
             break;
 
@@ -1353,6 +1382,8 @@ class Api extends Controller  {
 
 
 if(isset($_POST["data"]) && isset($_GET["action"])) {
+
+
 
        
         $data = $_POST["data"];
@@ -1388,7 +1419,7 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
             $request = new Api();
 
 
-            $request->manageInventario(1, "compra");
+            $request->manageInventario(1001, "2019-02-03", 5, "venta");
 
 
             switch ($action) {
