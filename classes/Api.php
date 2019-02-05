@@ -735,24 +735,9 @@ class Api extends Controller  {
 
                 $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
 
-                $producto = $query->fetchAll(PDO::FETCH_NUM);
-
-                //Calcular Existencia
-                if(($producto[0][5] - $value[2]) >= 0) {
-
-                    $mensaje = true;
-
-                }
-                else {
-
-                    $out[0] = ["producto_no_existencia"];
-                    $out[1] = $producto;
-
-                    $mensaje = false;
-
-                    break;
-                }
-
+                $producto = $query->fetch(PDO::FETCH_ASSOC);
+    
+                $mensaje = $this->manageInventario($producto["idproducto"], $data["fecha"], $value[2], "venta");
 
             }
 
@@ -784,10 +769,6 @@ class Api extends Controller  {
 
                       $c = $value[0];
 
-                      //CARDEX
-                      $query = Controller::$connection->query("UPDATE producto SET cantidad = cantidad -  $cant WHERE idproducto = '$c'");
-
-
                       $totalVenta = $totalVenta + $value[4];
 
                   }
@@ -804,9 +785,6 @@ class Api extends Controller  {
 
                       $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
 
-                      $query = Controller::$connection->query("UPDATE producto SET cantidad = cantidad - $value[2] WHERE idproducto = '$value[0]'");
-
-
                       $totalVenta = $totalVenta + $value[4];
 
                   }
@@ -814,20 +792,7 @@ class Api extends Controller  {
                   $this->actualizarSaldoCredito($data, $totalVenta);
 
                 }
-                else if($tipo_venta == 3) {
-
-                  foreach ($data_detalle as $key => $value) {
-
-
-                      $values = "('$insert', '$value[0]', $value[1], $value[3])";
-
-                      $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
-
-
-                  }
-
-
-                }
+     
 
 
                 $output[0] = ["Inserted"];
@@ -1329,13 +1294,15 @@ class Api extends Controller  {
                     // Nueva Existencia
                     $existencia = $existencia + $cantidad;
 
-                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES($id_producto, $fecha, $cantidad, 'Venta', $existencia)");
+                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES($id_producto, '$fecha', $cantidad, 'Venta', $existencia)");
+
+                    return true;
 
                 }
                 else {
 
                     print_r(Controller::$connection->errorInfo());
-
+                    return false;
                 }
 
             break;
@@ -1357,15 +1324,28 @@ class Api extends Controller  {
 
                 $existencia = $dataInventario["existencia"];
 
-                // Nueva Existencia
-                $existencia = $existencia - $cantidad;
+                if($existencia >= $cantidad) {
 
-                $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, egreso, tipoMovimiento, existencia) VALUES($id_producto, $fecha, $cantidad, 'Venta', $existencia)");
+                    // Nueva Existencia
+                    $existencia = $existencia - $cantidad;
 
+                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, egreso, tipoMovimiento, existencia) VALUES($id_producto, '$fecha', $cantidad, 'Venta', $existencia)");
+
+                    return true;
+                }
+                else {
+
+                    echo json_encode("['error_existencia']");
+                    return false;
+    
+                }
+
+               
             }
             else {
 
                 print_r(Controller::$connection->errorInfo());
+                return false;
 
             }
 
@@ -1417,9 +1397,6 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
 
 
             $request = new Api();
-
-
-            $request->manageInventario(1001, "2019-02-03", 5, "venta");
 
 
             switch ($action) {
