@@ -648,6 +648,9 @@ catch(mysqli_sql_exception $e) {
                         <th>Fecha</th>
                         <th>Cód.Cliente</th>
                         <th>Tipo de Venta</th>
+                        <th>Forma Pago</th>
+                        <th>No. Cheque</th> 
+                        <th>Banco</th> 
                         <th>Total</th>
 
                 </tr>
