@@ -72,15 +72,6 @@ $detalle = "";
 // Carga los productos a la variable detalle
     foreach($dataProductos as $key => $value) {
 
-        $idproducto = $value["idproducto"];
-    $queryExistencia = Controller::$connection->query("SELECT i.existencia
-    FROM inventario i 
-    WHERE i.idproducto = $idproducto
-    ORDER BY i.idInventario DESC
-    LIMIT 1");        
-
-    $dataExistencia = $queryExistencia->fetch(PDO::FETCH_ASSOC);
-
       $detalle .= "<tr>
 
       <td>".$value["idproducto"]."</td>

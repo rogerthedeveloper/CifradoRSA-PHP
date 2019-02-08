@@ -19,13 +19,18 @@ $cod2 = $cod . '-01';
 $cod3 = $cod . '-31';
 
 // Consulta de Ventas y Compras
-    $queryCompras = Controller::$connection->query("SELECT SUM(c.precio_total) AS totalCompras
-    FROM carga AS c
-    WHERE c.fecha BETWEEN '$cod2' AND '$cod3'");
+    $queryCompras = Controller::$connection->query("SELECT v.idventa, COUNT(dv.idproducto)
+    FROM venta AS v
+    INNER JOIN detalle_venta as dv ON dv.idventa = v.idventa
+    WHERE v.fecha BETWEEN '$cod2' AND '$cod3'
+    GROUP BY dv.idproducto
+    ORDER BY COUNT(2) DESC
+    LIMIT 5");
 
     $queryVentas = Controller::$connection->query("SELECT SUM(v.total) AS totalVentas 
     FROM venta AS v 
     WHERE v.fecha BETWEEN '$cod2' AND '$cod3'"); 
+
 
 // Consulta para calcular ISR dependiendo el trimestre seleccionado
 

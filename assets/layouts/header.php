@@ -105,6 +105,34 @@
                     </ul>
                 </li>
 
+                <li id="section_Reportes" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Reportes <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+
+                        <?php
+
+                        $files = glob('../reportes/*.php', GLOB_BRACE);
+                        foreach($files as $file):
+
+                            $name = ucfirst(substr(basename($file), 0, -4));
+
+                            ?>
+
+                            <li id="<?php echo $name; ?>"><a href="<?php echo $file; ?>"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> <?php echo $name; ?></a></li>
+
+                        <?php endforeach; ?>
+
+                        <?php if(!$files): ?>
+
+                            <li><a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Crear</a></li>
+
+                        <?php endif; ?>
+
+
+
+                    </ul>
+                </li>
+
             <?php endif; ?>
 
 
