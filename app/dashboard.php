@@ -259,9 +259,7 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
 
                 <div class="panel-body">
 
-
                     <div id="chart_div"></div>
-
 
                 </div>
 

@@ -29,7 +29,7 @@
                         <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 
                             <a data-toggle="collapse" data-target="#CLIENTE-panel">
-                                <strong>Informe Financiero del Mes y de Impuestos</strong>
+                                <strong>Articulos más Vendidos del mes</strong>
                             </a>
                             
                         </h3>
@@ -66,7 +66,7 @@
                             <div class="form-group">
                                 <br>
                                 
-                                <button id="print" template="RPTMensual" type="button" class="print btn btn-default btn-md btn-block">
+                                <button id="print" template="RPTProductosV" type="button" class="print btn btn-default btn-md btn-block">
                                     <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte
                                 </button>
                                     <br>
@@ -75,6 +75,166 @@
                     </div>
                 </div>
             </div>
+
+            <div id="CLIENTE" class="panel panel-default">
+            
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+
+                            <a data-toggle="collapse" data-target="#CLIENTE-panel">
+                                <strong>Ventas Diarias</strong>
+                            </a>
+                            
+                        </h3>
+                    </div>
+
+                <div id="CLIENTE-panel" class="panel-collapse collapse in">
+
+                    <div class="panel-body">
+
+                        <div class="col-md-8">
+
+                            <div class="well">
+
+                                <div class="inputs_wrapper" style="max-height: inherit;">
+
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon">
+                                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                </span>
+                                                <input id="fecha_Diario" class="datepicker form-control" placeholder="FECHA" aria-describedby="basic-addon" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <br>
+                                
+                                <button id="print" template="ventas_hoy" type="button" class="print btn btn-default btn-md btn-block">
+                                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte
+                                </button>
+                                    <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+
+
+            <div id="CLIENTE" class="panel panel-default">
+            
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+
+                            <a data-toggle="collapse" data-target="#CLIENTE-panel">
+                                <strong>Ventas al Crédito</strong>
+                            </a>
+                            
+                        </h3>
+                    </div>
+
+                <div id="CLIENTE-panel" class="panel-collapse collapse in">
+
+                    <div class="panel-body">
+
+                        <div class="col-md-8">
+
+                            <div class="well">
+
+                                <div class="inputs_wrapper" style="max-height: inherit;">
+
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon">
+                                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                </span>
+                                                <input id="fecha_Creditos" class="datepicker form-control" placeholder="FECHA" aria-describedby="basic-addon" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <br>
+                                
+                                <button id="print" template="RPTVentaCredito" type="button" class="print btn btn-default btn-md btn-block">
+                                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte
+                                </button>
+                                    <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+             <div id="CLIENTE" class="panel panel-default">
+            
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+
+                        <a data-toggle="collapse" data-target="#CLIENTE-panel">
+                            <strong>Ventas al Contado</strong>
+                        </a>
+                        
+                    </h3>
+                </div>
+
+                <div id="CLIENTE-panel" class="panel-collapse collapse in">
+
+                    <div class="panel-body">
+
+                        <div class="col-md-8">
+
+                            <div class="well">
+
+                                <div class="inputs_wrapper" style="max-height: inherit;">
+
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon">
+                                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                </span>
+                                                <input id="fecha_Contado" class="datepicker form-control" placeholder="FECHA" aria-describedby="basic-addon" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <br>
+                                
+                                <button id="print" template="RPTVentaContado" type="button" class="print btn btn-default btn-md btn-block">
+                                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte
+                                </button>
+                                    <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
         </div>
     </div>
 </div>

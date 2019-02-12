@@ -117,15 +117,10 @@ h1 {
     <div style="text-align:center; line-height: 1px;"><h1> Reporte de Existencia de Productos </h1></div>
     <div style="text-align:center;"> MISCELANEA EL EDEN </div>
     <div> </div>
-    <!-- <div style="text-align:left;"><strong><u><big>REPORTE DE EXISTENCIA DE PRODUCTO</big></u></strong></div> -->
-    <!-- <div style="text-align:left;"><strong>Fecha:</strong> $cod </div> -->
+    
     <br>
 
     <table width="100%" cellpadding="5" border="1" align="center">
-
-<!--    <tr align='center'>
-        <td colspan="7"><strong>Existencia de Productos</strong></td>
-    </tr> -->
 
     <tr align='center'>
         <td><strong><big>Código de Producto</big></strong></td>
