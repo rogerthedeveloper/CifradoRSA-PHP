@@ -20,8 +20,6 @@
 
         ?></div>
 
-
-
 </div>
 
 <?php include("../assets/layouts/footer.php"); ?>

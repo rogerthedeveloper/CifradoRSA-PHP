@@ -209,9 +209,19 @@ class Api extends Controller  {
 
         $query = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
 
-        if($query) {
+        if($query->rowCount()) {
 
             $data = $query->fetchAll(PDO::FETCH_NUM);
+        }
+        else {
+
+            header('Content-Type: application/json');
+
+            $msg = "error_id_product";
+
+            echo json_encode($msg);
+
+            return 0;
         }
 
         $itemVenta[0][0] = $data[0][0]; // ID
@@ -224,8 +234,6 @@ class Api extends Controller  {
 
 
         $descuento = (empty($param["descuento"])) ? 0 : $param["descuento"];
-
-
 
         if($param["precioMayorista"] == 1) {
 
@@ -732,7 +740,6 @@ class Api extends Controller  {
 
             foreach($data_detalle as $key => $value) {
 
-
                 $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
 
                 $producto = $query->fetch(PDO::FETCH_ASSOC);
@@ -740,7 +747,6 @@ class Api extends Controller  {
                 $mensaje = $this->manageInventario($producto["idproducto"], $data["fecha"], $value[2], "venta");
 
             }
-
 
             if($mensaje === true) {
 
@@ -792,25 +798,13 @@ class Api extends Controller  {
                   $this->actualizarSaldoCredito($data, $totalVenta);
 
                 }
-     
-
 
                 $output[0] = ["Inserted"];
                 $output[1] = [$insert];
 
-
                 echo json_encode($output);
 
-
             }
-            else {
-
-
-                echo json_encode($out);
-
-            }
-
-
 
     }
 
@@ -972,7 +966,6 @@ class Api extends Controller  {
            }
            else {
 
-
                echo json_encode($out);
 
            }
@@ -1114,7 +1107,6 @@ class Api extends Controller  {
     }
 
     public function askExistencia($data, $table, $key, $cod) {
-
 
         $existencia = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod'");
         $existencia = $existencia->fetchAll(PDO::FETCH_ASSOC);
@@ -1272,7 +1264,6 @@ class Api extends Controller  {
         
         switch($tipo_movimiento) {
             
-        
             case "compra":
 
 
@@ -1322,6 +1313,7 @@ class Api extends Controller  {
                 // Datos Inventario
                 $dataInventario = $query->fetch(PDO::FETCH_ASSOC);
 
+
                 $existencia = $dataInventario["existencia"];
 
                 if($existencia >= $cantidad) {
@@ -1335,11 +1327,10 @@ class Api extends Controller  {
                 }
                 else {
 
-                    echo json_encode("['error_existencia']");
+                    echo json_encode("['producto_no_existencia']");
                     return false;
     
                 }
-
                
             }
             else {
