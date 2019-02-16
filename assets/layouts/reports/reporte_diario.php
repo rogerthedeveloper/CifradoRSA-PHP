@@ -15,15 +15,17 @@ setlocale(LC_TIME, "ES");
 <?php
 
 // Consulta de Ventas
-$queryVenta = Controller::$connection->query("SELECT c.nombre as nombreCliente, v.total, tp.nombre as nombreTipoVenta, v.idventa, v.idcliente, fecha, v.idtipo_venta from venta as v
-inner join cliente as c on v.idcliente = c.idcliente
-inner join tipo_venta as tp on tp.idtipo_venta = v.idtipo_venta
-where v.fecha = '$cod' order by v.idventa asc");
+$queryVenta = Controller::$connection->query("SELECT c.nombre as nombreCliente, v.total, tp.nombre as nombreTipoVenta, v.idventa, v.idcliente, fecha, v.idtipo_venta 
+    from venta as v
+    inner join cliente as c on v.idcliente = c.idcliente
+    inner join tipo_venta as tp on tp.idtipo_venta = v.idtipo_venta
+    where v.fecha = '$cod' order by v.idventa asc");
 
 // Conlsuta de Devoluciones
-$queryDevolucion = Controller::$connection->query("SELECT d.id_devolucion, d.idventa, d.idcliente, c.nombre as nombredevo, fecha, total from devolucion as d
-inner join cliente as c on d.idcliente = c.idcliente
-where d.fecha = '$cod' order by d.idventa asc");
+$queryDevolucion = Controller::$connection->query("SELECT d.id_devolucion, d.idventa, d.idcliente, c.nombre as nombredevo, fecha, total 
+    from devolucion as d
+    inner join cliente as c on d.idcliente = c.idcliente
+    where d.fecha = '$cod' order by d.idventa asc");
 
 // Asignamos la trama de datos a la variable Data
 if($queryDevolucion) {
@@ -137,10 +139,11 @@ foreach($dataDevolucion as $key => $value) {
 
 }
 
-$gananciaDelDia = Controller::$connection->query("SELECT (SUM(dtv.subtotal)-SUM(dtv.cantidad * p.preciocosto)) as Ganancia FROM venta AS v
+$gananciaDelDia = Controller::$connection->query("SELECT (SUM(dtv.subtotal)-SUM(dtv.cantidad * p.preciocosto)) as Ganancia 
+    FROM venta AS v
 	inner join detalle_venta as dtv on v.idventa = dtv.idventa
 	inner join producto as p on dtv.idproducto = p.idproducto
-	where v.fecha = '$cod'");
+    where v.fecha = '$cod'");
 
   if($gananciaDelDia->rowCount()) {
 
@@ -148,10 +151,11 @@ $gananciaDelDia = Controller::$connection->query("SELECT (SUM(dtv.subtotal)-SUM(
 
   }
 
-$gananciaDevolucion = Controller::$connection->query("SELECT (SUM(dd.subtotal) - SUM(dd.cantidad * p.preciocosto)) AS Devolucion, SUM(dd.subtotal) as TotalDevolucion FROM devolucion AS d
-inner join detalle_devolucion as dd on d.id_devolucion = dd.id_devolucion
-inner join producto as p on dd.idproducto = p.idproducto
-where d.fecha = '$cod'");
+$gananciaDevolucion = Controller::$connection->query("SELECT (SUM(dd.subtotal) - SUM(dd.cantidad * p.preciocosto)) AS Devolucion, SUM(dd.subtotal) as TotalDevolucion 
+        FROM devolucion AS d
+        inner join detalle_devolucion as dd on d.id_devolucion = dd.id_devolucion
+        inner join producto as p on dd.idproducto = p.idproducto
+        where d.fecha = '$cod'");
 
     if($gananciaDevolucion->rowCount()) {
 

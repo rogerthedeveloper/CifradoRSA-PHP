@@ -551,10 +551,12 @@ try {
                                     text: '<?php if (isset($value[1])) {
                                                 echo $value[1];
                                             } ?><?php if (isset($value[3])) {
+                                                echo " - " . $value[2];
+                                            } ?><?php if (isset($value[3])) {
                                                     echo " - Menor Q. " . $value[3];
                                                 } ?><?php if (isset($value[4])) {
-                                                                                                    echo " - Mayor Q. " . $value[4];
-                                                                                                } ?>'
+                                                    echo " - Mayor Q. " . $value[4];
+                                                 } ?>'
                                 },
 
 

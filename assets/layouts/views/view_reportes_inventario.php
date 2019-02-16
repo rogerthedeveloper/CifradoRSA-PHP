@@ -1,8 +1,8 @@
 <?php
 /**
  * User: Bcalderon
- * Date: 08/02/19
- * Time: 11:16
+ * Date: 15/02/19
+ * Time: 20:13
  */
 
 $table_name = "producto";
@@ -31,7 +31,7 @@ catch(mysqli_sql_exception $e) {
     <div class="panel-heading">
         <h3 class="panel-title"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
 
-            <strong>Ventas</strong>
+            <strong>Inventario</strong>
 
         </h3>
     </div>

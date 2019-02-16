@@ -5,7 +5,6 @@ $table = $_POST["table"];
 $key = $_POST["key"];
 $cod = $_POST["cod"];
 
-
 ?>
 <?php
 
@@ -18,28 +17,20 @@ setlocale(LC_TIME, "ES");
 $cod2 = $cod . '-01';
 $cod3 = $cod . '-31';
 
-$queryProductos = Controller::$connection->query("SELECT dv.idproducto, p.nombre, COUNT(dv.idproducto), SUM(dv.cantidad) AS TOTAL
-        FROM venta AS v
-        INNER JOIN detalle_venta as dv ON dv.idventa = v.idventa
-        INNER JOIN producto AS p ON p.idproducto = dv.idproducto
-        WHERE v.fecha BETWEEN '$cod2' AND '$cod3'
-        GROUP BY dv.idproducto
-        ORDER BY TOTAL DESC
-        LIMIT 5");
+//Asigna a variable de id producto
+$idproducto = substr($data, -6, 4);
 
-$queryProductosMenos = Controller::$connection->query("SELECT dv.idproducto, p.nombre, COUNT(dv.idproducto), SUM(dv.cantidad) AS TOTAL
+//Consultas a la base de datos
+$queryProductos = Controller::$connection->query("SELECT dv.idproducto, p.nombre, COUNT(dv.idproducto) AS Cantidad_Ventas, SUM(dv.cantidad) AS TOTAL
         FROM venta AS v
         INNER JOIN detalle_venta as dv ON dv.idventa = v.idventa
         INNER JOIN producto AS p ON p.idproducto = dv.idproducto
-        WHERE v.fecha BETWEEN '$cod2' AND '$cod3'
-        GROUP BY dv.idproducto
-        ORDER BY TOTAL ASC
-        LIMIT 5");
+        WHERE v.fecha BETWEEN '$cod2' AND '$cod3' AND dv.idproducto = '$idproducto'
+        GROUP BY dv.idproducto");
 
 if($queryProductos->rowCount()) {
 
     $dataProductos = $queryProductos->fetch(PDO::FETCH_ASSOC);
-    $dataProductosMenos = $queryProductosMenos->fetch(PDO::FETCH_ASSOC);
 
 }else {
     die("No hay datos.");
@@ -88,7 +79,6 @@ $pdf->AddPage('P', 'LETTER');
 
 // declaro variable detalle
 $detalle = "";
-$detalle2 = "";
 
 // Carga los productos a la variable detalle
     foreach($dataProductos as $key => $value) {
@@ -102,19 +92,6 @@ $detalle2 = "";
       </tr>";
 
   }
-
-  foreach($dataProductosMenos as $key => $value) {
-
-    $detalle2 .= "<tr>
-
-    <td>".$value["idproducto"]."</td>
-    <td>".$value["nombre"]."</td>
-    <td>".$dataExistencia["TOTAL"]."</td>
-
-    </tr>";
-
-}
-
 
 // define some HTML content with style
 $html = <<<EOF
@@ -155,25 +132,7 @@ h1 {
         $detalle
 
     </table>
-
-    <br>
-    <br>
-    <br>
-    
-    <h2>Productos Menos Vendidos</h2>
-    <table width="100%" cellpadding="5" border="1" align="center">
-
-    <tr align='center'>
-        <td><strong><big>Código de Producto</big></strong></td>
-        <td><strong><big>Nombre del Producto</big></strong></td>
-        <td><strong><big>Total Vendido</big></strong></td>
-    </tr>
-
-        $detalle2
-
-    </table>
-
-    
+   
 </body>
 </html>
 
