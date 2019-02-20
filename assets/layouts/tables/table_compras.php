@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: RSpro
@@ -12,17 +13,14 @@ try {
 
     $fields = Controller::$connection->query("DESC $table_name");
 
-    if($fields) {
+    if ($fields) {
 
         $fields = $fields->fetchAll(PDO::FETCH_NUM);
     }
 
 
 
-}
-
-
-catch(mysqli_sql_exception $e) {
+} catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
 
@@ -35,14 +33,12 @@ try {
 
     $registries = Controller::$connection->query("SELECT * FROM $table_name");
 
-    if($registries) {
+    if ($registries) {
 
-    $registries = $registries->fetchAll(PDO::FETCH_NUM);
+        $registries = $registries->fetchAll(PDO::FETCH_NUM);
 
     }
-}
-
-catch(mysqli_sql_exception $e) {
+} catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
 
@@ -54,15 +50,12 @@ try {
 
     $productos = Controller::$connection->query("SELECT * FROM producto");
 
-    if($productos) {
+    if ($productos) {
 
         $productos = $productos->fetchAll(PDO::FETCH_NUM);
 
     }
-}
-
-
-catch(mysqli_sql_exception $e) {
+} catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
 
@@ -78,7 +71,7 @@ catch(mysqli_sql_exception $e) {
     <div class="panel-heading">
         <h3 class="panel-title"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 
-            <a data-toggle="collapse" data-target="#<?php echo $table_name."-panel"; ?>">
+            <a data-toggle="collapse" data-target="#<?php echo $table_name . "-panel"; ?>">
                 <strong><?php echo $table_title; ?></strong>
             </a>
 
@@ -86,12 +79,16 @@ catch(mysqli_sql_exception $e) {
 
     </div>
 
-    <div id="<?php echo $table_name."-panel"; ?>" class="panel-collapse collapse in">
+    <div id="<?php echo $table_name . "-panel"; ?>" class="panel-collapse collapse in">
 
     <div class="panel-body">
 
 
-    <div class="col-md-<?php if($options["photo"] == true) { echo "8"; } else { echo "12"; } ?>">
+    <div class="col-md-<?php if ($options["photo"] == true) {
+                            echo "8";
+                        } else {
+                            echo "12";
+                        } ?>">
 
         <div class="well">
 
@@ -99,13 +96,14 @@ catch(mysqli_sql_exception $e) {
             <div class="inputs_wrapper" style="max-height: inherit;">
 
 
-            <?php if($fields): ?>
+            <?php if ($fields) : ?>
 
-            <?php $counter = 0; foreach($fields as $key => $value): ?>
+            <?php $counter = 0;
+            foreach ($fields as $key => $value) : ?>
 
 
 
-               <?php if($value[3] == "MUL"): ?>
+               <?php if ($value[3] == "MUL") : ?>
 
 
         <div class="form-group">
@@ -294,7 +292,7 @@ catch(mysqli_sql_exception $e) {
 
                     $FK_table = $FK_table->fetchAll(PDO::FETCH_NUM); ?>
 
-                    <?php $FKData = Controller::$connection->query("SELECT * FROM ".$FK_table[$counter][0]);
+                    <?php $FKData = Controller::$connection->query("SELECT * FROM " . $FK_table[$counter][0]);
 
 
                     $FKData = $FKData->fetchAll(PDO::FETCH_NUM);
@@ -304,11 +302,17 @@ catch(mysqli_sql_exception $e) {
                     ?>
 
 
-                <?php foreach($FKData as $key => $value): ?>
+                <?php foreach ($FKData as $key => $value) : ?>
 
                         {
                             id: '<?php echo $value[0]; ?>',
-                            text: '<?php if(isset($value[0])) {echo $value[0];} ?><?php if(isset($value[1])) {echo " - ".$value[1];} ?><?php if(isset($value[3])) {echo " - ".$value[4];} ?>'
+                            text: '<?php if (isset($value[0])) {
+                                        echo $value[0];
+                                    } ?><?php if (isset($value[1])) {
+                                                                                        echo " - " . $value[1];
+                                                                                    } ?><?php if (isset($value[3])) {
+                                                                                                                                            echo " - " . $value[4];
+                                                                                                                                        } ?>'
                         },
 
 
@@ -328,7 +332,8 @@ catch(mysqli_sql_exception $e) {
         </script>
 
 
-                <?php $counter++; else: ?>
+                <?php $counter++;
+                else : ?>
 
         <div class="form-group">
 
@@ -336,7 +341,11 @@ catch(mysqli_sql_exception $e) {
                 <span class="input-group-addon" id="basic-addon">
                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                 </span>
-                <input id="<?php echo $value[0]; ?>" type="text" class="<?php if($value[1] == "date") { echo "datepicker"; } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if($value[5] == "auto_increment") { echo "disabled"; } ?>>
+                <input id="<?php echo $value[0]; ?>" type="text" class="<?php if ($value[1] == "date") {
+                                                                            echo "datepicker";
+                                                                        } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if ($value[5] == "auto_increment") {
+                                                                                                                                                                                                                                    echo "disabled";
+                                                                                                                                                                                                                                } ?>>
             </div>
 
         </div>
@@ -347,7 +356,7 @@ catch(mysqli_sql_exception $e) {
 
             <?php endforeach; ?>
 
-                <?php else: ?>
+                <?php else : ?>
 
                  <div style="font-size: 16px;"><center>Error: tabla especificada no existe en la base de datos.</center></div>
 
@@ -394,7 +403,7 @@ catch(mysqli_sql_exception $e) {
 
     </div>
 
-        <?php if($options["photo"] == true): ?>
+        <?php if ($options["photo"] == true) : ?>
 
             <div class="col-md-4">
 
@@ -505,11 +514,15 @@ catch(mysqli_sql_exception $e) {
                         $("select#producto").select2({ data:[
 
 
-                        <?php foreach($productos as $key => $value): ?>
+                        <?php foreach ($productos as $key => $value) : ?>
 
                                 {
                                     id: '<?php echo $value[0]; ?>',
-                                    text: '<?php if(isset($value[0])) {echo $value[0];} ?><?php if(isset($value[1])) {echo " - ".$value[1];} ?>'
+                                    text: '<?php if (isset($value[0])) {
+                                                echo $value[0];
+                                            } ?><?php if (isset($value[1])) {
+                                                                                                echo " - " . $value[1];
+                                                                                            } ?>'
                                 },
 
 
@@ -573,7 +586,7 @@ catch(mysqli_sql_exception $e) {
 
 
 
-    <?php if($options["detail"] == true): ?>
+    <?php if ($options["detail"] == true) : ?>
 
                 
         <div class="col-md-5">
@@ -587,7 +600,7 @@ catch(mysqli_sql_exception $e) {
                 <thead>
                 <tr>
 
-                    <?php foreach($fields as $key => $value): ?>
+                    <?php foreach ($fields as $key => $value) : ?>
 
                         <th><?php echo $value[0]; ?></th>
 
@@ -599,11 +612,11 @@ catch(mysqli_sql_exception $e) {
                 <tbody>
 
 
-                <?php foreach($registries as $key => $value): ?>
+                <?php foreach ($registries as $key => $value) : ?>
                 <tr>
 
 
-                    <?php foreach($value as $key => $value): ?>
+                    <?php foreach ($value as $key => $value) : ?>
                         <td><?php echo $value; ?></td>
                     <?php endforeach; ?>
 
@@ -637,7 +650,6 @@ catch(mysqli_sql_exception $e) {
 
         <script type="text/javascript">
 
-
                     var total = 0.00;
 
 
@@ -667,15 +679,8 @@ catch(mysqli_sql_exception $e) {
                     });
 
 
+                
                     $("#add").on('click', function() {
-
-
-                      var cod = $("select#IDVENTA").val();
-
-                      id = $("select#producto").val();
-
-                      cant = $("#cantidadCtn").val();
-
 
                       $.ajax({
 
@@ -687,20 +692,14 @@ catch(mysqli_sql_exception $e) {
 
                             var flag = false;
 
-                            alert(JSON.stringify(r));
-
-
                                 if(r[1]) {
 
-
                                    $.each(r[1], function(k, v) {
-
 
                                      if(v[0] == id) {
 
                                        
                                        if(cant <= v[2]) {
-
 
 
                                         flag = 1;
@@ -910,6 +909,191 @@ catch(mysqli_sql_exception $e) {
                     } );
 
 
+function scanProductoCompra(code) {
+    
+    $.ajax({
+
+        url: "../classes/Api.php?action=askExistencia",
+        method: "POST",
+        data: { "data": {"id_producto": code}, "table": "producto", "key": "idproducto", "cod": code},
+        dataType: "JSON",
+        success: function(r) {
+
+            if(r) {
+
+                responsiveVoice.speak("Ingresa la cantidad comprada de "+r.nombre, idioma);
+                swal({
+                    title: 'Inventario',
+                    html: '<strong>'+r.nombre+'</strong><br> Ingresa la "Cantidad Comprada"',
+                    input: 'number',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Siguiente',
+                    cancelButtonText: 'Cancelar',
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: true
+                }).then((result) => {
+                    
+                    if (result.value || result.value == " ") {
+   
+                        responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
+                        swal({
+                            title: 'Inventario',
+                            html: '<strong>'+r.nombre+'</strong><br> Ingresa el "Precio costo, por unidad"',
+                            input: 'number',
+                            type: 'info',
+                            showCancelButton: true,
+                            confirmButtonText: 'Siguiente',
+                            cancelButtonText: 'Cancelar',
+                            showLoaderOnConfirm: true,
+                            allowOutsideClick: true
+                        }).then((result) => {
+                            
+                            if (result.value || result.value == " ") {
+
+                                responsiveVoice.speak("Se han agregado las compras al sistema.", idioma);
+                                swal({
+                                    title: 'Compras',
+                                    text: "Se han agregado al sistema.",
+                                    type: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar'
+                                });
 
 
-                </script>
+                            }
+                            
+                        });
+
+
+                    }
+                    
+                });
+
+                
+            } 
+            else {
+
+            responsiveVoice.speak("No he encontrado este producto en mi base de datos, ¿Quieres agregarlo al sistema?'.", idioma);
+               
+            swal({
+                title: 'Compras',
+                text: 'El producto con código: '+code+', no existe en el inventario. ¿Quieres agregarlo al sistema?',
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Agregar',
+                cancelButtonText: 'Cancelar',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: true
+            }).then((result) => {
+
+                if (result.value || result.value == " ") {
+
+                    responsiveVoice.speak("Muy bien, ingresa el nombre del producto.", idioma);
+
+                    swal({
+                        title: 'Inventario',
+                        text: 'Ingresa el "Nombre del producto"',
+                        input: 'text',
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Siguiente',
+                        cancelButtonText: 'Cancelar',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: true
+                    }).then((result) => {
+                        
+                        if (result.value || result.value == " ") {
+
+                            responsiveVoice.speak("Ahora, Ingresa la cantidad comprada de este producto.", idioma);
+
+                            swal({
+                                title: 'Inventario',
+                                text: 'Ingresa la "Cantidad Comprada"',
+                                input: 'text',
+                                type: 'info',
+                                showCancelButton: true,
+                                confirmButtonText: 'Siguiente',
+                                cancelButtonText: 'Cancelar',
+                                showLoaderOnConfirm: true,
+                                allowOutsideClick: true
+                            }).then((result) => {
+                                
+                                if (result.value || result.value == " ") {
+
+                                    responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
+
+                                    swal({
+                                        title: 'Inventario',
+                                        text: 'Ingresa el "Precio costo, por unidad"',
+                                        input: 'text',
+                                        type: 'info',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Siguiente',
+                                        cancelButtonText: 'Cancelar',
+                                        showLoaderOnConfirm: true,
+                                        allowOutsideClick: true
+                                    }).then((result) => {
+                                        
+                                        if (result.value || result.value == " ") {
+
+                                            responsiveVoice.speak("Se han agregado las compras al sistema.", idioma);
+
+                                            swal({
+                                                title: 'Compras',
+                                                text: "Se han agregado al sistema.",
+                                                type: 'success',
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'Aceptar'
+                                            });
+
+                                        }
+                                        
+                                    });
+
+
+                                }
+                                
+                            });
+
+                        }
+
+                    });
+
+            }
+
+        });
+
+    }
+    
+}});
+
+}
+
+</script>
+<script>
+
+var code = "";
+
+window.addEventListener("keydown", (e) => {
+
+    if(e.keyCode === 13 && code.length > 1) {
+
+        //alert(code);
+        scanProductoCompra(code);
+
+    }
+    else {
+
+        code += String.fromCharCode(e.keyCode);  
+    }
+
+    setTimeout(() => {
+
+        code = ""; 
+
+    }, 250);
+   
+});
+
+</script>

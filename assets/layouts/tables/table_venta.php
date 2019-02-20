@@ -327,8 +327,8 @@ try {
                                     } ?><?php if (isset($value[1])) {
                                             echo " - " . $value[1];
                                         } ?><?php if (isset($value[2])) {
-                                                                                            echo " - " . $value[2];
-                                                                                        } ?>'
+                                                echo " - " . $value[2];
+                                            } ?>'
                         },
 
 
@@ -446,7 +446,7 @@ try {
 
         <?php endif; ?>
 
-    <div class="col-md-12">
+    <div class="col-md-7">
 
            
             <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Venta</b>
@@ -553,8 +553,8 @@ try {
                                             } ?><?php if (isset($value[3])) {
                                                     echo " - Menor Q. " . $value[3];
                                                 } ?><?php if (isset($value[4])) {
-                                                                                                    echo " - Mayor Q. " . $value[4];
-                                                                                                } ?>'
+                                                        echo " - Mayor Q. " . $value[4];
+                                                    } ?>'
                                 },
 
 
@@ -915,7 +915,7 @@ $('#precioMayorista').removeAttr("checked");
                         
 
 
-                        cant = $("#cantidadCtn").val(); /* * $("input[name=unidadVenta]:checked").val(); */
+                        cant = $("#cantidadCtn").val();
 
 
                         descuento = $("#descuentoCtn").val();
@@ -949,7 +949,6 @@ $('#precioMayorista').removeAttr("checked");
                             data: { id: "nothing" }
 
                         });
-
 
 
                           $.ajax({
@@ -989,14 +988,10 @@ $('#precioMayorista').removeAttr("checked");
                               }
 
 
-
-
                             }
 
 
                         });
-
-
 
                     });
 
@@ -1041,6 +1036,7 @@ $('#precioMayorista').removeAttr("checked");
 
                     $('.detail_table_venta tbody').on( 'click', 'tr', function () {
 
+                        
                       $("#create").attr("disabled", true);
 
 
@@ -1057,7 +1053,6 @@ $('#precioMayorista').removeAttr("checked");
                                 var key = $(this).closest(".detail_table_venta").find("th").first().text();
 
                                 var cod = table_details_venta.row(this).data()[0];
-
 
 
                             $.ajax({

@@ -16,7 +16,7 @@
 
     <div class="col-md-12"><?php
 
-        View::showViewFromTable("VENTA", "Control de Ventas", Array("photo" => false, "detail" => false), "table_venta");
+        View::showViewFromTable("VENTA", "Control de Ventas", Array("photo" => false, "detail" => true), "table_venta");
 
         ?></div>
 
