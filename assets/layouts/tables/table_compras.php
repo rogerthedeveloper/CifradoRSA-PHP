@@ -309,10 +309,10 @@ try {
                             text: '<?php if (isset($value[0])) {
                                         echo $value[0];
                                     } ?><?php if (isset($value[1])) {
-                                                                                        echo " - " . $value[1];
-                                                                                    } ?><?php if (isset($value[3])) {
-                                                                                                                                            echo " - " . $value[4];
-                                                                                                                                        } ?>'
+                                            echo " - " . $value[1];
+                                        } ?><?php if (isset($value[3])) {
+                                                                                            echo " - " . $value[4];
+                                                                                        } ?>'
                         },
 
 
@@ -344,8 +344,8 @@ try {
                 <input id="<?php echo $value[0]; ?>" type="text" class="<?php if ($value[1] == "date") {
                                                                             echo "datepicker";
                                                                         } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if ($value[5] == "auto_increment") {
-                                                                                                                                                                                                                                    echo "disabled";
-                                                                                                                                                                                                                                } ?>>
+                                                                                                                                                                                echo "disabled";
+                                                                                                                                                                            } ?>>
             </div>
 
         </div>
@@ -521,8 +521,8 @@ try {
                                     text: '<?php if (isset($value[0])) {
                                                 echo $value[0];
                                             } ?><?php if (isset($value[1])) {
-                                                                                                echo " - " . $value[1];
-                                                                                            } ?>'
+                                                    echo " - " . $value[1];
+                                                } ?>'
                                 },
 
 
@@ -680,121 +680,53 @@ try {
 
 
                 
-                    $("#add").on('click', function() {
-
-                      $.ajax({
-
-                          url: "../classes/Api.php?action=oneCompra",
-                          method: "POST",
-                          data: { "data": cod, "table": "compra", "key": "idCompra", "cod": cod },
-                          dataType: "JSON",
-                          success: function(r) {
-
-                            var flag = false;
-
-                                if(r[1]) {
-
-                                   $.each(r[1], function(k, v) {
-
-                                     if(v[0] == id) {
-
-                                       
-                                       if(cant <= v[2]) {
+        $("#add").on('click', function() {
 
 
-                                        flag = 1;
-
-                                         $(".hacerCompra").attr("disabled", false);
+                    $(".hacerCompra").attr("disabled", false);
 
 
-                                         $("#add").attr("disabled", true);
+                    $("#add").attr("disabled", true);
 
 
-                                         cant = $("#cantidadCtn").val();
+                    cant = $("#cantidadCtn").val();
 
 
-                                         $("#cantidadCtn").val(0);
+                    $("#cantidadCtn").val(0);
 
 
-                                         id = $("select#producto") .val();
+                    id = $("select#producto") .val();
 
 
-                                         $("select#producto").select2("trigger", "select", {
+                    $("select#producto").select2("trigger", "select", {
 
-                                             data: { id: 0 }
+                        data: { id: 0 }
 
-                                         });
+                    });
 
+                    $.ajax({
 
-                                           $.ajax({
+                        url: "../classes/Api.php?action=addItemCompra",
+                        method: "POST",
+                        data: { "data": cant, "table": "producto", "key": "idproducto", "cod": id},
+                        dataType: "JSON",
+                        success: function(r) {
 
-                                             url: "../classes/Api.php?action=addItemCompra",
-                                             method: "POST",
-                                             data: { "data": cant, "table": "producto", "key": "idproducto", "cod": id},
-                                             dataType: "JSON",
-                                             success: function(r) {
+                            total = total + parseFloat(r[0][3]);
 
+                            $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
-                                                 total = total + parseFloat(r[0][3]);
+                            $(".detalle_compra_table").DataTable().rows.add(r).draw();
 
-                                                 $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
-
-                                                 $(".detalle_compra_table").DataTable().rows.add(r).draw();
-
-                                                 $("#remove").attr("disabled", true);
+                            $("#remove").attr("disabled", true);
 
 
-                                             }
-
-
-                                         });
-
-
-                                       }
-                                       else {
-
-                                          flag = 2;
-                                          swal({
-                                            title: 'Error!',
-                                            text: "La cantidad del producto que desea devolver supera la cantidad de la compra.",
-                                            type: 'error',
-                                            confirmButtonColor: '#3085d6',
-                                            confirmButtonText: 'Aceptar'
-                                          });
-
-
-                                       }
-
-
-                                     }
-
-
-
-                                   });
-
-                                   if(flag == false) {
-
-                                     swal({
-                                       title: 'Error!',
-                                       text: "Éste producto no existe en la venta seleccionada.",
-                                       type: 'error',
-                                       confirmButtonColor: '#3085d6',
-                                       confirmButtonText: 'Aceptar'
-                                     });
-
-                                 }
-
-
-
-                              }
-
-                          }
-
-
-                      });
+                        }
 
 
                     });
+
+                });
 
 
                    table_details_compra = $('.detail_table_compra').DataTable({
@@ -906,8 +838,53 @@ try {
                         }
 
 
-                    } );
+                    });
 
+                    
+function addItemScanCompra(code, nombre, cantidad, precio) {
+
+    $(".hacerCompra").attr("disabled", false);
+
+
+    $("#add").attr("disabled", true);
+
+
+    $("#cantidadCtn").val(0);
+
+
+    id = code;
+    
+    cant = cantidad;
+
+    $("select#producto").select2("trigger", "select", {
+
+        data: { id: 0 }
+
+    });
+
+    $.ajax({
+
+        url: "../classes/Api.php?action=addItemCompra",
+        method: "POST",
+        data: { "data": cant, "table": "producto", "key": "idproducto", "cod": id},
+        dataType: "JSON",
+        success: function(r) {
+
+            total = total + parseFloat(r[0][3]);
+
+            $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+
+            $(".detalle_compra_table").DataTable().rows.add(r).draw();
+
+            $("#remove").attr("disabled", true);
+
+
+        }
+
+
+    });
+
+    }
 
 function scanProductoCompra(code) {
     
@@ -935,6 +912,8 @@ function scanProductoCompra(code) {
                 }).then((result) => {
                     
                     if (result.value || result.value == " ") {
+
+                        cantidad = result.value;
    
                         responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
                         swal({
@@ -951,15 +930,9 @@ function scanProductoCompra(code) {
                             
                             if (result.value || result.value == " ") {
 
-                                responsiveVoice.speak("Se han agregado las compras al sistema.", idioma);
-                                swal({
-                                    title: 'Compras',
-                                    text: "Se han agregado al sistema.",
-                                    type: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'Aceptar'
-                                });
+                                precio = result.value;
 
+                                addItemScanCompra(code, r.nombre, cantidad, precio);
 
                             }
                             
@@ -1005,6 +978,8 @@ function scanProductoCompra(code) {
                         
                         if (result.value || result.value == " ") {
 
+                            nombre = result.value;
+
                             responsiveVoice.speak("Ahora, Ingresa la cantidad comprada de este producto.", idioma);
 
                             swal({
@@ -1020,6 +995,8 @@ function scanProductoCompra(code) {
                             }).then((result) => {
                                 
                                 if (result.value || result.value == " ") {
+
+                                    cantidad = result.value;
 
                                     responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
 
@@ -1037,15 +1014,9 @@ function scanProductoCompra(code) {
                                         
                                         if (result.value || result.value == " ") {
 
-                                            responsiveVoice.speak("Se han agregado las compras al sistema.", idioma);
+                                            precio = result.value;
 
-                                            swal({
-                                                title: 'Compras',
-                                                text: "Se han agregado al sistema.",
-                                                type: 'success',
-                                                confirmButtonColor: '#3085d6',
-                                                confirmButtonText: 'Aceptar'
-                                            });
+                                            addItemScanCompra(code, nombre, cantidad, precio);
 
                                         }
                                         

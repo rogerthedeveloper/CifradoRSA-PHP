@@ -159,7 +159,6 @@ class Api extends Controller  {
 
         public function addItemCompra($table, $key, $cod, $param) {
 
-            echo 1;
 
             $query = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
 
@@ -194,7 +193,6 @@ class Api extends Controller  {
             $itemVenta[0][1] = $param;      // Cantidad
             $itemVenta[0][2] = $data[0][3]; // Precio
             $itemVenta[0][3] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
-
 
 
             header('Content-Type: application/json');
