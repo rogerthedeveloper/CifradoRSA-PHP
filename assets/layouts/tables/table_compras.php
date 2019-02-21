@@ -931,16 +931,12 @@ function scanProductoCompra(code) {
                                 precio = result.value;
 
                                 $.ajax({
-                                    url: "../classes/Api.php?action=addProducto",
+                                    url: "../classes/Api.php?action=updateProducto",
                                     method: "POST",
                                     data: { 
                                     "data": {
                                         "idproducto": code,
-                                        "idCategoria": code,
-                                        "nombre": code
-                                    },  "table": "producto",
-                                        "key": "idproducto",
-                                        "cod": code
+                                    },  "table": "producto"
                                     },
                                     dataType: "JSON",
                                     success: function(r) {
@@ -1030,7 +1026,26 @@ function scanProductoCompra(code) {
 
                                             precio = result.value;
 
-                                            addItemScanCompra(code, nombre, cantidad, precio);
+                                            $.ajax({
+                                                url: "../classes/Api.php?action=addProducto",
+                                                method: "POST",
+                                                data: { 
+                                                "data": {
+                                                    "idproducto": code,
+                                                    "idCategoria": code,
+                                                    "nombre": code
+                                                },  "table": "producto",
+                                                    "key": "idproducto",
+                                                    "cod": code
+                                                },
+                                                dataType: "JSON",
+                                                success: function(r) {
+
+                                                    addItemScanCompra(code, r.nombre, cantidad, precio);
+
+                                                }
+                                            })
+
 
                                         }
                                         

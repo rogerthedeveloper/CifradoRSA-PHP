@@ -312,6 +312,32 @@ class Api extends Controller  {
 
     }
 
+    public function updateProducto($table, $key, $cod, $data) {
+
+
+        $setValues = Controller::updateValues($data);
+
+        $query = Controller::$connection->query("UPDATE $table $setValues");
+
+
+        header('Content-Type: application/json');
+
+
+        if($query) {
+
+            echo json_encode(["Updated"]);
+
+        }
+        else {
+
+            echo json_encode(["Not Updated"]);
+
+            print_r(Controller::$connection->errorInfo());
+
+        }
+
+    }
+
 
     public function create($table, $data) {
 
@@ -345,10 +371,9 @@ class Api extends Controller  {
     public function update($table, $key, $cod, $data) {
 
 
+        $setValues = Controller::updateValues($data);
 
-            $setValues = Controller::updateValues($data);
-
-            $query = Controller::$connection->query("UPDATE $table $setValues");
+        $query = Controller::$connection->query("UPDATE $table $setValues");
 
 
         header('Content-Type: application/json');
@@ -366,9 +391,6 @@ class Api extends Controller  {
             print_r(Controller::$connection->errorInfo());
 
         }
-
-
-
 
     }
 
@@ -1570,6 +1592,16 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
                 case 'askExistencia':
 
                     $request->askExistencia($data, $table, $key, $cod);
+
+                break;
+                case 'updateProducto':
+
+                    $request->updateProducto($table, $key, $cod, $data);
+
+                break;
+                case 'addProducto':
+
+                    $request->addProducto($table, $data);
 
                 break;
 
