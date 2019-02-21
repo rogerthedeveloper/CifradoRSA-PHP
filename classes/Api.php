@@ -166,10 +166,12 @@ class Api extends Controller  {
                 $data = $query->fetchAll(PDO::FETCH_NUM);
             }
 
+
             $itemVenta[0][0] = $data[0][0]; // ID
-            $itemVenta[0][1] = $param;      // Cantidad
-            $itemVenta[0][2] = $data[0][3]; // Precio
-            $itemVenta[0][3] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
+            $itemVenta[0][1] = $data[0][2]; // Nombre
+            $itemVenta[0][2] = $param;      // Cantidad
+            $itemVenta[0][3] = $data[0][3]; // Precio
+            $itemVenta[0][4] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
 
 
             header('Content-Type: application/json');
@@ -223,7 +225,8 @@ class Api extends Controller  {
         $itemVenta[0][0] = $data[0][0]; // ID
 
 
-        $itemVenta[0][1] = $data[0][1]; // PRODUCTO
+        $itemVenta[0][1] = $data[0][2]; // PRODUCTO
+
 
         $itemVenta[0][2] = $param["cantidad"];      // Cantidad
         $cantidad = $param["cantidad"];      // Cantidad
@@ -311,6 +314,7 @@ class Api extends Controller  {
 
 
     }
+
 
     public function updateProducto($table, $key, $cod, $data) {
 
@@ -1394,18 +1398,18 @@ class Api extends Controller  {
 if(isset($_POST["data"]) && isset($_GET["action"])) {
 
 
-
        
         $data = $_POST["data"];
 
         if(isset( $_POST["table"])) {
 
 
-          $table = $_POST["table"];
+            $table = $_POST["table"];
 
-          $key = $_POST["key"];
+            $key = $_POST["key"];
 
-          $cod = $_POST["cod"];
+            $cod = $_POST["cod"];
+
 
         }
 

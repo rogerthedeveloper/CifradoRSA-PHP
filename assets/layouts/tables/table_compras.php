@@ -563,7 +563,8 @@ try {
                 <tr>
 
                         <th>ID PRODUCTO</th>
-                        <th>CANTIDAD</th>
+                        <th>NOMBRE</th>
+                        <th>CANTIDAD</th>       
                         <th>PRECIO</th>
                         <th>SUBTOTAL</th>
 
@@ -934,9 +935,10 @@ function scanProductoCompra(code) {
                                     url: "../classes/Api.php?action=updateProducto",
                                     method: "POST",
                                     data: { 
-                                    "data": {
-                                        "idproducto": code,
-                                    },  "table": "producto"
+                                        "data": {
+                                            "idproducto": code,
+                                        },  
+                                        "table": "producto"
                                     },
                                     dataType: "JSON",
                                     success: function(r) {
@@ -1032,11 +1034,16 @@ function scanProductoCompra(code) {
                                                 data: { 
                                                 "data": {
                                                     "idproducto": code,
-                                                    "idCategoria": code,
-                                                    "nombre": code
-                                                },  "table": "producto",
-                                                    "key": "idproducto",
-                                                    "cod": code
+                                                    "idCategoria": 1,
+                                                    "nombre": nombre,
+                                                    "preciocosto": precio,
+                                                    "precioSugerido": 1,
+                                                    "precioTop": 1,
+                                                    "marca": "Toyota",
+                                                    "serie": "A",
+                                                    "modelo": "B",
+                                                },  
+                                                "table": "producto"
                                                 },
                                                 dataType: "JSON",
                                                 success: function(r) {
