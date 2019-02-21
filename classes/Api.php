@@ -14,7 +14,6 @@ include("permissions.inc");
  */
 
 
-
 class Api extends Controller  {
 
     public function allRegistries($table, $key) {
@@ -284,14 +283,42 @@ class Api extends Controller  {
     }
 
 
+    public function addProducto($table, $data) {
+
+
+        $values = Controller::values($data);
+
+        $query = Controller::$connection->query("INSERT INTO $table $values");
+
+        $data = $query->fetch(PDO::FETCH_ASSOC); 
+
+
+        header('Content-Type: application/json');
+
+
+        if($query) {
+
+            echo json_encode($data);
+
+        }
+        else {
+
+            echo json_encode(["Not Inserted"]);
+
+            print_r(Controller::$connection->errorInfo());
+
+        }
+
+
+    }
+
 
     public function create($table, $data) {
 
 
+        $values = Controller::values($data);
 
-            $values = Controller::values($data);
-
-            $query = Controller::$connection->query("INSERT INTO $table $values");
+        $query = Controller::$connection->query("INSERT INTO $table $values");
 
 
         header('Content-Type: application/json');
