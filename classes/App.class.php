@@ -16,7 +16,7 @@ class App
     public function __construct()   {
 
 
-       App::$connection = new PDO("mysql:host=localhost;dbname=miscelanea;charset=utf8", "root", " ");
+       App::$connection = new PDO("mysql:host=localhost;dbname=miscelanea;charset=utf8", "root", "");
 
 
     }
