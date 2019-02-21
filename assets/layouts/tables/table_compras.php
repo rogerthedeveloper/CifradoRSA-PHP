@@ -563,7 +563,8 @@ try {
                 <tr>
 
                         <th>ID PRODUCTO</th>
-                        <th>CANTIDAD</th>
+                        <th>NOMBRE</th>
+                        <th>CANTIDAD</th>       
                         <th>PRECIO</th>
                         <th>SUBTOTAL</th>
 
@@ -853,7 +854,7 @@ function addItemScanCompra(code, nombre, cantidad, precio) {
 
 
     id = code;
-    
+
     cant = cantidad;
 
     $("select#producto").select2("trigger", "select", {
@@ -878,9 +879,7 @@ function addItemScanCompra(code, nombre, cantidad, precio) {
 
             $("#remove").attr("disabled", true);
 
-
         }
-
 
     });
 
@@ -889,7 +888,6 @@ function addItemScanCompra(code, nombre, cantidad, precio) {
 function scanProductoCompra(code) {
     
     $.ajax({
-
         url: "../classes/Api.php?action=askExistencia",
         method: "POST",
         data: { "data": {"id_producto": code}, "table": "producto", "key": "idproducto", "cod": code},
@@ -902,7 +900,7 @@ function scanProductoCompra(code) {
                 swal({
                     title: 'Inventario',
                     html: '<strong>'+r.nombre+'</strong><br> Ingresa la "Cantidad Comprada"',
-                    input: 'number',
+                    input: 'text',
                     type: 'info',
                     showCancelButton: true,
                     confirmButtonText: 'Siguiente',
@@ -916,10 +914,11 @@ function scanProductoCompra(code) {
                         cantidad = result.value;
    
                         responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
+                        
                         swal({
                             title: 'Inventario',
                             html: '<strong>'+r.nombre+'</strong><br> Ingresa el "Precio costo, por unidad"',
-                            input: 'number',
+                            input: 'text',
                             type: 'info',
                             showCancelButton: true,
                             confirmButtonText: 'Siguiente',
@@ -932,18 +931,31 @@ function scanProductoCompra(code) {
 
                                 precio = result.value;
 
-                                addItemScanCompra(code, r.nombre, cantidad, precio);
+                                $.ajax({
+                                    url: "../classes/Api.php?action=updateProducto",
+                                    method: "POST",
+                                    data: { 
+                                        "data": {
+                                            "idproducto": code,
+                                        },  
+                                        "table": "producto"
+                                    },
+                                    dataType: "JSON",
+                                    success: function(r) {
+
+                                        addItemScanCompra(code, r.nombre, cantidad, precio);
+
+                                    }
+                                })
 
                             }
                             
                         });
 
-
                     }
                     
                 });
-
-                
+  
             } 
             else {
 
@@ -1016,7 +1028,31 @@ function scanProductoCompra(code) {
 
                                             precio = result.value;
 
-                                            addItemScanCompra(code, nombre, cantidad, precio);
+                                            $.ajax({
+                                                url: "../classes/Api.php?action=addProducto",
+                                                method: "POST",
+                                                data: { 
+                                                "data": {
+                                                    "idproducto": code,
+                                                    "idCategoria": 1,
+                                                    "nombre": nombre,
+                                                    "preciocosto": precio,
+                                                    "precioSugerido": 1,
+                                                    "precioTop": 1,
+                                                    "marca": "Toyota",
+                                                    "serie": "A",
+                                                    "modelo": "B",
+                                                },  
+                                                "table": "producto"
+                                                },
+                                                dataType: "JSON",
+                                                success: function(r) {
+
+                                                    addItemScanCompra(code, r.nombre, cantidad, precio);
+
+                                                }
+                                            })
+
 
                                         }
                                         

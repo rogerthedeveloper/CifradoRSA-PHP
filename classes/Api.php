@@ -14,7 +14,6 @@ include("permissions.inc");
  */
 
 
-
 class Api extends Controller  {
 
     public function allRegistries($table, $key) {
@@ -167,10 +166,12 @@ class Api extends Controller  {
                 $data = $query->fetchAll(PDO::FETCH_NUM);
             }
 
+
             $itemVenta[0][0] = $data[0][0]; // ID
-            $itemVenta[0][1] = $param;      // Cantidad
-            $itemVenta[0][2] = $data[0][3]; // Precio
-            $itemVenta[0][3] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
+            $itemVenta[0][1] = $data[0][2]; // Nombre
+            $itemVenta[0][2] = $param;      // Cantidad
+            $itemVenta[0][3] = $data[0][3]; // Precio
+            $itemVenta[0][4] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
 
 
             header('Content-Type: application/json');
@@ -224,7 +225,8 @@ class Api extends Controller  {
         $itemVenta[0][0] = $data[0][0]; // ID
 
 
-        $itemVenta[0][1] = $data[0][1]; // PRODUCTO
+        $itemVenta[0][1] = $data[0][2]; // PRODUCTO
+
 
         $itemVenta[0][2] = $param["cantidad"];      // Cantidad
         $cantidad = $param["cantidad"];      // Cantidad
@@ -284,14 +286,69 @@ class Api extends Controller  {
     }
 
 
+    public function addProducto($table, $data) {
+
+
+        $values = Controller::values($data);
+
+        $query = Controller::$connection->query("INSERT INTO $table $values");
+
+        $data = $query->fetch(PDO::FETCH_ASSOC); 
+
+
+        header('Content-Type: application/json');
+
+
+        if($query) {
+
+            echo json_encode($data);
+
+        }
+        else {
+
+            echo json_encode(["Not Inserted"]);
+
+            print_r(Controller::$connection->errorInfo());
+
+        }
+
+
+    }
+
+
+    public function updateProducto($table, $key, $cod, $data) {
+
+
+        $setValues = Controller::updateValues($data);
+
+        $query = Controller::$connection->query("UPDATE $table $setValues");
+
+
+        header('Content-Type: application/json');
+
+
+        if($query) {
+
+            echo json_encode(["Updated"]);
+
+        }
+        else {
+
+            echo json_encode(["Not Updated"]);
+
+            print_r(Controller::$connection->errorInfo());
+
+        }
+
+    }
+
 
     public function create($table, $data) {
 
 
+        $values = Controller::values($data);
 
-            $values = Controller::values($data);
-
-            $query = Controller::$connection->query("INSERT INTO $table $values");
+        $query = Controller::$connection->query("INSERT INTO $table $values");
 
 
         header('Content-Type: application/json');
@@ -318,10 +375,9 @@ class Api extends Controller  {
     public function update($table, $key, $cod, $data) {
 
 
+        $setValues = Controller::updateValues($data);
 
-            $setValues = Controller::updateValues($data);
-
-            $query = Controller::$connection->query("UPDATE $table $setValues");
+        $query = Controller::$connection->query("UPDATE $table $setValues");
 
 
         header('Content-Type: application/json');
@@ -339,9 +395,6 @@ class Api extends Controller  {
             print_r(Controller::$connection->errorInfo());
 
         }
-
-
-
 
     }
 
@@ -1345,18 +1398,18 @@ class Api extends Controller  {
 if(isset($_POST["data"]) && isset($_GET["action"])) {
 
 
-
        
         $data = $_POST["data"];
 
         if(isset( $_POST["table"])) {
 
 
-          $table = $_POST["table"];
+            $table = $_POST["table"];
 
-          $key = $_POST["key"];
+            $key = $_POST["key"];
 
-          $cod = $_POST["cod"];
+            $cod = $_POST["cod"];
+
 
         }
 
@@ -1543,6 +1596,16 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
                 case 'askExistencia':
 
                     $request->askExistencia($data, $table, $key, $cod);
+
+                break;
+                case 'updateProducto':
+
+                    $request->updateProducto($table, $key, $cod, $data);
+
+                break;
+                case 'addProducto':
+
+                    $request->addProducto($table, $data);
 
                 break;
 
