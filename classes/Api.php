@@ -59,27 +59,27 @@ class Api extends Controller  {
         $query2 = Controller::$connection->query("SELECT * FROM detalle_venta INNER JOIN PRODUCTO ON detalle_venta.idproducto = PRODUCTO.idproducto WHERE idventa = '$cod'");
 
 
+
         if($query1 && $query2) {
 
             $data[0] = $query1->fetchAll(PDO::FETCH_ASSOC);
-            $data[1] = $query2->fetchAll(PDO::FETCH_NUM);
+            $data[1] = $query2->fetchAll(PDO::FETCH_ASSOC);
 
+          
         }
 
         foreach($data[1] as $key => $value) {
 
-
-            $itemVenta[$key][0] = $value[2]; // ID
-            $itemVenta[$key][1] = $value[6]; // PRODUCTO
-            $itemVenta[$key][2] = $value[13]; // Cantidad
-            $itemVenta[$key][3] = $value[4] / $value[13]; // Precio
-            $itemVenta[$key][4] = $value[4];   // Subtotal
+            $itemVenta[$key][0] = $value["idproducto"]; // ID
+            $itemVenta[$key][1] = $value["nombre"]; // PRODUCTO
+            $itemVenta[$key][2] = $value["cantidad"]; // Cantidad
+            $itemVenta[$key][3] = $value["subtotal"] / $value["cantidad"]; // Precio
+            $itemVenta[$key][4] = $value["subtotal"];   // Subtotal
 
         }
 
 
         $data[1] = $itemVenta;
-
 
         header('Content-Type: application/json');
 
@@ -95,7 +95,6 @@ class Api extends Controller  {
         $query2 = Controller::$connection->query("SELECT * FROM detalle_compra INNER JOIN PRODUCTO ON detalle_compra.idproducto = PRODUCTO.idproducto WHERE idCompra = '$cod'");
 
 
-
         if($query1 && $query2) {
 
             $data[0] = $query1->fetchAll(PDO::FETCH_ASSOC);
@@ -106,11 +105,11 @@ class Api extends Controller  {
         foreach($data[1] as $key => $value) {
 
 
-            $itemVenta[$key][0] = $value[2]; // ID
-            $itemVenta[$key][1] = $value[6]; // PRODUCTO
-            $itemVenta[$key][2] = $value[13]; // Cantidad
-            $itemVenta[$key][3] = $value[4] / $value[13]; // Precio
-            $itemVenta[$key][4] = $value[4];   // Subtotal
+            $itemVenta[$key][0] = $value["idproducto"]; // ID
+            $itemVenta[$key][1] = $value["nombre"]; // PRODUCTO
+            $itemVenta[$key][2] = $value["cantidad"]; // Cantidad
+            $itemVenta[$key][3] = $value["subtotal"] / $value["cantidad"]; // Precio
+            $itemVenta[$key][4] = $value["subtotal"];   // Subtotal
 
         }
 
@@ -174,7 +173,6 @@ class Api extends Controller  {
             $itemVenta[0][3] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
 
 
-
             header('Content-Type: application/json');
 
             echo json_encode($itemVenta);
@@ -195,7 +193,6 @@ class Api extends Controller  {
             $itemVenta[0][1] = $param;      // Cantidad
             $itemVenta[0][2] = $data[0][3]; // Precio
             $itemVenta[0][3] = sprintf('%0.2f', round($param * $data[0][3], 2, 2));   // Subtotal
-
 
 
             header('Content-Type: application/json');
@@ -818,7 +815,6 @@ class Api extends Controller  {
 
         foreach($data_detalle as $key => $value) {
 
-
             $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
 
             $producto = $query->fetchAll(PDO::FETCH_NUM);
@@ -871,23 +867,17 @@ class Api extends Controller  {
 
              }
 
-
             $output[0] = ["Inserted"];
             $output[1] = [$insert];
 
-
             echo json_encode($output);
-
 
         }
         else {
 
-
             echo json_encode($out);
 
         }
-
-
 
  }
 
@@ -1109,11 +1099,11 @@ class Api extends Controller  {
     public function askExistencia($data, $table, $key, $cod) {
 
         $existencia = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod'");
-        $existencia = $existencia->fetchAll(PDO::FETCH_ASSOC);
+        $exist = $existencia->fetch(PDO::FETCH_ASSOC);
 
         header('Content-Type: application/json');
 
-        echo json_encode($existencia);
+        echo json_encode($exist);
 
     }
 
