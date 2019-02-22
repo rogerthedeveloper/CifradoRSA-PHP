@@ -1151,7 +1151,8 @@ class Api extends Controller  {
 
     public function askExistencia($data, $table, $key, $cod) {
 
-        $existencia = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod'");
+        $existencia = Controller::$connection->query("SELECT * FROM $table AS I INNER JOIN producto AS P on P.idproducto = I.idproducto WHERE P.$key = '$cod'");
+        
         $exist = $existencia->fetch(PDO::FETCH_ASSOC);
 
         header('Content-Type: application/json');

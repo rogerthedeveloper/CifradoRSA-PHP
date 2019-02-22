@@ -520,8 +520,8 @@ try {
                                     id: '<?php echo $value[0]; ?>',
                                     text: '<?php if (isset($value[0])) {
                                                 echo $value[0];
-                                            } ?><?php if (isset($value[1])) {
-                                                    echo " - " . $value[1];
+                                            } ?><?php if (isset($value[2])) {
+                                                    echo " - " . $value[2];
                                                 } ?>'
                                 },
 
@@ -545,12 +545,9 @@ try {
 
             <center>
 
-
-
-                    <button id="add" type="button" class="btn btn-success btn-md" disabled>
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Añadir
-                    </button>
-
+                <button id="add" type="button" class="btn btn-success btn-md" disabled>
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Añadir
+                </button>
 
                 <button id="remove" type="button" class="btn btn-danger btn-md" disabled>
                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar
@@ -572,8 +569,6 @@ try {
                 </thead>
 
                 <tbody>
-
-                        
 
 
                 </tbody>
@@ -721,9 +716,7 @@ try {
 
                             $("#remove").attr("disabled", true);
 
-
                         }
-
 
                     });
 
@@ -815,7 +808,6 @@ try {
                                         }
 
 
-
                                     });
 
 
@@ -834,15 +826,13 @@ try {
 
                             });
 
+                    }
 
-
-                        }
-
-
-                    });
+            });
 
                     
 function addItemScanCompra(code, nombre, cantidad, precio) {
+
 
     $(".hacerCompra").attr("disabled", false);
 
@@ -896,6 +886,8 @@ function scanProductoCompra(code) {
 
             if(r) {
 
+                costo = r.preciocosto;
+
                 responsiveVoice.speak("Ingresa la cantidad comprada de "+r.nombre, idioma);
                 swal({
                     title: 'Inventario',
@@ -929,9 +921,11 @@ function scanProductoCompra(code) {
                             
                             if (result.value || result.value == " ") {
 
-                                precio = result.value;
+                                nCosto = result.value;
 
-                                $.ajax({
+                                if(nCosto != costo) {
+
+                                    $.ajax({
                                     url: "../classes/Api.php?action=updateProducto",
                                     method: "POST",
                                     data: { 
@@ -946,7 +940,14 @@ function scanProductoCompra(code) {
                                         addItemScanCompra(code, r.nombre, cantidad, precio);
 
                                     }
-                                })
+                                    })
+
+                                }
+                                else {
+
+                                    addItemScanCompra(code, r.nombre, cantidad, precio);
+
+                                }
 
                             }
                             
@@ -1039,9 +1040,9 @@ function scanProductoCompra(code) {
                                                     "preciocosto": precio,
                                                     "precioSugerido": 1,
                                                     "precioTop": 1,
-                                                    "marca": "Toyota",
-                                                    "serie": "A",
-                                                    "modelo": "B",
+                                                    "marca": "",
+                                                    "serie": "",
+                                                    "modelo": "",
                                                 },  
                                                 "table": "producto"
                                                 },

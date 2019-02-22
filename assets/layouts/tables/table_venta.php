@@ -313,9 +313,9 @@ try {
                     <?php $FKData = Controller::$connection->query("SELECT * FROM " . $FK_table[$counter][0]);
 
 
-                    $FKData = $FKData->fetchAll(PDO::FETCH_NUM); ?>
+                    $FKData = $FKData->fetchAll(PDO::FETCH_NUM);  ?>
 
-
+                   
 
                 <?php foreach ($FKData as $key => $value) : ?>
 
@@ -450,7 +450,6 @@ try {
            
             <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Venta</b>
 
-
             <div class="well">
 
             <div class="border-radius">
@@ -488,7 +487,6 @@ try {
 
                                     $("#add").removeAttr("disabled");
 
-
                                 }
                                 else {
 
@@ -522,9 +520,9 @@ try {
                   <label for="unidadVenta">
                       Libra
                   </label>
+
                 </div>-->
                 
-
                 </div>
 
                 <br>
@@ -547,13 +545,13 @@ try {
 
                                 {
                                     id: '<?php echo $value[0]; ?>',
-                                    text: '<?php if (isset($value[1])) {
-                                                echo $value[1];
-                                            } ?><?php if (isset($value[3])) {
-                                                    echo " - Menor Q. " . $value[3];
+                                    text: '<?php if (isset($value[0])) {
+                                                echo $value[0];
+                                            } ?><?php if (isset($value[2])) {
+                                                    echo " - " . $value[2];
                                                 } ?><?php if (isset($value[4])) {
-                                                        echo " - Mayor Q. " . $value[4];
-                                                    } ?>'
+                                                    echo " - Precio: Q" . $value[4];
+                                                } ?>'
                                 },
 
 
@@ -630,6 +628,7 @@ try {
                     if(e.keyCode === 13 && code.length > 1) {
 
                         //alert(code);
+
                         scanProductVenta(code);
 
                     }
@@ -665,7 +664,6 @@ try {
 
 
                 </tbody>
-
 
 
             </table>
@@ -783,18 +781,18 @@ try {
 
                             url: "../classes/Api.php?action=askExistencia",
                             method: "POST",
-                            data: { "data": {"id_producto": this.value}, "table": "producto", "key": "idproducto", "cod": this.value},
+                            data: { "data": {"id_producto": this.value}, "table": "inventario", "key": "idproducto", "cod": this.value},
                             dataType: "JSON",
                             success: function(r) {
 
-                                if(r[0]) {
+                                if(r) {
 
-                                    $(".existencia-cantidad span").html(r[0].cantidad);
+                                    $(".existencia-cantidad span").html(r.existencia);
 
                                 }
                                 else {
 
-                                    $(".existencia-cantidad span").html("Seleccionar Producto");
+                                    $(".existencia-cantidad span").html(0);
 
                                 }
 
@@ -815,8 +813,6 @@ $(".hacerVenta").attr("disabled", false);
 
 $("#add").attr("disabled", true);
 
-
-cant = 1;
 
 descuento = $("#descuentoCtn").val();
 
@@ -839,7 +835,6 @@ $("#descuentoCtn").val(0);
 
 $('#precioMayorista').removeAttr("checked");
 
-
     id = producto_code;
 
 
@@ -849,56 +844,120 @@ $('#precioMayorista').removeAttr("checked");
 
     });
 
-
-  $.ajax({
-
-    url: "../classes/Api.php?action=addItemVenta",
+  
+$.ajax({
+    url: "../classes/Api.php?action=askExistencia",
     method: "POST",
-    data: { "data": {"cantidad": cant, "descuento": descuento, "precioMayorista": precioMayorista}, "table": "producto", "key": "idproducto", "cod": id},
+    data: { "data": {"id_producto": code}, "table": "inventario", "key": "idproducto", "cod": code},
     dataType: "JSON",
     success: function(r) {
 
-      if(r != "error_descuento" &&  r != "error_id_product") {
+    stock = r.existencia;
 
-          console.log(r);
-          
-          total = total + parseFloat(r[0][4]);
+if(r) {
 
-          $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+swal({
+    title: 'Inventario',
+    html: '<strong>'+r.nombre+'</strong><br> Ingresa la "Cantidad a Vender"',
+    input: 'text',
+    type: 'info',
+    showCancelButton: true,
+    confirmButtonText: 'Agregar',
+    cancelButtonText: 'Cancelar',
+    showLoaderOnConfirm: true,
+    allowOutsideClick: true
+}).then((result) => {
 
-          $(".detalle_venta_table").DataTable().rows.add(r).draw();
+    if (result.value || result.value == " ") {
 
-          $("#remove").attr("disabled", true);
+        console.log(r);
+        
+        cantidad = result.value 
 
-      }
+        if(cantidad <= stock) {
 
-      else if(r == "error_id_product") {
+            $.ajax({
 
-        swal({
-          title: 'Existencia de Producto',
-          text: "Error, El producto no existe en el inventario.",
-          type: 'error',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'Aceptar'
-        });
+url: "../classes/Api.php?action=addItemVenta",
+method: "POST",
+data: { "data": {"cantidad": cantidad, "descuento": descuento, "precioMayorista": precioMayorista}, "table": "producto", "key": "idproducto", "cod": id},
+dataType: "JSON",
+success: function(r) {
 
-      }
+  if(r != "error_descuento" &&  r != "error_id_product") {
 
-      else {
+      console.log(r);
+      
+      total = total + parseFloat(r[0][4]);
 
-        swal({
-          title: 'Descuento de Producto',
-          text: "Error, el descuento que aplicaste supera al precio del producto.",
-          type: 'error',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'Aceptar'
-        });
+      $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
-      }
+      $(".detalle_venta_table").DataTable().rows.add(r).draw();
+
+      $("#remove").attr("disabled", true);
+
+  }
+
+  else if(r == "error_id_product") {
+
+    swal({
+      title: 'Existencia de Producto',
+      text: "Error, El producto no existe en el inventario.",
+      type: 'error',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Aceptar'
+    });
+
+  }
+
+  else {
+
+    swal({
+      title: 'Descuento de Producto',
+      text: "Error, el descuento que aplicaste supera al precio del producto.",
+      type: 'error',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Aceptar'
+    });
+
+  }
+
+}
+
+});
+
+        }
+        else {
+
+            swal({
+                title: 'Existencia de Producto',
+                text: "Error, no hay stock.",
+                type: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+
+        }
 
     }
 
+});
 
+}
+else {
+
+swal({
+        title: 'Existencia de Producto',
+        text: "Error, El producto no existe en el inventario.",
+        type: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar'
+    });
+
+
+}
+
+}
 });
 
 }
