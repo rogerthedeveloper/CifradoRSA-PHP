@@ -1037,7 +1037,6 @@ class Api extends Controller  {
         $saldo = $data[0]["saldo"];
 
 
-
         if(($saldo - $total_abono) >= 0 ) {
 
              $query = Controller::$connection->query("UPDATE cliente as C SET C.saldo  = C.saldo - $total_abono WHERE C.idcliente = '$idcliente'");
