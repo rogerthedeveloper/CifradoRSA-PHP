@@ -14,32 +14,19 @@ setlocale(LC_TIME, "ES");
 ?>
 <?php
 
-// Concatenar el dia a las variables de rango de fechas 
-$cod2 = $cod . '-01';
-$cod3 = $cod . '-31';
+//Asigna a variables string de la trama
+$idproducto = substr($data, -6, 4);
+$cod2 = substr($data, -30, 10);
 
-$queryProductos = Controller::$connection->query("SELECT dv.idproducto, p.nombre, COUNT(dv.idproducto), SUM(dv.cantidad) AS TOTAL
-        FROM venta AS v
-        INNER JOIN detalle_venta as dv ON dv.idventa = v.idventa
-        INNER JOIN producto AS p ON p.idproducto = dv.idproducto
-        WHERE v.fecha BETWEEN '$cod2' AND '$cod3'
-        GROUP BY dv.idproducto
-        ORDER BY TOTAL DESC
-        LIMIT 5");
-
-$queryProductosMenos = Controller::$connection->query("SELECT dv.idproducto, p.nombre, COUNT(dv.idproducto), SUM(dv.cantidad) AS TOTAL
-        FROM venta AS v
-        INNER JOIN detalle_venta as dv ON dv.idventa = v.idventa
-        INNER JOIN producto AS p ON p.idproducto = dv.idproducto
-        WHERE v.fecha BETWEEN '$cod2' AND '$cod3'
-        GROUP BY dv.idproducto
-        ORDER BY TOTAL ASC
-        LIMIT 5");
+$queryProductos = Controller::$connection->query("SELECT i.fecha, i.idproducto, p.nombre, i.tipoMovimiento, i.ingreso, i.egreso, i.existencia
+        FROM inventario AS i
+        INNER JOIN producto AS p ON p.idproducto = i.idproducto
+        WHERE i.fecha BETWEEN '$cod' AND '$cod2' 
+            AND i.idproducto = '$idproducto'");
 
 if($queryProductos->rowCount()) {
 
-    $dataProductos = $queryProductos->fetch(PDO::FETCH_ASSOC);
-    $dataProductosMenos = $queryProductosMenos->fetch(PDO::FETCH_ASSOC);
+    $dataProductos = $queryProductos->fetchAll(PDO::FETCH_ASSOC);
 
 }else {
     die("No hay datos.");
@@ -88,32 +75,25 @@ $pdf->AddPage('P', 'LETTER');
 
 // declaro variable detalle
 $detalle = "";
-$detalle2 = "";
+
+$produ = $dataProductos[0]["nombre"];
 
 // Carga los productos a la variable detalle
     foreach($dataProductos as $key => $value) {
 
       $detalle .= "<tr>
 
+      <td>".$value["fecha"]."</td>
       <td>".$value["idproducto"]."</td>
       <td>".$value["nombre"]."</td>
-      <td>".$dataExistencia["TOTAL"]."</td>
+      <td>".$value["tipoMovimiento"]."</td>
+      <td>".$value["ingreso"]."</td>
+      <td>".$value["egreso"]."</td>
+      <td>".$value["existencia"]."</td>
 
       </tr>";
 
   }
-
-  foreach($dataProductosMenos as $key => $value) {
-
-    $detalle2 .= "<tr>
-
-    <td>".$value["idproducto"]."</td>
-    <td>".$value["nombre"]."</td>
-    <td>".$dataExistencia["TOTAL"]."</td>
-
-    </tr>";
-
-}
 
 
 // define some HTML content with style
@@ -138,41 +118,30 @@ h1 {
     <title> Existencia </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Productos más Vendidos </h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Movimiento</h1></div>
+    <div> </div>
+    <div style="text-align:center; line-height: 1px;"><h2> Del Producto: <u>"$produ"</u> </h2></div>
+    <div> </div>
+    <div style="text-align:center; line-height: 1px;"><h2> De la Fecha <u>"$cod"</u> para la Fecha <u>"$cod2"</u> </h2></div>
     <div style="text-align:center;"> MISCELANEA EL EDEN </div>
     <div> </div>
-    <br>
 
-    <h2>Productos Más Vendidos</h2>
+    <h3>Movimiento:</h3>
     <table width="100%" cellpadding="5" border="1" align="center">
 
     <tr align='center'>
+        <td><strong><big>Fecha</big></strong></td>
         <td><strong><big>Código de Producto</big></strong></td>
         <td><strong><big>Nombre del Producto</big></strong></td>
-        <td><strong><big>Total Vendido</big></strong></td>
+        <td><strong><big>Tipo de Movimiento</big></strong></td>
+        <td><strong><big>Ingreso</big></strong></td>
+        <td><strong><big>Egreso</big></strong></td>
+        <td><strong><big>Existencia</big></strong></td>
     </tr>
 
         $detalle
 
     </table>
-
-    <br>
-    <br>
-    <br>
-    
-    <h2>Productos Menos Vendidos</h2>
-    <table width="100%" cellpadding="5" border="1" align="center">
-
-    <tr align='center'>
-        <td><strong><big>Código de Producto</big></strong></td>
-        <td><strong><big>Nombre del Producto</big></strong></td>
-        <td><strong><big>Total Vendido</big></strong></td>
-    </tr>
-
-        $detalle2
-
-    </table>
-
     
 </body>
 </html>
