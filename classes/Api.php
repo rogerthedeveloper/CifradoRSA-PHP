@@ -928,7 +928,7 @@ class Api extends Controller  {
         }
         else {
 
-            echo json_encode($out);
+            echo json_encode($output);
 
         }
 
@@ -940,11 +940,9 @@ class Api extends Controller  {
    public function hacerDevolucion($table, $data, $data_detalle) {
 
        header('Content-Type: application/json');
-
-       
+  
 
            foreach($data_detalle as $key => $value) {
-
 
                $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
 
@@ -1009,7 +1007,7 @@ class Api extends Controller  {
            }
            else {
 
-               echo json_encode($out);
+               echo json_encode($output);
 
            }
 
