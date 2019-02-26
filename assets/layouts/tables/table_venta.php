@@ -121,7 +121,7 @@ try {
                         <script>
 
 
-                            $(document).ready(function() {
+            $(document).ready(function() {
 
 
               $("button.nextVenta").on("click", function()    {
@@ -246,7 +246,6 @@ try {
 
 
                   });
-
 
 
               });

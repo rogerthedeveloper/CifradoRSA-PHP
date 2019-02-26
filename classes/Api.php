@@ -236,8 +236,8 @@ class Api extends Controller  {
 
         if($param["precioMayorista"] == 1) {
 
-          $itemVenta[0][3] = $data[0][4]; // Precio
-          $precio = $data[0][4]; // Precio
+          $itemVenta[0][3] = $data[0][5]; // Precio
+          $precio = $data[0][5]; // Precio
 
           if($param["cantidad"] < 1) {
 
@@ -250,8 +250,8 @@ class Api extends Controller  {
         }
         else {
 
-          $itemVenta[0][3] = $data[0][3]; // Precio
-          $precio = $data[0][3]; // Precio
+          $itemVenta[0][3] = $data[0][4]; // Precio
+          $precio = $data[0][4]; // Precio
 
           if($param["cantidad"] < 1) {
 
@@ -878,7 +878,7 @@ public function hacerCompra($table, $data, $data_detalle) {
 
     if($mensaje === true) {
 
-        
+
         $values = Controller::values($data);
 
         $query = Controller::$connection->query("INSERT INTO $table $values");
