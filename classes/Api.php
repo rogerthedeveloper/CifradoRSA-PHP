@@ -859,84 +859,87 @@ class Api extends Controller  {
     }
 
 
-    // Hacer Compra
+// Hacer Compra
+public function hacerCompra($table, $data, $data_detalle) {
 
-   public function hacerCompra($table, $data, $data_detalle) {
 
     header('Content-Type: application/json');
+        
+
+    foreach($data_detalle as $key => $value) {
+
+        $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
+
+        $producto = $query->fetch(PDO::FETCH_ASSOC);
+
+        $mensaje = $this->manageInventario($producto["idproducto"], $data["fecha"], $value[2], "compra");
+
+    }
+
+    if($mensaje === true) {
+
+        
+        $values = Controller::values($data);
+
+        $query = Controller::$connection->query("INSERT INTO $table $values");
+
+        $insert = Controller::$connection->lastInsertId();
 
 
-        foreach($data_detalle as $key => $value) {
+        $totalVenta = 0;
 
-            $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
+        $tipo_venta = $data["idtipo_venta"];
 
-            $producto = $query->fetchAll(PDO::FETCH_NUM);
+        if($tipo_venta == 1) {
 
-            $mensaje = true;
+          foreach ($data_detalle as $key => $value) {
+
+
+              $values = "('$insert', '$value[0]', $value[2], $value[4])";
+
+              $query = Controller::$connection->query("INSERT INTO detalle_compra (idcompra, idproducto, cantidad, subtotal) VALUES $values");
+
+              $cant = $value[2];
+
+              $c = $value[0];
+
+              $totalVenta = $totalVenta + $value[4];
+
+          }
+
+          $this->actualizarCaja($totalVenta, $data, "ingreso");
+
+        }
+        else if($tipo_venta == 2) {
+
+          foreach ($data_detalle as $key => $value) {
+
+
+              $values = "('$insert', '$value[0]', $value[2], $value[4])";
+
+              $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
+
+              $totalVenta = $totalVenta + $value[4];
+
+          }
+
+          $this->actualizarSaldoCredito($data, $totalVenta);
 
         }
 
+        $output[0] = ["Inserted"];
+        $output[1] = [$insert];
 
-        if($mensaje === true) {
+        echo json_encode($output);
 
-
-            $values = Controller::values($data);
-
-            $query = Controller::$connection->query("INSERT INTO $table $values");
-
-            $insert = Controller::$connection->lastInsertId();
-
-
-            $totalDevolucion = 0;
-
-
-            foreach ($data_detalle as $key => $value) {
-
-
-                $values = "('$insert', '$value[0]', $value[1], $value[3])";
-
-
-                $query = Controller::$connection->query("INSERT INTO detalle_compra (id_devolucion, idproducto, cantidad, subtotal) VALUES $values");
-
-
-                $query = Controller::$connection->query("UPDATE producto SET cantidad = cantidad + $value[1] WHERE idproducto = '$value[0]'");
-
-
-                $totalDevolucion = $totalDevolucion + $value[3];
-
-            }
-
-            $idVentaDevoluocion = $data["idventa"];
-
-            $query = Controller::$connection->query("SELECT * FROM venta WHERE idventa = '$idVentaDevoluocion'");
-
-            $dataVentaDevolucion = $query->fetchAll(PDO::FETCH_ASSOC);
-
-
-             if($dataVentaDevolucion[0]["idtipo_venta"] == 1) {
-
-                 $this->actualizarCaja($totalDevolucion, $data, "egreso");
-
-             }
-
-            $output[0] = ["Inserted"];
-            $output[1] = [$insert];
-
-            echo json_encode($output);
-
-        }
-        else {
-
-            echo json_encode($output);
-
-        }
+    }
 
  }
 
 
-    // Hacer Devolucion
+// Hacer Devolucion
 
-   public function hacerDevolucion($table, $data, $data_detalle) {
+public function hacerDevolucion($table, $data, $data_detalle) {
 
        header('Content-Type: application/json');
   

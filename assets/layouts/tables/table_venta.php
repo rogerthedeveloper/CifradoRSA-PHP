@@ -354,9 +354,7 @@ try {
                                 </span>
                                 <input id="<?php echo $value[0]; ?>" 
                                 type="text" 
-                                class="<?php if ($value[1] == " date") {
-                                    echo "datepicker";
-                                 } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon"
+                                class="<?php if ($value[1] == "date") { echo "datepicker";} ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon"
                                 <?php if ($value[5] == "auto_increment") {
                                     echo "disabled";
                                 } ?>>
@@ -821,7 +819,7 @@ try {
             precioMayorista = 0;
 
         }
-        
+
 
         $("#cantidadCtn").val(0);
 
