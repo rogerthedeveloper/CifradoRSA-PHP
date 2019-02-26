@@ -286,12 +286,8 @@ try {
 
                    total = 0;
 
-
-
-
                   switchUDVenta(control, false);
                   refreshDetailVenta(form);
-
 
 
               });
@@ -320,8 +316,8 @@ try {
                                         echo $value[0];
                                     } ?><?php if (isset($value[1])) {
                                             echo " - " . $value[1];
-                                        } ?><?php if (isset($value[2])) {
-                                                echo " - " . $value[2];
+                                        } ?><?php if (isset($value[3])) {
+                                                echo " - " . $value[3];
                                             } ?>'
                         },
 
