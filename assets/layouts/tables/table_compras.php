@@ -659,11 +659,9 @@ try {
 
                         $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
-
                         detalle_compra_table.row().remove().draw();
 
                         $("#remove").attr("disabled", true);
-
 
                     });
 
@@ -861,7 +859,7 @@ function addItemScanCompra(code, nombre, cantidad, precio) {
         dataType: "JSON",
         success: function(r) {
 
-            total = total + parseFloat(r[0][3]);
+            total = total + parseFloat(r[0][3] * cant);
 
             $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
@@ -888,7 +886,7 @@ function scanProductoCompra(code) {
 
                 costo = r.preciocosto;
 
-                responsiveVoice.speak("Ingresa la cantidad comprada de "+r.nombre, idioma);
+                //responsiveVoice.speak("Ingresa la cantidad comprada de "+r.nombre, idioma);
                 swal({
                     title: 'Inventario',
                     html: '<strong>'+r.nombre+'</strong><br> Ingresa la "Cantidad Comprada"',
@@ -905,7 +903,7 @@ function scanProductoCompra(code) {
 
                         cantidad = result.value;
    
-                        responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
+                        //responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
                         
                         swal({
                             title: 'Inventario',
@@ -931,13 +929,14 @@ function scanProductoCompra(code) {
                                     data: { 
                                         "data": {
                                             "idproducto": code,
+                                            "preciocosto": nCosto,
                                         },  
                                         "table": "producto"
                                     },
                                     dataType: "JSON",
                                     success: function(r) {
 
-                                        addItemScanCompra(code, r.nombre, cantidad, precio);
+                                        addItemScanCompra(code, r.nombre, cantidad, nCosto);
 
                                     }
                                     })
@@ -945,7 +944,7 @@ function scanProductoCompra(code) {
                                 }
                                 else {
 
-                                    addItemScanCompra(code, r.nombre, cantidad, precio);
+                                    addItemScanCompra(code, r.nombre, cantidad, costo);
 
                                 }
 
@@ -960,7 +959,7 @@ function scanProductoCompra(code) {
             } 
             else {
 
-            responsiveVoice.speak("No he encontrado este producto en mi base de datos, ¿Quieres agregarlo al sistema?'.", idioma);
+            //responsiveVoice.speak("No he encontrado este producto en mi base de datos, ¿Quieres agregarlo al sistema?'.", idioma);
                
             swal({
                 title: 'Compras',
@@ -975,7 +974,7 @@ function scanProductoCompra(code) {
 
                 if (result.value || result.value == " ") {
 
-                    responsiveVoice.speak("Muy bien, ingresa el nombre del producto.", idioma);
+                    //responsiveVoice.speak("Muy bien, ingresa el nombre del producto.", idioma);
 
                     swal({
                         title: 'Inventario',
@@ -993,7 +992,7 @@ function scanProductoCompra(code) {
 
                             nombre = result.value;
 
-                            responsiveVoice.speak("Ahora, Ingresa la cantidad comprada de este producto.", idioma);
+                            //responsiveVoice.speak("Ahora, Ingresa la cantidad comprada de este producto.", idioma);
 
                             swal({
                                 title: 'Inventario',
@@ -1011,7 +1010,7 @@ function scanProductoCompra(code) {
 
                                     cantidad = result.value;
 
-                                    responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
+                                    //responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
 
                                     swal({
                                         title: 'Inventario',

@@ -17,13 +17,9 @@ try {
 
         $fields = $fields->fetchAll(PDO::FETCH_NUM);
     }
-
-
-
 } catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
-
 }
 
 
@@ -36,29 +32,25 @@ try {
     if ($registries) {
 
         $registries = $registries->fetchAll(PDO::FETCH_NUM);
-
     }
 } catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
-
 }
 
 
 try {
 
 
-    $productos = Controller::$connection->query("SELECT * FROM producto  order by preciocosto DESC");
+    $productos = Controller::$connection->query("SELECT * FROM producto order by preciocosto DESC");
 
     if ($productos) {
 
         $productos = $productos->fetchAll(PDO::FETCH_NUM);
-
     }
 } catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
-
 }
 
 /* End Form Construct Data */
@@ -71,62 +63,65 @@ try {
     <div class="panel-heading">
         <h3 class="panel-title"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 
-            <a data-toggle="collapse" data-target="#<?php echo $table_name . "-panel"; ?>">
-                <strong><?php echo $table_title; ?></strong>
+            <a data-toggle="collapse" data-target="#<?php echo $table_name . " -panel"; ?>">
+                <strong>
+                    <?php echo $table_title; ?></strong>
             </a>
 
         </h3>
 
     </div>
 
-    <div id="<?php echo $table_name . "-panel"; ?>" class="panel-collapse collapse in">
+    <div id="<?php echo $table_name . " -panel"; ?>" class="panel-collapse collapse in">
 
-    <div class="panel-body">
-
-
-    <div class="col-md-<?php if ($options["photo"] == true) {
-                            echo "8";
-                        } else {
-                            echo "12";
-                        } ?>">
-
-        <div class="well">
+        <div class="panel-body">
 
 
-            <div class="inputs_wrapper" style="max-height: inherit;">
+            <div class="col-md-<?php if ($options[" photo"] == true) {
+                                    echo "8";
+                                } else {
+                                    echo "12";
+                                } ?>">
+
+                <div class="well">
 
 
-            <?php if ($fields) : ?>
-
-            <?php $counter = 0;
-            foreach ($fields as $key => $value) : ?>
+                    <div class="inputs_wrapper" style="max-height: inherit;">
 
 
+                        <?php if ($fields): ?>
 
-               <?php if ($value[3] == "MUL") : ?>
-
-
-        <div class="form-group">
-
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </span>
-
-                <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon">
-
-                    <option value="nothing"><?php echo strtoupper($value[0]); ?></option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-        <script>
+                        <?php $counter = 0;
+                        foreach ($fields as $key => $value): ?>
 
 
-            $(document).ready(function() {
+
+                        <?php if ($value[3] == "MUL"): ?>
+
+
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </span>
+
+                                <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon">
+
+                                    <option value="nothing">
+                                        <?php echo strtoupper($value[0]); ?>
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <script>
+
+
+                            $(document).ready(function() {
 
 
               $("button.nextVenta").on("click", function()    {
@@ -317,7 +312,7 @@ try {
 
                    
 
-                <?php foreach ($FKData as $key => $value) : ?>
+                <?php foreach ($FKData as $key => $value): ?>
 
                         {
                             id: '<?php echo $value[0]; ?>',
@@ -348,78 +343,81 @@ try {
         </script>
 
 
-                <?php $counter++;
-                else : ?>
+                        <?php $counter++;
+                    else: ?>
 
-        <div class="form-group">
+                        <div class="form-group">
 
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </span>
-                <input id="<?php echo $value[0]; ?>" type="text" class="<?php if ($value[1] == "date") {
-                                                                            echo "datepicker";
-                                                                        } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if ($value[5] == "auto_increment") {
-                                                                                                                                                                                echo "disabled";
-                                                                                                                                                                            } ?>>
-            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </span>
+                                <input id="<?php echo $value[0]; ?>" 
+                                type="text" 
+                                class="<?php if ($value[1] == " date") {
+                                    echo "datepicker";
+                                 } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon"
+                                <?php if ($value[5] == "auto_increment") {
+                                    echo "disabled";
+                                } ?>>
+                            </div>
 
-        </div>
+                        </div>
 
+                        <?php endif; ?>
 
-        <?php endif; ?>
+                        <?php endforeach; ?>
 
+                        <?php else: ?>
 
-            <?php endforeach; ?>
+                        <div style="font-size: 16px;">
+                            <center>Error: tabla especificada no existe en la base de datos.</center>
+                        </div>
 
-                <?php else : ?>
-
-                 <div style="font-size: 16px;"><center>Error: tabla especificada no existe en la base de datos.</center></div>
-
-                <?php endif; ?>
-
-
-            </div>
-
-            <br>
+                        <?php endif; ?>
 
 
+                    </div>
 
-                <div style="text-align: center;">
+                    <br>
 
-                    <button id="new" type="button" class="newVenta btn btn-success btn-md">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
-                    </button>
 
-                     <button id="create" type="button" class="hacerVenta btn btn-primary btn-md btn-md" disabled>
-                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Venta
-                    </button>
 
-                    <!-- <button id="delete" type="button" class="deleteVenta btn btn-danger btn-md" disabled>
+                    <div style="text-align: center;">
+
+                        <button id="new" type="button" class="newVenta btn btn-success btn-md">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
+                        </button>
+
+                        <button id="create" type="button" class="hacerVenta btn btn-primary btn-md btn-md" disabled>
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Venta
+                        </button>
+
+                        <!-- <button id="delete" type="button" class="deleteVenta btn btn-danger btn-md" disabled>
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Borrar
-                    </button> -->
+                        </button> -->
 
-                    <button id="prev" type="button" class="prevVenta btn btn-warning btn-md">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior
-                    </button>
+                        <button id="prev" type="button" class="prevVenta btn btn-warning btn-md">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior
+                        </button>
 
-                    <button id="next" type="button" class="nextVenta btn btn-warning btn-md">
-                        Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </button>
+                        <button id="next" type="button" class="nextVenta btn btn-warning btn-md">
+                            Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </button>
 
-                    <button id="print" template="venta" type="button" class="print btn btn-default btn-md" disabled>
-                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Recibo
-                    </button>
+                        <button id="print" template="venta" type="button" class="print btn btn-default btn-md" disabled>
+                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Recibo
+                        </button>
+
+                    </div>
+
 
                 </div>
 
 
-        </div>
+            </div>
 
-
-    </div>
-
-        <?php if ($options["photo"] == true) : ?>
+            <?php if ($options["photo"] == true): ?>
 
             <div class="col-md-4">
 
@@ -427,7 +425,7 @@ try {
 
                     <div style="text-align: center;">
 
-                    <img class="form_image" src="../assets/img/no_pic.jpg">
+                        <img class="form_image" src="../assets/img/no_pic.jpg">
 
                         <br>
 
@@ -443,97 +441,93 @@ try {
 
             </div>
 
-        <?php endif; ?>
+            <?php endif; ?>
 
-    <div class="col-md-7">
-
-           
-            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Venta</b>
-
-            <div class="well">
-
-            <div class="border-radius">
-
-                <div class="col-md-8">
+            <div class="col-md-7">
 
 
-                <select id="producto" class="form-control" aria-describedby="basic-addon">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Venta</b>
 
-                    <option value="nothing">Selecciona un Producto</option>
+                <div class="well">
 
-                </select>
+                    <div class="border-radius">
 
-                <div class="existencia-cantidad">Existencia: <span>Seleccionar Producto</span></div>
-
-
-            </div>
-
-            <div class="col-md-4">
+                        <div class="col-md-8">
 
 
-                <div class="form-group">
+                            <select id="producto" class="form-control" aria-describedby="basic-addon">
 
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        </span>
+                                <option value="nothing">Selecciona un Producto</option>
 
-                        <script type="text/javascript">
+                            </select>
 
-                            function enableAdd(cantidad) {
+                            <div class="existencia-cantidad">Existencia: <span>Seleccionar Producto</span></div>
 
 
-                                if($("select#producto").val() != 0 && $(cantidad).val() > 0) {
+                        </div>
 
-                                    $("#add").removeAttr("disabled");
-
-                                }
-                                else {
-
-                                    $("#add").attr("disabled", true);
-
-                                }
-
-                            }
+                        <div class="col-md-4">
 
 
-                        </script>
+                            <div class="form-group">
+
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    </span>
+
+                                    <script type="text/javascript">
+                                        function enableAdd(cantidad) {
 
 
-                        <input id="cantidadCtn" min="0" type="number" value="0" class="form-control" placeholder="CANTIDAD" aria-describedby="basic-addon" onchange="enableAdd(this)">
+                                            if ($("select#producto").val() != 0 && $(cantidad).val() > 0) {
 
-                    </div>
+                                                $("#add").removeAttr("disabled");
 
-                </div>
+                                            } else {
 
-               <!--<div>
+                                                $("#add").attr("disabled", true);
 
-                <input value="1" name="unidadVenta" type="radio" checked>
-                <label for="unidadVenta">
-                    Unidad
-                </label>
-                </div>-->
+                                            }
 
-                <!--<div>
-
-                  <input value="0.01" name="unidadVenta" type="radio">
-                  <label for="unidadVenta">
-                      Libra
-                  </label>
-
-                </div>-->
-                
-                </div>
-
-                <br>
-
-                <br>
+                                        }
+                                    </script>
 
 
-                <script>
+                                    <input id="cantidadCtn" min="0" type="number" value="0" class="form-control" placeholder="CANTIDAD" aria-describedby="basic-addon" onchange="enableAdd(this)">
+
+                                </div>
+
+                            </div>
+
+                            <!--<div>
+
+                            <input value="1" name="unidadVenta" type="radio" checked>
+                            <label for="unidadVenta">
+                                Unidad
+                            </label>
+                            </div>-->
+
+                            <!--<div>
+
+                            <input value="0.01" name="unidadVenta" type="radio">
+                            <label for="unidadVenta">
+                                Libra
+                            </label>
+
+                            </div>-->
+
+                        </div>
+
+                        <br>
+
+                        <br>
 
 
-                $('#total').attr('disabled', 'disabled'); //Disable
+                    <script>
+
+
+                    $('#total').attr('disabled', 'disabled'); //Disable
 
 
                     $(document).ready(function() {
@@ -541,7 +535,7 @@ try {
                         $("select#producto").select2({ data:[
 
 
-                        <?php foreach ($productos as $key => $value) : ?>
+                        <?php foreach ($productos as $key => $value): ?>
 
                                 {
                                     id: '<?php echo $value[0]; ?>',
@@ -550,8 +544,8 @@ try {
                                             } ?><?php if (isset($value[2])) {
                                                     echo " - " . $value[2];
                                                 } ?><?php if (isset($value[4])) {
-                                                    echo " - Precio: Q" . $value[4];
-                                                } ?>'
+                                                        echo " - Precio: Q" . $value[4];
+                                                    } ?>'
                                 },
 
 
@@ -572,165 +566,164 @@ try {
 
                 </script>
 
-           
-            <center>
 
-              <div class="col-md-7">
+                        <center>
 
-                <div class="checkbox checkbox-info checkbox-circle">
-                  <input id="precioMayorista" type="checkbox">
-                  <label for="precioMayorista">
-                      Precio Mayorista
-                  </label>
+                            <div class="col-md-7">
+
+                                <div class="checkbox checkbox-info checkbox-circle">
+                                    <input id="precioMayorista" type="checkbox">
+                                    <label for="precioMayorista">
+                                        Precio Mayorista
+                                    </label>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-5">
+
+                                <div class="form-group ">
+
+                                    <label for="Descuento">Descuento</label>
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon">
+                                            <span aria-hidden="true"><strong>Q</strong></span>
+                                        </span>
+
+                                        <input id="descuentoCtn" min="0" type="text" value="0" class="form-control" placeholder="DESCUENTO C/U" aria-describedby="basic-addon">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button id="add" type="button" class="btn btn-success btn-md" disabled>
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Añadir
+                            </button>
+
+
+                            <button id="remove" type="button" class="btn btn-danger btn-md" disabled>
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar
+                            </button>
+
+                        </center>
+
+                    </div>
+                    <br>
+                    <br>
+
+                    <script>
+                        var code = "";
+
+                        window.addEventListener("keydown", (e) => {
+
+                            if (e.keyCode === 13 && code.length > 1) {
+
+                                //alert(code);
+
+                                scanProductVenta(code);
+
+                            } else {
+
+                                code += String.fromCharCode(e.keyCode);
+                            }
+
+                            setTimeout(() => {
+
+                                code = "";
+
+                            }, 250);
+
+                        });
+                    </script>
+
+                    <table id="" class="detalle_venta_table display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+
+                                <th>ID PRODUCTO</th>
+                                <th>NOMBRE</th>
+                                <th>CANTIDAD</th>
+                                <th>PRECIO</th>
+                                <th>SUBTOTAL</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                        </tbody>
+
+
+                    </table>
+
                 </div>
-
-
-              </div>
-              <div class="col-md-5">
-
-                  <div class="form-group ">
-
-                  <label for="Descuento">Descuento</label>
-
-                      <div class="input-group">
-                          <span class="input-group-addon" id="basic-addon">
-                              <span aria-hidden="true"><strong>Q</strong></span>
-                          </span>
-
-                  <input id="descuentoCtn" min="0" type="text" value="0" class="form-control" placeholder="DESCUENTO C/U" aria-describedby="basic-addon">
-
-                </div>
-              </div>
-
-              </div>
-
-                <button id="add" type="button" class="btn btn-success btn-md" disabled>
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Añadir
-                    </button>
-
-
-                <button id="remove" type="button" class="btn btn-danger btn-md" disabled>
-                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar
-                </button>
-
-            </center>
 
             </div>
-            <br>
-            <br>
-
-            <script>
-
-                var code = "";
-
-                window.addEventListener("keydown", (e) => {
-
-                    if(e.keyCode === 13 && code.length > 1) {
-
-                        //alert(code);
-
-                        scanProductVenta(code);
-
-                    }
-                    else {
-
-                        code += String.fromCharCode(e.keyCode);  
-                    }
-
-                    setTimeout(() => {
-
-                        code = ""; 
-
-                    }, 250);
-                   
-                });
-
-            </script>
-
-            <table id="" class="detalle_venta_table display" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-
-                        <th>ID PRODUCTO</th>
-                        <th>NOMBRE</th>
-                        <th>CANTIDAD</th>
-                        <th>PRECIO</th>
-                        <th>SUBTOTAL</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
-
-
-                </tbody>
-
-
-            </table>
-
-                </div>
-
-        </div>
 
 
 
-    <?php if ($options["detail"] == true) : ?>
+            <?php if ($options["detail"] == true): ?>
 
 
-        <div class="col-md-5">
+            <div class="col-md-5">
 
-            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> <b>Registro de Ventas</b>
+                <span class="glyphicon glyphicon-usd" aria-hidden="true"></span> <b>Registro de Ventas</b>
 
-            <div class="well">
-
-
-            <table id="<?php echo $table_name; ?>" class="detail_table_venta display" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-
-                        <th>idventa</th>
-                        <th>Fecha</th>
-                        <th>Cód.Cliente</th>
-                        <th>Tipo de Venta</th>
-                        <th>Forma Pago</th>
-                        <th>No. Cheque</th> 
-                        <th>Banco</th> 
-                        <th>Total</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
+                <div class="well">
 
 
-                <?php foreach ($registries as $key => $value) : ?>
-                <tr>
+                    <table id="<?php echo $table_name; ?>" class="detail_table_venta display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+
+                                <th>idventa</th>
+                                <th>Fecha</th>
+                                <th>Cód.Cliente</th>
+                                <th>Tipo de Venta</th>
+                                <th>Forma Pago</th>
+                                <th>No. Cheque</th>
+                                <th>Banco</th>
+                                <th>Total</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
 
 
-                    <?php foreach ($value as $key => $value) : ?>
-                        <td><?php echo $value; ?></td>
-                    <?php endforeach; ?>
+                            <?php foreach ($registries as $key => $value): ?>
+                            <tr>
 
 
-
-                </tr>
-                <?php endforeach; ?>
+                                <?php foreach ($value as $key => $value): ?>
+                                <td>
+                                    <?php echo $value; ?>
+                                </td>
+                                <?php endforeach; ?>
 
 
 
-                </tbody>
+                            </tr>
+                            <?php endforeach; ?>
 
 
-            </table>
+
+                        </tbody>
+
+
+                    </table>
 
                 </div>
 
+            </div>
+
+            <?php endif; ?>
+
+
         </div>
-
-        <?php endif; ?>
-
-
-    </div>
 
 
 
@@ -738,438 +731,458 @@ try {
 
 </div>
 
-        <script type="text/javascript">
+<script type="text/javascript">
+    var total = 0.00;
 
 
-                    var total = 0.00;
+    $("#remove").on('click', function() {
 
 
-                    $("#remove").on('click', function() {
+        r = detalle_venta_table.rows({
+            selected: true
+        }).data();
 
-
-                        r = detalle_venta_table.rows({ selected: true }).data();
-
-                        console.log(r[0]);
-
-                        
-
-                        total = total - parseFloat(r[0][4]);
-
-            
-                        $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
-
-
-                        detalle_venta_table.row('.selected').remove().draw(false);
-
-                        $("#remove").attr("disabled", true);
+        console.log(r[0]);
 
 
 
-                    });
+        total = total - parseFloat(r[0][4]);
 
 
-                    $('.detalle_venta_table tbody').on( 'click', 'tr', function () {
-
-                            $("#remove").attr("disabled", false);
-
-                    });
-
-                    $("select#producto").on("change", function(e) {
+        $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
 
-                       $.ajax({
+        detalle_venta_table.row('.selected').remove().draw(false);
 
-                            url: "../classes/Api.php?action=askExistencia",
-                            method: "POST",
-                            data: { "data": {"id_producto": this.value}, "table": "inventario", "key": "idproducto", "cod": this.value},
-                            dataType: "JSON",
-                            success: function(r) {
-
-                                if(r) {
-
-                                    $(".existencia-cantidad span").html(r.existencia);
-
-                                }
-                                else {
-
-                                    $(".existencia-cantidad span").html(0);
-
-                                }
-
-                            }
+        $("#remove").attr("disabled", true);
 
 
-                        });
-
-                    });
-
-
-
-function scanProductVenta(producto_code) {
-
-
-$(".hacerVenta").attr("disabled", false);
-
-
-$("#add").attr("disabled", true);
-
-
-descuento = $("#descuentoCtn").val();
-
-
-if($('#precioMayorista').is(":checked"))  {
-
-      precioMayorista = 1;
-
-  }
-  else {
-
-      precioMayorista = 0;
-
-}
-
-
-$("#cantidadCtn").val(0);
-
-$("#descuentoCtn").val(0);
-
-$('#precioMayorista').removeAttr("checked");
-
-    id = producto_code;
-
-
-    $("select#producto").select2("trigger", "select", {
-
-        data: { id: "nothing" }
 
     });
 
-  
-$.ajax({
-    url: "../classes/Api.php?action=askExistencia",
-    method: "POST",
-    data: { "data": {"id_producto": code}, "table": "inventario", "key": "idproducto", "cod": code},
-    dataType: "JSON",
-    success: function(r) {
 
-    stock = r.existencia;
+    $('.detalle_venta_table tbody').on('click', 'tr', function() {
 
-if(r) {
+        $("#remove").attr("disabled", false);
 
-swal({
-    title: 'Inventario',
-    html: '<strong>'+r.nombre+'</strong><br> Ingresa la "Cantidad a Vender"',
-    input: 'text',
-    type: 'info',
-    showCancelButton: true,
-    confirmButtonText: 'Agregar',
-    cancelButtonText: 'Cancelar',
-    showLoaderOnConfirm: true,
-    allowOutsideClick: true
-}).then((result) => {
+    });
 
-    if (result.value || result.value == " ") {
+    $("select#producto").on("change", function(e) {
 
-        console.log(r);
+
+        $.ajax({
+
+            url: "../classes/Api.php?action=askExistencia",
+            method: "POST",
+            data: {
+                "data": {
+                    "id_producto": this.value
+                },
+                "table": "inventario",
+                "key": "idproducto",
+                "cod": this.value
+            },
+            dataType: "JSON",
+            success: function(r) {
+
+                if (r) {
+
+                    $(".existencia-cantidad span").html(r.existencia);
+
+                } else {
+
+                    $(".existencia-cantidad span").html(0);
+
+                }
+
+            }
+
+
+        });
+
+    });
+
+
+
+    function scanProductVenta(producto_code) {
+
+
+        $(".hacerVenta").attr("disabled", false);
+
+
+        descuento = $("#descuentoCtn").val();
+
+        if ($('#precioMayorista').is(":checked")) {
+
+            precioMayorista = 1;
+
+        } else {
+
+            precioMayorista = 0;
+
+        }
         
-        cantidad = result.value 
 
-        if(cantidad <= stock) {
+        $("#cantidadCtn").val(0);
 
-            $.ajax({
+        $("#descuentoCtn").val(0);
 
-url: "../classes/Api.php?action=addItemVenta",
-method: "POST",
-data: { "data": {"cantidad": cantidad, "descuento": descuento, "precioMayorista": precioMayorista}, "table": "producto", "key": "idproducto", "cod": id},
-dataType: "JSON",
-success: function(r) {
+        $('#precioMayorista').removeAttr("checked");
 
-  if(r != "error_descuento" &&  r != "error_id_product") {
 
-      console.log(r);
-      
-      total = total + parseFloat(r[0][4]);
+        $.ajax({
+            url: "../classes/Api.php?action=askExistencia",
+            method: "POST",
+            data: {
+                "data": {
+                    "id_producto": code
+                },
+                "table": "inventario",
+                "key": "idproducto",
+                "cod": code
+            },
+            dataType: "JSON",
+            success: function(r) {
 
-      $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+     
+                if (r) {
 
-      $(".detalle_venta_table").DataTable().rows.add(r).draw();
+                    stock = r.existencia;
 
-      $("#remove").attr("disabled", true);
 
-  }
+                    $("select#producto").select2("trigger", "select", {
 
-  else if(r == "error_id_product") {
-
-    swal({
-      title: 'Existencia de Producto',
-      text: "Error, El producto no existe en el inventario.",
-      type: 'error',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Aceptar'
-    });
-
-  }
-
-  else {
-
-    swal({
-      title: 'Descuento de Producto',
-      text: "Error, el descuento que aplicaste supera al precio del producto.",
-      type: 'error',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Aceptar'
-    });
-
-  }
-
-}
-
-});
-
-        }
-        else {
-
-            swal({
-                title: 'Existencia de Producto',
-                text: "Error, no hay stock.",
-                type: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-
-        }
-
-    }
-
-});
-
-}
-else {
-
-swal({
-        title: 'Existencia de Producto',
-        text: "Error, El producto no existe en el inventario.",
-        type: 'error',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Aceptar'
-    });
-
-
-}
-
-}
-});
-
-}
-
-                $("#add").on('click', function() {
-
-
-
-                        $(".hacerVenta").attr("disabled", false);
-
-
-                        $("#add").attr("disabled", true);
-                        
-
-
-                        cant = $("#cantidadCtn").val();
-
-
-                        descuento = $("#descuentoCtn").val();
-            
-
-
-                        if($('#precioMayorista').is(":checked"))  {
-
-                              precioMayorista = 1;
-
-                          }
-                          else {
-
-                              precioMayorista = 0;
-
-                          }
-
-
-                        $("#cantidadCtn").val(0);
-
-                        $("#descuentoCtn").val(0);
-
-                        $('#precioMayorista').removeAttr("checked");
-
-
-                        id = $("select#producto").val();
-
-
-                        $("select#producto").select2("trigger", "select", {
-
-                            data: { id: "nothing" }
-
-                        });
-
-
-                          $.ajax({
-
-                            url: "../classes/Api.php?action=addItemVenta",
-                            method: "POST",
-                            data: { "data": {"cantidad": cant, "descuento": descuento, "precioMayorista": precioMayorista}, "table": "producto", "key": "idproducto", "cod": id},
-                            dataType: "JSON",
-                            success: function(r) {
-
-                              if(r != "error_descuento") {
-
-                                  console.log(r);
-                                  
-                                  total = total + parseFloat(r[0][4]);
-
-                                  $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
-
-                                  $(".detalle_venta_table").DataTable().rows.add(r).draw();
-
-                                  $("#remove").attr("disabled", true);
-
-
-                              }
-                              else {
-
-
-                                swal({
-                                  title: 'Descuento de Producto',
-                                  text: "Error, el descuento que aplicaste supera al precio del producto.",
-                                  type: 'error',
-                                  confirmButtonColor: '#3085d6',
-                                  confirmButtonText: 'Aceptar'
-                                });
-
-
-                              }
-
-
-                            }
-
-
-                        });
-
-                    });
-
-
-                    table_details_venta = $('.detail_table_venta').DataTable({
-
-                        responsive: true,
-                        dom: 'Bfrtlip',
-                        order: [ 0, "desc" ],
-                        buttons: [
-                            {
-                                extend: 'pdfHtml5',
-                                title: ''
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: ''
-                            },
-                            {
-                                extend: 'print',
-                                title: '',
-                                customize: function ( win ) {
-
-                                    $(win.document.body).css('background', 'none');
-
-                                }
-                            },
-                            {
-                                extend: 'copyHtml5',
-                                title: ''
-                            }
-                        ],
-                        select: true,
-                        pageLength: 10,
-                        scrollY:    150,
-                        oLanguage:  {
-                            "sUrl": "../assets/libs/datatables/Spanish.json"
+                        data: {
+                            id: producto_code
                         }
 
                     });
 
+                    swal({
+                        title: 'Inventario',
+                        html: '<strong>' + r.nombre + '</strong><br><strong>Existencia: ' + r.existencia + '</strong><br> Ingresa la "Cantidad a Vender"',
+                        input: 'text',
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Agregar',
+                        cancelButtonText: 'Cancelar',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: true
+                    }).then((result) => {
 
-                    $('.detail_table_venta tbody').on( 'click', 'tr', function () {
+                        if (result.value || result.value == " ") {
 
-                        
-                      $("#create").attr("disabled", true);
+                            cantidad = result.value
 
+                            if (parseFloat(cantidad) <= parseFloat(stock)) {
 
-                        if ( $(this).hasClass('selected') ) {
+                                $.ajax({
 
+                                    url: "../classes/Api.php?action=addItemVenta",
+                                    method: "POST",
+                                    data: {
+                                        "data": {
+                                            "cantidad": cantidad,
+                                            "descuento": descuento,
+                                            "precioMayorista": precioMayorista
+                                        },
+                                        "table": "producto",
+                                        "key": "idproducto",
+                                        "cod": producto_code
+                                    },
+                                    dataType: "JSON",
+                                    success: function(r) {
 
-                                var control = $(this).closest('.panel').find('.newVenta');
-
-                                var form = $(control).closest(".panel");
-
-
-                                var table = $(this).closest(".detail_table_venta").attr("id");
-
-                                var key = $(this).closest(".detail_table_venta").find("th").first().text();
-
-                                var cod = table_details_venta.row(this).data()[0];
-
-
-                            $.ajax({
-
-                                url: "../classes/Api.php?action=oneVenta",
-                                method: "POST",
-                                data: { "data": cod, "table": table, "key": key, "cod": cod },
-                                dataType: "JSON",
-                                success: function(r) {
-
-
-                                    if(r != "") {
-
-                                        switchUDVenta(control, true);
-
-                                    }
-
-                                    $.each(r[0][0], function(key, value) {
+                                        if (r != "error_descuento" && r != "error_id_product") {
 
 
-                                        $(form).find("#"+key).val(value);
+                                            total = total + parseFloat(r[0][4]);
 
+                                            $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
-                                        if($(form).find("#"+key).data("select2")) {
+                                            $(".detalle_venta_table").DataTable().rows.add(r).draw();
 
-                                            $(form).find("#"+key).select2("trigger", "select", {
-                                                data: { id: value }
+                                            $("#remove").attr("disabled", true);
+
+                                        } else if (r == "error_id_product") {
+
+                                            swal({
+                                                title: 'Existencia de Producto',
+                                                text: "Error, El producto no existe en el inventario.",
+                                                type: 'error',
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'Aceptar'
+                                            });
+
+                                        } else {
+
+                                            swal({
+                                                title: 'Descuento de Producto',
+                                                text: "Error, el descuento que aplicaste supera al precio del producto.",
+                                                type: 'error',
+                                                confirmButtonColor: '#3085d6',
+                                                confirmButtonText: 'Aceptar'
                                             });
 
                                         }
 
-
-
-                                    });
-
-
-                                    if(r[1]) {
-
-                                         $(".detalle_venta_table").DataTable().clear().draw();
-
-
-                                        $(".detalle_venta_table").DataTable().rows.add(r[1]).draw();
-
-
                                     }
 
+                                });
+
+                            } else {
+
+                                swal({
+                                    title: 'Existencia de Producto',
+                                    text: "Error, no hay stock.",
+                                    type: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Aceptar'
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                } else {
+
+                    swal({
+                        title: 'Existencia de Producto',
+                        text: "Error, El producto no existe en el inventario.",
+                        type: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });
+
+
+                }
+
+            }
+        });
+
+    }
+
+    $("#add").on('click', function() {
+
+
+
+        $(".hacerVenta").attr("disabled", false);
+
+
+        $("#add").attr("disabled", true);
+
+
+
+        cant = $("#cantidadCtn").val();
+
+
+        descuento = $("#descuentoCtn").val();
+
+
+
+        if ($('#precioMayorista').is(":checked")) {
+
+            precioMayorista = 1;
+
+        } else {
+
+            precioMayorista = 0;
+
+        }
+
+
+        $("#cantidadCtn").val(0);
+
+        $("#descuentoCtn").val(0);
+
+        $('#precioMayorista').removeAttr("checked");
+
+
+        id = $("select#producto").val();
+
+
+        $("select#producto").select2("trigger", "select", {
+
+            data: {
+                id: "nothing"
+            }
+
+        });
+
+
+        $.ajax({
+
+            url: "../classes/Api.php?action=addItemVenta",
+            method: "POST",
+            data: {
+                "data": {
+                    "cantidad": cant,
+                    "descuento": descuento,
+                    "precioMayorista": precioMayorista
+                },
+                "table": "producto",
+                "key": "idproducto",
+                "cod": id
+            },
+            dataType: "JSON",
+            success: function(r) {
+
+                if (r != "error_descuento") {
+
+                    console.log(r);
+
+                    total = total + parseFloat(r[0][4]);
+
+                    $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+
+                    $(".detalle_venta_table").DataTable().rows.add(r).draw();
+
+                    $("#remove").attr("disabled", true);
+
+
+                } else {
+
+
+                    swal({
+                        title: 'Descuento de Producto',
+                        text: "Error, el descuento que aplicaste supera al precio del producto.",
+                        type: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });
+
+
+                }
+
+
+            }
+
+
+        });
+
+    });
+
+
+    table_details_venta = $('.detail_table_venta').DataTable({
+
+        responsive: true,
+        dom: 'Bfrtlip',
+        order: [0, "desc"],
+        buttons: [{
+                extend: 'pdfHtml5',
+                title: ''
+            },
+            {
+                extend: 'excelHtml5',
+                title: ''
+            },
+            {
+                extend: 'print',
+                title: '',
+                customize: function(win) {
+
+                    $(win.document.body).css('background', 'none');
+
+                }
+            },
+            {
+                extend: 'copyHtml5',
+                title: ''
+            }
+        ],
+        select: true,
+        pageLength: 10,
+        scrollY: 150,
+        oLanguage: {
+            "sUrl": "../assets/libs/datatables/Spanish.json"
+        }
+
+    });
+
+
+    $('.detail_table_venta tbody').on('click', 'tr', function() {
+
+
+        $("#create").attr("disabled", true);
+
+
+        if ($(this).hasClass('selected')) {
+
+
+            var control = $(this).closest('.panel').find('.newVenta');
+
+            var form = $(control).closest(".panel");
+
+
+            var table = $(this).closest(".detail_table_venta").attr("id");
+
+            var key = $(this).closest(".detail_table_venta").find("th").first().text();
+
+            var cod = table_details_venta.row(this).data()[0];
+
+
+            $.ajax({
+
+                url: "../classes/Api.php?action=oneVenta",
+                method: "POST",
+                data: {
+                    "data": cod,
+                    "table": table,
+                    "key": key,
+                    "cod": cod
+                },
+                dataType: "JSON",
+                success: function(r) {
+
+
+                    if (r != "") {
+
+                        switchUDVenta(control, true);
+
+                    }
+
+                    $.each(r[0][0], function(key, value) {
+
+
+                        $(form).find("#" + key).val(value);
+
+
+                        if ($(form).find("#" + key).data("select2")) {
+
+                            $(form).find("#" + key).select2("trigger", "select", {
+                                data: {
+                                    id: value
                                 }
-
-
                             });
-
-
 
                         }
 
 
-                    } );
+
+                    });
+
+
+                    if (r[1]) {
+
+                        $(".detalle_venta_table").DataTable().clear().draw();
+
+
+                        $(".detalle_venta_table").DataTable().rows.add(r[1]).draw();
+
+
+                    }
+
+                }
+
+
+            });
 
 
 
+        }
 
-                </script>
+
+    });
+</script> 

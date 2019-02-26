@@ -1,77 +1,72 @@
 /**
  * Created by RSpro on 23/05/16.
  */
- function supportInfo() {
-
+function supportInfo() {
 
     swal({
-          title: 'Soporte',
-          text: "Llamar: 5960 - 0502",
-          type: 'info',
-          cancelButtonText: 'Aceptar'
-        });
+        title: 'Soporte',
+        text: "Llamar: 5960 - 0502",
+        type: 'info',
+        cancelButtonText: 'Aceptar'
+    });
 
-
- }
+}
 
 function clientImage(key) {
 
-	showCam(false);
+    showCam(false);
 
-	if(key != null) {
+    if (key != null) {
 
-		$("#client-img").fadeOut(100, function() {
-        $("#client-img").attr({'src':'../assets/pictures/cliente/'+key+".jpg?"+Math.random()});
+        $("#client-img").fadeOut(100, function () {
+            $("#client-img").attr({ 'src': '../assets/pictures/cliente/' + key + ".jpg?" + Math.random() });
 
-        		$("img").error(function () {
-		  $(this).unbind("error").attr({'src':'../assets/pictures/cliente/0.jpg?'});
-		});
+            $("img").error(function () {
+                $(this).unbind("error").attr({ 'src': '../assets/pictures/cliente/0.jpg?' });
+            });
 
-  }).fadeIn(100);
+        }).fadeIn(100);
 
-	}
+    }
 
 }
 
 function EnableUpdatePic(option) {
 
-	if(option) {
+    if (option) {
 
-		$(".updatetake-pic").attr("disabled", false);
+        $(".updatetake-pic").attr("disabled", false);
 
 
-	}
-	else {
+    }
+    else {
 
-		$(".updatetake-pic").attr("disabled", true);
+        $(".updatetake-pic").attr("disabled", true);
 
-	}
+    }
 
 
 }
 
 function showCam(option) {
 
-	if(option) {
+    if (option) {
 
 
-	$("#capturar-foto").css({'display':'inline-block'});
+        $("#capturar-foto").css({ 'display': 'inline-block' });
 
-	$("#client-img").css({'display':'none'});
+        $("#client-img").css({ 'display': 'none' });
 
-	$(".update-pic").attr("disabled", true);
+        $(".update-pic").attr("disabled", true);
 
-}
-else {
+    }
+    else {
 
-	$("#capturar-foto").css({'display':'none'});
+        $("#capturar-foto").css({ 'display': 'none' });
 
-  $("#client-img").css({'display':'inline-block'});
+        $("#client-img").css({ 'display': 'inline-block' });
 
-
-
-
-}
+    }
 
 }
 
@@ -79,33 +74,33 @@ else {
 function capturarImagen(key) {
 
 
-  var cod = key;
+    var cod = key;
 
-	video = document.getElementById("capturar-foto");
+    video = document.getElementById("capturar-foto");
 
-	canvas = document.getElementById("canvas");
+    canvas = document.getElementById("canvas");
 
-	imagen = canvas.getContext('2d');
+    imagen = canvas.getContext('2d');
 
-	imagen.drawImage(video, 0, 0, 640, 480);
+    imagen.drawImage(video, 0, 0, 640, 480);
 
-	imagen = canvas.toDataURL("image/jpeg", 1.0);
-
-
-	$.ajax({
-
-		method: "POST",
-		url: "../classes/Api.php?action=savePhoto",
-		data: {"id": cod, "data": imagen},
-		dataType: "JSON",
-		success: function(r) {
+    imagen = canvas.toDataURL("image/jpeg", 1.0);
 
 
+    $.ajax({
 
-		}
+        method: "POST",
+        url: "../classes/Api.php?action=savePhoto",
+        data: { "id": cod, "data": imagen },
+        dataType: "JSON",
+        success: function (r) {
 
 
-	});
+
+        }
+
+
+    });
 
 
 }
@@ -114,12 +109,12 @@ function capturarImagen(key) {
 var detalle_venta_table = $('.detalle_venta_table').DataTable({
 
     responsive: true,
-    order: [ 0, "desc" ],
+    order: [0, "desc"],
     dom: 'rtlip',
     select: true,
     pageLength: 50,
-    scrollY:    220,
-    oLanguage:  {
+    scrollY: 220,
+    oLanguage: {
         "sUrl": "../assets/libs/datatables/Spanish.json"
     }
 
@@ -129,12 +124,12 @@ var detalle_venta_table = $('.detalle_venta_table').DataTable({
 var detalle_devolucion_table = $('.detalle_devolucion_table').DataTable({
 
     responsive: true,
-    order: [ 0, "desc" ],
+    order: [0, "desc"],
     dom: 'rtlip',
     select: true,
     pageLength: 50,
-    scrollY:    220,
-    oLanguage:  {
+    scrollY: 220,
+    oLanguage: {
         "sUrl": "../assets/libs/datatables/Spanish.json"
     }
 
@@ -143,12 +138,12 @@ var detalle_devolucion_table = $('.detalle_devolucion_table').DataTable({
 var detalle_compra_table = $('.detalle_compra_table').DataTable({
 
     responsive: true,
-    order: [ 0, "desc" ],
+    order: [0, "desc"],
     dom: 'rtlip',
     select: true,
     pageLength: 50,
-    scrollY:    220,
-    oLanguage:  {
+    scrollY: 220,
+    oLanguage: {
         "sUrl": "../assets/libs/datatables/Spanish.json"
     }
 
@@ -159,7 +154,7 @@ var table_details = $('.detail_table').DataTable({
 
     responsive: true,
     dom: 'Bfrtlip',
-    order: [ 0, "desc" ],
+    order: [0, "desc"],
     buttons: [
         {
             extend: 'pdfHtml5',
@@ -172,7 +167,7 @@ var table_details = $('.detail_table').DataTable({
         {
             extend: 'print',
             title: '',
-            customize: function ( win ) {
+            customize: function (win) {
 
                 $(win.document.body).css('background', 'none');
 
@@ -185,8 +180,8 @@ var table_details = $('.detail_table').DataTable({
     ],
     select: true,
     pageLength: 10,
-    scrollY:    150,
-    oLanguage:  {
+    scrollY: 150,
+    oLanguage: {
         "sUrl": "../assets/libs/datatables/Spanish.json"
     }
 
@@ -194,24 +189,24 @@ var table_details = $('.detail_table').DataTable({
 
 creating = 1;
 
-$('.detail_table tbody').on( 'click', 'tr', function () {
+$('.detail_table tbody').on('click', 'tr', function () {
 
-	$("#create").attr("disabled", true);
-
-
-    if ( $(this).hasClass('selected') ) {
+    $("#create").attr("disabled", true);
 
 
-            var control = $(this).closest('.panel').find('.new');
-
-            var form = $(control).closest(".panel");
+    if ($(this).hasClass('selected')) {
 
 
-            var table = $(this).closest(".detail_table").attr("id");
+        var control = $(this).closest('.panel').find('.new');
 
-            var key = $(this).closest(".detail_table").find("th").first().text();
+        var form = $(control).closest(".panel");
 
-            var cod = table_details.row(this).data()[0];
+
+        var table = $(this).closest(".detail_table").attr("id");
+
+        var key = $(this).closest(".detail_table").find("th").first().text();
+
+        var cod = table_details.row(this).data()[0];
 
 
 
@@ -221,30 +216,30 @@ $('.detail_table tbody').on( 'click', 'tr', function () {
             method: "POST",
             data: { "data": cod, "table": table, "key": key, "cod": cod },
             dataType: "JSON",
-            success: function(r) {
+            success: function (r) {
 
-              creating = 0;
+                creating = 0;
 
 
-                if(r != "") {
+                if (r != "") {
 
                     switchUD(control, true);
 
-										EnableUpdatePic(false);
+                    EnableUpdatePic(false);
 
                     clientImage(r[0]["idcliente"]);
 
                 }
 
-                $.each(r[0], function(key, value) {
+                $.each(r[0], function (key, value) {
 
 
-                    $(form).find("#"+key).val(value);
+                    $(form).find("#" + key).val(value);
 
 
-                    if($(form).find("#"+key).data("select2")) {
+                    if ($(form).find("#" + key).data("select2")) {
 
-                        $(form).find("#"+key).select2("trigger", "select", {
+                        $(form).find("#" + key).select2("trigger", "select", {
                             data: { id: value }
                         });
 
@@ -264,7 +259,7 @@ $('.detail_table tbody').on( 'click', 'tr', function () {
     }
 
 
-} );
+});
 
 
 function adjustHeaders() {
@@ -275,28 +270,28 @@ function adjustHeaders() {
 
 }
 
-setTimeout(function(){ adjustHeaders(); }, 100);
+setTimeout(function () { adjustHeaders(); }, 100);
 
 
 
-$(".panel-title").on("click", function()  {
+$(".panel-title").on("click", function () {
 
 
-    setTimeout(function(){ adjustHeaders(); }, 100);
-
-
-});
-
-
-$(window).resize(function() {
-
-
-    setTimeout(function(){ adjustHeaders(); }, 100);
+    setTimeout(function () { adjustHeaders(); }, 100);
 
 
 });
 
-$(".updatetake-pic").on("click", function()     {
+
+$(window).resize(function () {
+
+
+    setTimeout(function () { adjustHeaders(); }, 100);
+
+
+});
+
+$(".updatetake-pic").on("click", function () {
 
 
     video = document.getElementById("capturar-foto");
@@ -317,7 +312,7 @@ $(".updatetake-pic").on("click", function()     {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -335,9 +330,9 @@ $(".updatetake-pic").on("click", function()     {
 
         url: "../classes/Api.php?action=updatePic",
         method: "POST",
-        data: { "data": imagen, "id": cod},
+        data: { "data": imagen, "id": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
             $(".updatetake-pic").attr("disabled", true);
             $(".update-pic").attr("disabled", false);
@@ -347,24 +342,24 @@ $(".updatetake-pic").on("click", function()     {
             clientImage(cod);
 
 
-                swal({
-                  title: 'Actualización de Datos',
-                  text: "Foto actualizada!",
-                  type: 'success',
-                  cancelButtonText: 'Aceptar'
-                });
+            swal({
+                title: 'Actualización de Datos',
+                text: "Foto actualizada!",
+                type: 'success',
+                cancelButtonText: 'Aceptar'
+            });
 
         }
 
 
     });
-    
+
 
 
 });
 
 
-$("button.new").on("click", function()     {
+$("button.new").on("click", function () {
 
 
     var control = this;
@@ -386,7 +381,7 @@ $("button.new").on("click", function()     {
 });
 
 
-$("button.hacerPago").on("click", function()  {
+$("button.hacerPago").on("click", function () {
 
 
     var control = this;
@@ -399,7 +394,7 @@ $("button.hacerPago").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -417,68 +412,68 @@ $("button.hacerPago").on("click", function()  {
     var cod = $(this).closest(".panel").find("input").first().val();
 
 
-        $.ajax({
+    $.ajax({
 
         url: "../classes/Api.php?action=hacerPago",
         method: "POST",
         data: { "data": obj, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
-            if(r[0] == "Inserted") {
+            if (r[0] == "Inserted") {
 
                 $(control).closest(".panel").find("input").first().val(r[1]);
 
-                    swal({
-                      title: 'Pago Relizado',
-                      text: "¿Quieres imprimir el recibo?",
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      confirmButtonText: 'Sí',
-                      cancelButtonText: 'No'
-                    }).then((result) => {
-                      if (result.value) {
+                swal({
+                    title: 'Pago Relizado',
+                    text: "¿Quieres imprimir el recibo?",
+                    type: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.value) {
 
-                            printManager.trigger("click");
-                            switchUD(control, false);
-                            refreshDetail(form);
-                            $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
-                            $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-                                data: { id: "nothing" }
-                            });
-
-
-                      }else {
-
-							switchUD(control, false);
-							refreshDetail(form);
-							$(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
-							$(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-									data: { id: "nothing" }
-							});
+                        printManager.trigger("click");
+                        switchUD(control, false);
+                        refreshDetail(form);
+                        $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                        $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                            data: { id: "nothing" }
+                        });
 
 
-						}
-                    });
+                    } else {
 
-					switchUD(control, false);
-					refreshDetail(form);
+                        switchUD(control, false);
+                        refreshDetail(form);
+                        $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                        $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                            data: { id: "nothing" }
+                        });
+
+
+                    }
+                });
+
+                switchUD(control, false);
+                refreshDetail(form);
 
 
             }
 
-            if(r[0] == "cliente_saldado") {
+            if (r[0] == "cliente_saldado") {
 
 
                 swal({
-                      title: 'Error!',
-                      text: "Éste cliente no tiene ninguna deuda que abonar ó su abono supera la deuda.",
-                      type: 'error',
-                      cancelButtonText: 'Aceptar'
-                    });
+                    title: 'Error!',
+                    text: "Éste cliente no tiene ninguna deuda que abonar ó su abono supera la deuda.",
+                    type: 'error',
+                    cancelButtonText: 'Aceptar'
+                });
 
 
             }
@@ -492,7 +487,7 @@ $("button.hacerPago").on("click", function()  {
 
 });
 
-$("button.hacerDevolucion").on("click", function()  {
+$("button.hacerDevolucion").on("click", function () {
 
 
     var control = this;
@@ -505,7 +500,7 @@ $("button.hacerDevolucion").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -525,32 +520,32 @@ $("button.hacerDevolucion").on("click", function()  {
     var data_detalle = detalle_devolucion_table.rows().data().toArray();
 
 
-if(!cod) {
+    if (!cod) {
 
         $.ajax({
 
-        url: "../classes/Api.php?action=hacerDevolucion",
-        method: "POST",
-        data: { "data": obj, "table": table, "key": key, "cod": cod, "data_detalle":  data_detalle},
-        dataType: "JSON",
-        success: function(r) {
+            url: "../classes/Api.php?action=hacerDevolucion",
+            method: "POST",
+            data: { "data": obj, "table": table, "key": key, "cod": cod, "data_detalle": data_detalle },
+            dataType: "JSON",
+            success: function (r) {
 
 
-            if(r[0] == "Inserted") {
+                if (r[0] == "Inserted") {
 
-                $(control).closest(".panel").find("input").first().val(r[1]);
+                    $(control).closest(".panel").find("input").first().val(r[1]);
 
                     swal({
-                      title: 'Devolución Relizada',
-                      text: "¿Quieres imprimir el recibo?",
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      confirmButtonText: 'Sí',
-                      cancelButtonText: 'No'
+                        title: 'Devolución Relizada',
+                        text: "¿Quieres imprimir el recibo?",
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí',
+                        cancelButtonText: 'No'
                     }).then((result) => {
-                      if (result.value) {
+                        if (result.value) {
 
                             printManager.trigger("click");
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
@@ -558,57 +553,57 @@ if(!cod) {
                                 data: { id: "nothing" }
                             });
 
-														$(".detalle_devolucion_table").DataTable().clear().draw();
+                            $(".detalle_devolucion_table").DataTable().clear().draw();
 
 
 
-                      }else {
+                        } else {
 
-												$(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
-												$(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-														data: { id: "nothing" }
-												});
+                            $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                            $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                                data: { id: "nothing" }
+                            });
 
-												$(".detalle_devolucion_table").DataTable().clear().draw();
+                            $(".detalle_devolucion_table").DataTable().clear().draw();
 
-											}
+                        }
                     });
 
-										total = 0;
+                    total = 0;
 
                     switchUDDevolucion(control, false);
                     refreshDetailDevolucion(control);
 
 
-            }
+                }
 
-            if(r[0] == "producto_no_existencia") {
+                if (r[0] == "producto_no_existencia") {
 
 
-                swal({
-                      title: 'Error!',
-                      html: "Del producto <strong>" + r[1][0][0]+"</strong> no hay existencias para cubrir la venta, hay "+ r[1][0][5]+" en existencia.",
-                      type: 'error',
-                      cancelButtonText: 'Aceptar',
+                    swal({
+                        title: 'Error!',
+                        html: "Del producto <strong>" + r[1][0][0] + "</strong> no hay existencias para cubrir la venta, hay " + r[1][0][5] + " en existencia.",
+                        type: 'error',
+                        cancelButtonText: 'Aceptar',
                     });
 
 
+                }
+
+
             }
 
 
-        }
+        });
 
 
-    });
-
-
-	}
+    }
 
 
 });
 
 
-$("button.hacerCompra").on("click", function()  {
+$("button.hacerCompra").on("click", function () {
 
 
     var control = this;
@@ -621,7 +616,7 @@ $("button.hacerCompra").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -641,32 +636,32 @@ $("button.hacerCompra").on("click", function()  {
     var data_detalle = detalle_devolucion_table.rows().data().toArray();
 
 
-if(!cod) {
+    if (!cod) {
 
         $.ajax({
 
-        url: "../classes/Api.php?action=hacerDevolucion",
-        method: "POST",
-        data: { "data": obj, "table": table, "key": key, "cod": cod, "data_detalle":  data_detalle},
-        dataType: "JSON",
-        success: function(r) {
+            url: "../classes/Api.php?action=hacerCompra",
+            method: "POST",
+            data: { "data": obj, "table": table, "key": key, "cod": cod, "data_detalle": data_detalle },
+            dataType: "JSON",
+            success: function (r) {
 
+                if (r[0] == "Inserted") {
 
-            if(r[0] == "Inserted") {
-
-                $(control).closest(".panel").find("input").first().val(r[1]);
+                    $(control).closest(".panel").find("input").first().val(r[1]);
 
                     swal({
-                      title: 'Devolución Relizada',
-                      text: "¿Quieres imprimir el recibo?",
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      confirmButtonText: 'Sí',
-                      cancelButtonText: 'No'
+                        title: 'Compra Relizada',
+                        text: "¿Quieres imprimir el recibo?",
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí',
+                        cancelButtonText: 'No'
                     }).then((result) => {
-                      if (result.value) {
+
+                        if (result.value) {
 
                             printManager.trigger("click");
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
@@ -674,51 +669,51 @@ if(!cod) {
                                 data: { id: "nothing" }
                             });
 
-														$(".detalle_devolucion_table").DataTable().clear().draw();
+                            $(".detalle_compra_table").DataTable().clear().draw();
 
 
 
-                      }else {
+                        } else {
 
-												$(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
-												$(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-														data: { id: "nothing" }
-												});
+                            $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                            $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                                data: { id: "nothing" }
+                            });
 
-												$(".detalle_devolucion_table").DataTable().clear().draw();
+                            $(".detalle_compra_table").DataTable().clear().draw();
 
-											}
+                        }
                     });
 
-										total = 0;
+                    total = 0;
 
                     switchUDDevolucion(control, false);
                     refreshDetailDevolucion(control);
 
 
-            }
+                }
 
-            if(r[0] == "producto_no_existencia") {
+                if (r[0] == "producto_no_existencia") {
 
 
-                swal({
-                      title: 'Error!',
-                      html: "Del producto <strong>" + r[1][0][0]+"</strong> no hay existencias para cubrir la venta, hay "+ r[1][0][5]+" en existencia.",
-                      type: 'error',
-                      cancelButtonText: 'Aceptar',
+                    swal({
+                        title: 'Error!',
+                        html: "Del producto <strong>" + r[1][0][0] + "</strong> no hay existencias para cubrir la venta, hay " + r[1][0][5] + " en existencia.",
+                        type: 'error',
+                        cancelButtonText: 'Aceptar',
                     });
 
 
+                }
+
+
             }
 
 
-        }
+        });
 
 
-    });
-
-
-	}
+    }
 
 
 });
@@ -726,7 +721,7 @@ if(!cod) {
 
 
 
-$("button.hacerVenta").on("click", function()  {
+$("button.hacerVenta").on("click", function () {
 
 
     var control = this;
@@ -739,7 +734,7 @@ $("button.hacerVenta").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -747,9 +742,10 @@ $("button.hacerVenta").on("click", function()  {
 
     });
 
+
     var obj = $.extend({}, arrayFields);
 
-
+    
     var table = $(this).closest(".panel").attr("id");
 
     var key = $(this).closest(".panel").find("input").first().attr("id");
@@ -759,32 +755,32 @@ $("button.hacerVenta").on("click", function()  {
     var data_detalle = detalle_venta_table.rows().data().toArray();
 
 
-if(!cod) {
+    if (!cod) {
 
         $.ajax({
 
-        url: "../classes/Api.php?action=hacerVenta",
-        method: "POST",
-        data: { "data": obj, "table": table, "key": key, "cod": cod, "data_detalle":  data_detalle},
-        dataType: "JSON",
-        success: function(r) {
+            url: "../classes/Api.php?action=hacerVenta",
+            method: "POST",
+            data: { "data": obj, "table": table, "key": key, "cod": cod, "data_detalle": data_detalle },
+            dataType: "JSON",
+            success: function (r) {
 
 
-            if(r[0] == "Inserted") {
+                if (r[0] == "Inserted") {
 
-                $(control).closest(".panel").find("input").first().val(r[1]);
+                    $(control).closest(".panel").find("input").first().val(r[1]);
 
                     swal({
-                      title: 'Venta Relizada',
-                      text: "¿Quieres imprimir el recibo?",
-                      type: 'success',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      confirmButtonText: 'Sí',
-                      cancelButtonText: 'No'
+                        title: 'Venta Relizada',
+                        text: "¿Quieres imprimir el recibo?",
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí',
+                        cancelButtonText: 'No'
                     }).then((result) => {
-                      if (result.value) {
+                        if (result.value) {
 
                             printManager.trigger("click");
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
@@ -792,58 +788,58 @@ if(!cod) {
                                 data: { id: "nothing" }
                             });
 
-														$(".detalle_venta_table").DataTable().clear().draw();
+                            $(".detalle_venta_table").DataTable().clear().draw();
 
 
 
-                      }else {
+                        } else {
 
-												$(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
-												$(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-														data: { id: "nothing" }
-												});
+                            $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                            $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                                data: { id: "nothing" }
+                            });
 
-												$(".detalle_venta_table").DataTable().clear().draw();
+                            $(".detalle_venta_table").DataTable().clear().draw();
 
 
-											}
+                        }
                     });
 
-										total = 0;
+                    total = 0;
 
                     switchUDVenta(control, false);
                     refreshDetailVenta(control);
 
 
 
-            }
+                }
 
-            if(r[0] == "producto_no_existencia") {
+                if (r[0] == "producto_no_existencia") {
 
 
-                swal({
-                      title: 'Error!',
-                      html: "Del producto <strong>" + r[1][0][0]+"</strong> no hay existencias para cubrir la venta, hay "+ r[1][0][5]+" en existencia.",
-                      type: 'error',
-                      cancelButtonText: 'Aceptar',
+                    swal({
+                        title: 'Error!',
+                        html: "Del producto <strong>" + r[1][0][0] + "</strong> no hay existencias para cubrir la venta, hay " + r[1][0][5] + " en existencia.",
+                        type: 'error',
+                        cancelButtonText: 'Aceptar',
                     });
 
 
+                }
+
+
             }
 
 
-        }
+        });
 
-
-    });
-
-	}
+    }
 
 
 });
 
 
-$("button.cargaGas").on("click", function()  {
+$("button.cargaGas").on("click", function () {
 
 
     var control = this;
@@ -856,7 +852,7 @@ $("button.cargaGas").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -879,56 +875,56 @@ $("button.cargaGas").on("click", function()  {
 
 
     swal({
-          title: 'Compras',
-          html: "¿Seguro que deseas agregar? </br></br> <strong>"+arrayFields["cantidad"]+"</strong> artículos más de <strong>"+product_name+"</strong> en existencia.",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Agregar',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.value) {
+        title: 'Compras',
+        html: "¿Seguro que deseas agregar? </br></br> <strong>" + arrayFields["cantidad"] + "</strong> artículos más de <strong>" + product_name + "</strong> en existencia.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Agregar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
 
 
-                    $.ajax({
+            $.ajax({
 
-                    url: "../classes/Api.php?action=cargaGas",
-                    method: "POST",
-                    data: { "data": obj, "table": table, "key": key, "cod": cod },
-                    dataType: "JSON",
-                    success: function(r) {
+                url: "../classes/Api.php?action=cargaGas",
+                method: "POST",
+                data: { "data": obj, "table": table, "key": key, "cod": cod },
+                dataType: "JSON",
+                success: function (r) {
 
 
-                        if(r == "Inserted") {
+                    if (r == "Inserted") {
 
-                            $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                        $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
 
-                            $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-                                data: { id: "nothing" }
-                            });
+                        $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                            data: { id: "nothing" }
+                        });
 
-                            switchUD(control, false);
-                            refreshDetail(form);
-
-                        }
-
+                        switchUD(control, false);
+                        refreshDetail(form);
 
                     }
 
 
-                });
+                }
 
 
-          }
-        });
+            });
+
+
+        }
+    });
 
 
 
 });
 
 
-$("button.create").on("click", function()  {
+$("button.create").on("click", function () {
 
 
     var control = this;
@@ -941,7 +937,7 @@ $("button.create").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -965,10 +961,10 @@ $("button.create").on("click", function()  {
         method: "POST",
         data: { "data": obj, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
-            if(r == "Inserted") {
+            if (r == "Inserted") {
 
                 $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
 
@@ -992,7 +988,7 @@ $("button.create").on("click", function()  {
 });
 
 
-$("button.update").on("click", function()  {
+$("button.update").on("click", function () {
 
 
     var control = this;
@@ -1002,7 +998,7 @@ $("button.update").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -1026,21 +1022,21 @@ $("button.update").on("click", function()  {
         method: "POST",
         data: { "data": obj, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
-            if(r == "Updated") {
+            if (r == "Updated") {
 
                 refreshDetail(control);
-								switchUD(control, false);
+                switchUD(control, false);
 
-								$(control).closest(".panel").find(".inputs_wrapper").find("input, textarea").val("");
+                $(control).closest(".panel").find(".inputs_wrapper").find("input, textarea").val("");
 
-						    $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-						        data: { id: "nothing" }
-						    });
+                $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                    data: { id: "nothing" }
+                });
 
-								showCam(true);
+                showCam(true);
 
 
             }
@@ -1054,7 +1050,7 @@ $("button.update").on("click", function()  {
 
 });
 
-$("button.delete").on("click", function()  {
+$("button.delete").on("click", function () {
 
 
     var control = this;
@@ -1071,51 +1067,51 @@ $("button.delete").on("click", function()  {
     var cod = $(this).closest(".panel").find("input").first().val();
 
 
-        swal({
-              title: 'Eliminar Registro',
-              text: "¿Seguro que quieres eliminar este registro?",
-              type: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Eliminar',
-              cancelButtonText: 'Cancelar'
-            }).then((result) => {
-              if (result.value) {
+    swal({
+        title: 'Eliminar Registro',
+        text: "¿Seguro que quieres eliminar este registro?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
 
-                 $.ajax({
+            $.ajax({
 
-                    url: "../classes/Api.php?action=delete",
-                    method: "POST",
-                    data: { "data": fields, "table": table, "key": key, "cod": cod },
-                    dataType: "JSON",
-                    success: function(r) {
+                url: "../classes/Api.php?action=delete",
+                method: "POST",
+                data: { "data": fields, "table": table, "key": key, "cod": cod },
+                dataType: "JSON",
+                success: function (r) {
 
 
-                        if(r == "Deleted") {
+                    if (r == "Deleted") {
 
-                            $(form).closest(".panel").find("input, textarea, select").val("");
+                        $(form).closest(".panel").find("input, textarea, select").val("");
 
-                            switchUD(control, false);
-                            refreshDetail(control);
-
-                        }
+                        switchUD(control, false);
+                        refreshDetail(control);
 
                     }
 
-
-                });
-
+                }
 
 
-              }
             });
+
+
+
+        }
+    });
 
 
 });
 
 
-$("button.deleteVenta").on("click", function()  {
+$("button.deleteVenta").on("click", function () {
 
 
     var control = this;
@@ -1132,53 +1128,53 @@ $("button.deleteVenta").on("click", function()  {
     var cod = $(this).closest(".panel").find("input").first().val();
 
 
-        swal({
-              title: 'Eliminar Registro',
-              text: "¿Seguro que quieres eliminar este registro?",
-              type: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Eliminar',
-              cancelButtonText: 'Cancelar'
-            }).then((result) => {
-              if (result.value) {
+    swal({
+        title: 'Eliminar Registro',
+        text: "¿Seguro que quieres eliminar este registro?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
 
-                 $.ajax({
+            $.ajax({
 
-                    url: "../classes/Api.php?action=delete",
-                    method: "POST",
-                    data: { "data": fields, "table": table, "key": key, "cod": cod },
-                    dataType: "JSON",
-                    success: function(r) {
-
-
-                        if(r == "Deleted") {
-
-                            $(form).closest(".panel").find("input, textarea, select").val("");
+                url: "../classes/Api.php?action=delete",
+                method: "POST",
+                data: { "data": fields, "table": table, "key": key, "cod": cod },
+                dataType: "JSON",
+                success: function (r) {
 
 
-                            refreshDetailVenta(control);
+                    if (r == "Deleted") {
 
-                            $(".detalle_venta_table").DataTable().clear().draw();
+                        $(form).closest(".panel").find("input, textarea, select").val("");
 
-                        }
+
+                        refreshDetailVenta(control);
+
+                        $(".detalle_venta_table").DataTable().clear().draw();
 
                     }
 
-
-                });
-
+                }
 
 
-              }
             });
+
+
+
+        }
+    });
 
 
 });
 
 
-$("button.prev").on("click", function()    {
+$("button.prev").on("click", function () {
 
     var control = this;
 
@@ -1200,26 +1196,26 @@ $("button.prev").on("click", function()    {
         method: "POST",
         data: { "data": fields, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
-            if(r != "") {
+            if (r != "") {
 
                 switchUD(control, true);
                 refreshDetail(control);
 
-								EnableUpdatePic(false);
+                EnableUpdatePic(false);
 
                 clientImage(r[0]["idcliente"]);
 
             }
 
-            $.each(r[0], function(key, value) {
+            $.each(r[0], function (key, value) {
 
-                $(form).find("#"+key).val(value);
+                $(form).find("#" + key).val(value);
 
-                if($(form).find("#"+key).data("select2")) {
+                if ($(form).find("#" + key).data("select2")) {
 
-                    $(form).find("#"+key).select2("trigger", "select", {
+                    $(form).find("#" + key).select2("trigger", "select", {
                         data: { id: value }
                     });
 
@@ -1237,7 +1233,7 @@ $("button.prev").on("click", function()    {
 });
 
 
-$("button.next").on("click", function()    {
+$("button.next").on("click", function () {
 
 
     var control = this;
@@ -1260,28 +1256,28 @@ $("button.next").on("click", function()    {
         method: "POST",
         data: { "data": fields, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
-            if(r != "") {
+            if (r != "") {
 
                 switchUD(control, true);
                 refreshDetail(form);
                 showCam(false);
 
-								EnableUpdatePic(false);
+                EnableUpdatePic(false);
 
                 clientImage(r[0]["idcliente"]);
 
             }
 
-            $.each(r[0], function(key, value) {
+            $.each(r[0], function (key, value) {
 
-                $(form).find("#"+key).val(value);
+                $(form).find("#" + key).val(value);
 
-                if($(form).find("#"+key).data("select2")) {
+                if ($(form).find("#" + key).data("select2")) {
 
-                    $(form).find("#"+key).select2("trigger", "select", {
+                    $(form).find("#" + key).select2("trigger", "select", {
                         data: { id: value }
                     });
 
@@ -1302,12 +1298,12 @@ $("button.next").on("click", function()    {
 
 
 
-printManager = $("button.print").on("click", function()  {
+printManager = $("button.print").on("click", function () {
 
 
     var template = $(this).attr("template");
 
-    if(template === undefined) {
+    if (template === undefined) {
 
         template = "default";
 
@@ -1318,7 +1314,7 @@ printManager = $("button.print").on("click", function()  {
     var arrayFields = [];
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
         arrayFields[value.id] = $(value).val();
 
@@ -1334,7 +1330,7 @@ printManager = $("button.print").on("click", function()  {
 
     var cod = $(this).closest(".panel").find("input").first().val();
 
-    printWindow('../classes/Api.php?action=print&template='+template, { "data": JSON.stringify(obj), "table": table, "key": key, "cod": cod });
+    printWindow('../classes/Api.php?action=print&template=' + template, { "data": JSON.stringify(obj), "table": table, "key": key, "cod": cod });
 
 
 });
@@ -1351,8 +1347,8 @@ function printWindow(path, params, method) {
     form.setAttribute("action", path);
     form.setAttribute("target", "_blank");
 
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
             var hiddenField = document.createElement("input");
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", key);
@@ -1386,7 +1382,7 @@ function refreshDetail(control) {
         method: "POST",
         data: { "data": fields, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
             if (r) {
@@ -1428,7 +1424,7 @@ function refreshDetailVenta(control) {
         method: "POST",
         data: { "data": fields, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
             if (r) {
@@ -1454,7 +1450,7 @@ function refreshDetailVenta(control) {
 
 function switchUD(control, option) {
 
-    if(option) {
+    if (option) {
 
         $(control).closest(".panel").find(".delete").removeAttr("disabled");
         $(control).closest(".panel").find(".update").removeAttr("disabled");
@@ -1463,7 +1459,7 @@ function switchUD(control, option) {
 
         $(".update-pic").removeAttr("disabled");
 
-				EnableUpdatePic(true);
+        EnableUpdatePic(true);
 
     }
     else {
@@ -1475,7 +1471,7 @@ function switchUD(control, option) {
 
         $(".update-pic").attr("disabled", true);
 
-				EnableUpdatePic(false);
+        EnableUpdatePic(false);
 
 
     }
@@ -1485,7 +1481,7 @@ function switchUD(control, option) {
 
 function switchUDVenta(control, option) {
 
-    if(option) {
+    if (option) {
 
         $(control).closest(".panel").find(".deleteVenta").removeAttr("disabled");
         $(control).closest(".panel").find(".update").removeAttr("disabled");
@@ -1524,7 +1520,7 @@ function refreshDetailDevolucion(control) {
         method: "POST",
         data: { "data": fields, "table": table, "key": key, "cod": cod },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
             if (r) {
@@ -1548,42 +1544,42 @@ function refreshDetailDevolucion(control) {
 
 function switchUDDevolucion(control, option) {
 
-		if(option) {
+    if (option) {
 
-				$(control).closest(".panel").find(".deleteVenta").removeAttr("disabled");
-				$(control).closest(".panel").find(".update").removeAttr("disabled");
-				$(control).closest(".panel").find(".create").attr("disabled", true);
-				$(control).closest(".panel").find(".print").removeAttr("disabled");
+        $(control).closest(".panel").find(".deleteVenta").removeAttr("disabled");
+        $(control).closest(".panel").find(".update").removeAttr("disabled");
+        $(control).closest(".panel").find(".create").attr("disabled", true);
+        $(control).closest(".panel").find(".print").removeAttr("disabled");
 
-		}
-		else {
+    }
+    else {
 
-				$(control).closest(".panel").find(".deleteVenta").attr("disabled", true);
-				$(control).closest(".panel").find(".update").attr("disabled", true);
-				$(control).closest(".panel").find(".create").removeAttr("disabled");
-				$(control).closest(".panel").find(".print").attr("disabled", true);
+        $(control).closest(".panel").find(".deleteVenta").attr("disabled", true);
+        $(control).closest(".panel").find(".update").attr("disabled", true);
+        $(control).closest(".panel").find(".create").removeAttr("disabled");
+        $(control).closest(".panel").find(".print").attr("disabled", true);
 
 
-		}
+    }
 
 
 }
 
 
 
-    $('input').on('keyup', function(e) {
+$('input').on('keyup', function (e) {
 
-        if (e.which === 13) {
+    if (e.which === 13) {
 
-            $(this).next('input').focus();
+        $(this).next('input').focus();
 
-        }
+    }
 
 
 });
 
 
-$(".loginForm").on("submit", function(e)  {
+$(".loginForm").on("submit", function (e) {
 
 
     e.preventDefault();
@@ -1596,7 +1592,7 @@ $(".loginForm").on("submit", function(e)  {
 
 
 
-    $.each(fields, function(key, value) {
+    $.each(fields, function (key, value) {
 
 
         arrayFields[value.id] = $(value).val();
@@ -1614,10 +1610,10 @@ $(".loginForm").on("submit", function(e)  {
         method: "POST",
         data: { "data": obj, "table": 'login', "key": 'user', "cod": 0 },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
-            if(r == "OK") {
+            if (r == "OK") {
 
                 location.replace("../app/dashboard.php");
 
@@ -1639,7 +1635,7 @@ $(".loginForm").on("submit", function(e)  {
 
 });
 
-$(".btnLogout").on("click", function(e)  {
+$(".btnLogout").on("click", function (e) {
 
 
     $.ajax({
@@ -1648,10 +1644,10 @@ $(".btnLogout").on("click", function(e)  {
         method: "POST",
         data: { "data": 1, "table": 'login', "key": 'user', "cod": 0 },
         dataType: "JSON",
-        success: function(r) {
+        success: function (r) {
 
 
-            if(r == "OK") {
+            if (r == "OK") {
 
                 location.replace("../app/login.php")
 
@@ -1677,10 +1673,10 @@ $.datepicker.regional['es'] = {
     nextText: 'Sig>',
     currentText: 'Hoy',
     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
     dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-    dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
     weekHeader: 'Sm',
     dateFormat: 'dd/mm/yy',
     firstDay: 1,
@@ -1699,15 +1695,14 @@ $(".datepicker").datepicker({
 
 });
 
-$(document).ready(function()
-{   
+$(document).ready(function () {
     $(".date_mensual").datepicker({
         dateFormat: 'yy-mm',
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
 
-        onChangeMonthYear: function(dateText, inst) {
+        onChangeMonthYear: function (dateText, inst) {
             var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
             var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
             $(this).val($.datepicker.formatDate('yy-mm', new Date(year, month, 1)));
@@ -1734,9 +1729,9 @@ $('input, button, select').keydown(function (e) {
     }
 });
 
-$(document).on('ready', function() {
+$(document).on('ready', function () {
 
-	showCam(true);
+    showCam(true);
 
 });
 

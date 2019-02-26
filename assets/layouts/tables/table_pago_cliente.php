@@ -302,9 +302,11 @@ catch(mysqli_sql_exception $e) {
                         <th>idpago_cliente</th>
                         <th>Fecha</th>
                         <th>Cód. Cliente</th>
+                        <th>Forma de Pago</th>
+                        <th>No. Cheque</th>
+                        <th>Banco</th>
                         <th>Total Abono</th>
-                        <th>Saldo Anterior</th>
-
+                        
 
                 </tr>
                 </thead>

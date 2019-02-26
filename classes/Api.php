@@ -890,14 +890,13 @@ class Api extends Controller  {
             $totalDevolucion = 0;
 
 
-
             foreach ($data_detalle as $key => $value) {
 
 
                 $values = "('$insert', '$value[0]', $value[1], $value[3])";
 
 
-                $query = Controller::$connection->query("INSERT INTO detalle_devolucion (id_devolucion, idproducto, cantidad, subtotal) VALUES $values");
+                $query = Controller::$connection->query("INSERT INTO detalle_compra (id_devolucion, idproducto, cantidad, subtotal) VALUES $values");
 
 
                 $query = Controller::$connection->query("UPDATE producto SET cantidad = cantidad + $value[1] WHERE idproducto = '$value[0]'");
