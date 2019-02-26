@@ -758,6 +758,7 @@ $("button.hacerVenta").on("click", function () {
 
     if (!cod) {
 
+
         $.ajax({
 
             url: "../classes/Api.php?action=hacerVenta",
@@ -783,6 +784,8 @@ $("button.hacerVenta").on("click", function () {
                     }).then((result) => {
                         if (result.value) {
 
+                            nTotal = obj.total;
+
                             printManager.trigger("click");
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
                             $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
@@ -791,9 +794,40 @@ $("button.hacerVenta").on("click", function () {
 
                             $(".detalle_venta_table").DataTable().clear().draw();
 
+                            swal({
+                                title: 'Cambio',
+                                input: "text",
+                                text: "Ingresa la cantidad de dinero con el que paga el cliente, para poder calcular su cambio a recibir.",
+                                type: 'info',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Calcular cambio'
+                            }).then((result) => {
+                        
+                                if (result.value) {
+
+                                   var cambio = result.value - nTotal;
+
+                                    swal({
+                                        title: 'Cambio',
+                                        html: "El cambio para el cliente es: <br> <strong>Q"+cambio+"</strong>",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Finalizar',
+
+                                    });
+
+                                    }
+
+                                });
 
 
                         } else {
+
+                            nTotal = obj.total;
 
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
                             $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
@@ -803,6 +837,36 @@ $("button.hacerVenta").on("click", function () {
                             $(".detalle_venta_table").DataTable().clear().draw();
 
 
+                            swal({
+                                title: 'Cambio',
+                                input: "text",
+                                text: "Ingresa la cantidad de dinero con el que paga el cliente, para poder calcular su cambio a recibir.",
+                                type: 'info',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Calcular cambio'
+                            }).then((result) => {
+                        
+                                if (result.value) {
+
+                                   var cambio = result.value - nTotal;
+
+                                    swal({
+                                        title: 'Cambio',
+                                        html: "El cambio para el cliente es: <br> <strong>Q"+cambio+"</strong>",
+                                        type: 'success',
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Finalizar',
+
+                                    });
+
+                                    }
+
+                                });
+
                         }
                     });
 
@@ -810,7 +874,6 @@ $("button.hacerVenta").on("click", function () {
 
                     switchUDVenta(control, false);
                     refreshDetailVenta(control);
-
 
 
                 }

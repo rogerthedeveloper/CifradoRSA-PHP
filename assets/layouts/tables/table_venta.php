@@ -836,11 +836,9 @@ try {
             dataType: "JSON",
             success: function(r) {
 
-     
                 if (r) {
 
                     stock = r.existencia;
-
 
                     $("select#producto").select2("trigger", "select", {
 
@@ -1003,6 +1001,23 @@ try {
 
         });
 
+        $.ajax({
+
+            url: "../classes/Api.php?action=askExistencia",
+            method: "POST",
+            data: {
+                "data": {
+                    "id_producto": id
+                },
+                "table": "inventario",
+                "key": "idproducto",
+                "cod": id
+            },
+            dataType: "JSON",
+            success: function(r) {
+
+
+    if (cant <= r.existencia) {
 
         $.ajax({
 
@@ -1053,6 +1068,22 @@ try {
 
 
         });
+
+
+    }
+    else {
+
+        swal({
+            title: 'Existencia de Producto',
+            text: "Error, no hay stock.",
+            type: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+
+    }
+
+}});
 
     });
 
@@ -1204,3 +1235,15 @@ try {
     });
 
 </script> 
+
+<style>
+
+#total {
+
+    font-size: 20px;
+    height: 60px;
+    font-weight: bold;
+
+}
+
+</style>
