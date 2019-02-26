@@ -1,6 +1,7 @@
 /**
  * Created by RSpro on 23/05/16.
  */
+
 function supportInfo() {
 
     swal({
@@ -745,7 +746,7 @@ $("button.hacerVenta").on("click", function () {
 
     var obj = $.extend({}, arrayFields);
 
-    
+
     var table = $(this).closest(".panel").attr("id");
 
     var key = $(this).closest(".panel").find("input").first().attr("id");
