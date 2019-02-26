@@ -93,7 +93,7 @@ catch(mysqli_sql_exception $e) {
              </div>
             
 
-                    <div id="CLIENTE" class="panel panel-default">
+                 <div id="CLIENTE" class="panel panel-default">
                         
                         <div class="panel-heading">
                             <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -308,6 +308,36 @@ catch(mysqli_sql_exception $e) {
                 </div>
             </div>
 
+            <div id="CLIENTE" class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+
+                            <a data-toggle="collapse" data-target="#CLIENTE-panel">
+                                <strong>Reporte de Deudas a Proveedores</strong>
+                            </a>
+                            
+                        </h3>
+                    </div>
+
+                <div id="CLIENTE-panel" class="panel-collapse collapse in">
+
+                    <div class="panel-body">
+
+                        <div class="col-md-12 text-center">
+
+                            <div class="form-group">
+                                <br>
+                                
+                                <button id="print" template="RPTComprasCredito" type="button" class="print btn btn-default btn-md btn-md">
+                                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte de Deudas
+                                </button>
+                                    <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
            
              
 
