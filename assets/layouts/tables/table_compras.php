@@ -878,7 +878,7 @@ function scanProductoCompra(code) {
     $.ajax({
         url: "../classes/Api.php?action=askExistencia",
         method: "POST",
-        data: { "data": {"id_producto": code}, "table": "producto", "key": "idproducto", "cod": code},
+        data: { "data": {"id_producto": code}, "table": "inventario", "key": "idproducto", "cod": code},
         dataType: "JSON",
         success: function(r) {
 
