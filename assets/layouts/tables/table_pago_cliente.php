@@ -347,3 +347,32 @@ catch(mysqli_sql_exception $e) {
     </div>
 
 </div>
+
+<script>
+
+$("#noCheque").parent().css({"display":"none"});
+    $("#banco").parent().css({"display":"none"});
+
+    $("select#idFormapago").on("change", function(e) {
+
+        switch(this.value) {
+
+            case "1":
+
+                $("#noCheque").parent().css({"display":"none"});
+                $("#banco").parent().css({"display":"none"});
+
+            break;
+
+            case "2":
+
+                $("#noCheque").parent().css({"display":"table"});
+                $("#banco").parent().css({"display":"table"});
+
+            break;
+
+        }
+        
+    });
+
+</script>
