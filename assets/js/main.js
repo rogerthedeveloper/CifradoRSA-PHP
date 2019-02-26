@@ -854,7 +854,7 @@ $("button.hacerVenta").on("click", function () {
 
                                     swal({
                                         title: 'Cambio',
-                                        html: "El cambio para el cliente es: <br> <strong>Q"+cambio+"</strong>",
+                                        html: "El cambio para el cliente es: <br> <strong>Q"+parseFloat(cambio).toFixed(2)+"</strong>",
                                         type: 'success',
                                         showCancelButton: false,
                                         confirmButtonColor: '#3085d6',
