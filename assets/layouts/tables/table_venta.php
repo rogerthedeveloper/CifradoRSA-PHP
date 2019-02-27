@@ -850,7 +850,7 @@ try {
 
                     swal({
                         title: 'Inventario',
-                        html: '<strong>' + r.nombre + '</strong><br><strong>Existencia: ' + r.existencia + '</strong><br> Ingresa la "Cantidad a Vender"',
+                        html: '<strong>' + r.nombre + '</strong><br><strong>Existencia: ' + r.existencia + '</strong><br><strong>Precio: ' + r.precioSugerido + '</strong><br> Ingresa la "Cantidad a Vender"',
                         input: 'text',
                         type: 'info',
                         showCancelButton: true,
