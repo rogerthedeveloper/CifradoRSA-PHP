@@ -800,6 +800,14 @@ class Api extends Controller  {
 
             if($mensaje === true) {
 
+            
+
+
+                if(!$data["idFormapago"]) {
+
+                    $data["idFormapago"] = "NULL";
+        
+                }
 
                 $values = Controller::values($data);
 
@@ -829,10 +837,12 @@ class Api extends Controller  {
 
                   }
 
-                  $this->actualizarCaja($totalVenta, $data, "ingreso");
+                  $this->actualizarCaja($totalVenta, $data, "Ingreso");
 
                 }
                 else if($tipo_venta == 2) {
+
+                    
 
                   foreach ($data_detalle as $key => $value) {
 

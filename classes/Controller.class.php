@@ -19,7 +19,18 @@ class Controller extends App
 
         foreach($array as $key => $value) {
 
-            $string .= "'$value', ";
+            if($value == "NULL") {
+
+                $string .= "NULL, ";
+
+            }
+            else {
+                
+                $string .= "'$value', ";
+
+            }
+
+           
 
         }
 
