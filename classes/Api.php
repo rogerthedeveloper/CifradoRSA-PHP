@@ -805,7 +805,7 @@ class Api extends Controller  {
 
                 if($data["idFormapago"] == "nothing") {
 
-                    $data["idFormapago"] = "NULL";
+                    $data["idFormapago"] = 1;
         
                 }
 
