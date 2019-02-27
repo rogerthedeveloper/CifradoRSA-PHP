@@ -854,7 +854,7 @@ class Api extends Controller  {
 
                 echo json_encode($output);
 
-            }
+        }
 
     }
 

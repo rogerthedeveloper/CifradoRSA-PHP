@@ -785,6 +785,7 @@ $("button.hacerVenta").on("click", function () {
                         if (result.value) {
 
                             nTotal = obj.total;
+                            idFormapago = obj.idFormapago;
 
                             printManager.trigger("click");
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
@@ -793,6 +794,8 @@ $("button.hacerVenta").on("click", function () {
                             });
 
                             $(".detalle_venta_table").DataTable().clear().draw();
+
+                            if(idFormapago == "1") {
 
                             swal({
                                 title: 'Cambio',
@@ -841,10 +844,12 @@ $("button.hacerVenta").on("click", function () {
 
                                 });
 
+                            }
 
                         } else {
 
                             nTotal = obj.total;
+                            idFormapago = obj.idFormapago;
 
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
                             $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
@@ -853,6 +858,7 @@ $("button.hacerVenta").on("click", function () {
 
                             $(".detalle_venta_table").DataTable().clear().draw();
 
+                            if(idFormapago == "1") {
 
                             swal({
                                 title: 'Cambio',
@@ -884,6 +890,8 @@ $("button.hacerVenta").on("click", function () {
 
                                 });
                             }
+
+                        }
                     });
 
                     total = 0;
