@@ -398,7 +398,7 @@ try {
                         </button>
 
                         <button id="print" template="venta" type="button" class="print btn btn-default btn-md" disabled>
-                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Recibo
+                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Factura
                         </button>
 
                     </div>
@@ -1015,9 +1015,9 @@ try {
             },
             dataType: "JSON",
             success: function(r) {
+            
 
-
-    if (cant <= r.existencia) {
+    if (parseInt(cant) <= parseInt(r.existencia)) {
 
         $.ajax({
 

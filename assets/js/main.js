@@ -428,7 +428,7 @@ $("button.hacerPago").on("click", function () {
 
                 swal({
                     title: 'Pago Relizado',
-                    text: "¿Quieres imprimir el recibo?",
+                    text: "¿Quieres imprimir la Factura?",
                     type: 'success',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -538,7 +538,7 @@ $("button.hacerDevolucion").on("click", function () {
 
                     swal({
                         title: 'Devolución Relizada',
-                        text: "¿Quieres imprimir el recibo?",
+                        text: "¿Quieres imprimir la Factura?",
                         type: 'success',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -653,7 +653,7 @@ $("button.hacerCompra").on("click", function () {
 
                     swal({
                         title: 'Compra Relizada',
-                        text: "¿Quieres imprimir el recibo?",
+                        text: "¿Quieres imprimir la Factura?",
                         type: 'success',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -774,7 +774,7 @@ $("button.hacerVenta").on("click", function () {
 
                     swal({
                         title: 'Venta Relizada',
-                        text: "¿Quieres imprimir el recibo?",
+                        text: "¿Quieres imprimir la Factura?",
                         type: 'success',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -809,6 +809,8 @@ $("button.hacerVenta").on("click", function () {
 
                                    var cambio = result.value - nTotal;
 
+                                   if(cambio >= 0) {
+
                                     swal({
                                         title: 'Cambio',
                                         html: "El cambio para el cliente es: <br> <strong>Q"+cambio+"</strong>",
@@ -817,8 +819,24 @@ $("button.hacerVenta").on("click", function () {
                                         confirmButtonColor: '#3085d6',
                                         cancelButtonColor: '#d33',
                                         confirmButtonText: 'Finalizar',
-
                                     });
+
+                                   }
+                                   else {
+
+                                    swal({
+                                        title: 'Error',
+                                        html: "Asegurese que la cantidad a cobrar sea de: <br> <strong>Q"+nTotal+"</strong>",
+                                        type: 'error',
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Lo he comprobado',
+                                    });
+
+
+                                   }
+
 
                                     }
 
@@ -866,8 +884,7 @@ $("button.hacerVenta").on("click", function () {
                                     }
 
                                 });
-
-                        }
+                            }
                     });
 
                     total = 0;
