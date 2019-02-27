@@ -813,6 +813,10 @@ class Api extends Controller  {
 
                 $query = Controller::$connection->query("INSERT INTO $table $values");
 
+                print_r($values);
+
+                print_r(Controller::$connection->errorInfo());
+
                 $insert = Controller::$connection->lastInsertId();
 
 
