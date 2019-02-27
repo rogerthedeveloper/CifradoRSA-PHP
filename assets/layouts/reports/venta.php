@@ -76,7 +76,7 @@ $pdf->AddPage('L', 'HALF_LETTER');
 
 // ---------------------------------------------------------
 
-$h = new NumberToLetterConverter();
+//$h = new NumberToLetterConverter();
 
 
 
