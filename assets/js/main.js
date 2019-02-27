@@ -837,7 +837,6 @@ $("button.hacerVenta").on("click", function () {
 
                                    }
 
-
                                     }
 
                                 });

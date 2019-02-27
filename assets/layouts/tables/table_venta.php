@@ -1209,6 +1209,35 @@ try {
 
     });
 
+
+    $("select#idFormapago").parent().css({"display":"none"});
+
+
+    $("select#IDTIPO_VENTA").on("change", function(e) {
+
+
+        switch(this.value) {
+
+        case "1":
+
+            $("select#idFormapago").parent().css({"display":"table"});
+            $("#noCheque").parent().css({"display":"none"});
+            $("#banco").parent().css({"display":"none"});
+            
+        break;
+        case "2":
+
+            $("select#idFormapago").parent().css({"display":"none"});
+            $("#noCheque").parent().css({"display":"none"});
+            $("#banco").parent().css({"display":"none"});
+            
+        break;
+
+        }
+
+    });
+
+
     $("#noCheque").parent().css({"display":"none"});
     $("#banco").parent().css({"display":"none"});
 

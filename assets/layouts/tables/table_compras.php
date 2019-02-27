@@ -1103,7 +1103,36 @@ window.addEventListener("keydown", (e) => {
    
 });
 
-$("#noCheque").parent().css({"display":"none"});
+
+    $("select#idFormapago").parent().css({"display":"none"});
+
+
+    $("select#IDTIPOCOMPRA").on("change", function(e) {
+
+
+        switch(this.value) {
+
+        case "2":
+
+            $("select#idFormapago").parent().css({"display":"table"});
+            $("#noCheque").parent().css({"display":"none"});
+            $("#banco").parent().css({"display":"none"});
+            
+        break;
+        case "1":
+
+            $("select#idFormapago").parent().css({"display":"none"});
+            $("#noCheque").parent().css({"display":"none"});
+            $("#banco").parent().css({"display":"none"});
+            
+        break;
+
+        }
+
+    });
+
+
+    $("#noCheque").parent().css({"display":"none"});
     $("#banco").parent().css({"display":"none"});
 
     $("select#idFormapago").on("change", function(e) {
@@ -1127,5 +1156,6 @@ $("#noCheque").parent().css({"display":"none"});
         }
         
     });
+
 
 </script>
