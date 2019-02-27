@@ -803,7 +803,7 @@ class Api extends Controller  {
             
 
 
-                if(!$data["idFormapago"]) {
+                if($data["idFormapago"] == "nothing") {
 
                     $data["idFormapago"] = "NULL";
         
@@ -813,10 +813,7 @@ class Api extends Controller  {
 
                 $query = Controller::$connection->query("INSERT INTO $table $values");
 
-                print_r($values);
-
-                print_r(Controller::$connection->errorInfo());
-
+        
                 $insert = Controller::$connection->lastInsertId();
 
 
