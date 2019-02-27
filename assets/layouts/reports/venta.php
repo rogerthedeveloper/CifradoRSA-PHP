@@ -18,17 +18,20 @@ setlocale(LC_TIME, "ES");
 <?php
 
 
-$queryVenta = Controller::$connection->query("select *, p.nombre as nombre_producto, dv.cantidad as cantidad_venta, tp.nombre as nombreTipoVenta, c.nombre as nombreCliente from venta as v
-inner join detalle_venta as dv on dv.idventa = v.idventa
-inner join producto as p on p.idproducto = dv.idproducto
-inner join cliente as c on c.idcliente = v.idcliente
-inner join tipo_venta as tp on v.idtipo_venta = tp.idtipo_venta
-where v.idventa = $cod");
+$queryVenta = Controller::$connection->query("select *, p.nombre as nombre_producto, dv.cantidad as cantidad_venta, tp.nombre as nombreTipoVenta, c.nombre as nombreCliente
+        from venta as v
+        inner join detalle_venta as dv on dv.idventa = v.idventa
+        inner join producto as p on p.idproducto = dv.idproducto
+        inner join cliente as c on c.idcliente = v.idcliente
+        inner join tipo_venta as tp on v.idtipo_venta = tp.idtipo_venta
+        where v.idventa = $cod");
 
 if($queryVenta) {
 
     $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);
 
+}else {
+    die("No hay datos.");
 }
 
 
