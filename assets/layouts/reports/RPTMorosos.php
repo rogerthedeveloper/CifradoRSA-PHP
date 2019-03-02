@@ -14,14 +14,17 @@ setlocale(LC_TIME, "ES");
 ?>
 <?php
 
+// Consulta de Ventas
+$queryVenta = Controller::$connection->query("SELECT C.idcliente, C.nombre, C.saldo
+        FROM cliente AS C
+        WHERE C.saldo > '0'");
 
-$queryProductos = Controller::$connection->query("SELECT p.idproducto, p.nombre 
-                                                    FROM producto p");
-
-if($queryProductos->rowCount()) {
-
-    $dataProductos = $queryProductos->fetchAll(PDO::FETCH_ASSOC);
-
+//  Asignamos la trama de datos a la variable Data
+if($queryVenta->rowCount()) {
+    $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);
+}
+else {
+  die("No hay datos.");
 }
 
 
@@ -52,7 +55,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 
 // set document information
-$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetCreator(PDF_CREATOR);  
 $pdf->SetAuthor('');
 $pdf->SetSubject('');
 
@@ -66,30 +69,36 @@ $pdf->SetMargins(18, 18, 18, true);
 $pdf->AddPage('P', 'LETTER');
 
 
-// declaro variable detalle
-$detalle = "";
+// ---------------------------------------------------------
 
-// Carga los productos a la variable detalle
-    foreach($dataProductos as $key => $value) {
+$detalle = "";  
 
-    $idproducto = $value["idproducto"];
-    $queryExistencia = Controller::$connection->query("SELECT i.existencia
-    FROM inventario i 
-    WHERE i.idproducto = $idproducto
-    ORDER BY i.idInventario DESC
-    LIMIT 1");        
+  $totalCredito = 0;
 
-    $dataExistencia = $queryExistencia->fetch(PDO::FETCH_ASSOC);
 
-      $detalle .= "<tr>
+  // Llena el reporte con las ventas diarias
+foreach($dataVenta as $key => $value) {
 
-      <td>".$value["idproducto"]."</td>
-      <td>".$value["nombre"]."</td>
-      <td>".$dataExistencia["existencia"]."</td>
+    $idcliente = $value["idcliente"];
+    $queryPagos = Controller::$connection->query("SELECT *
+        FROM pago_cliente AS pc
+        WHERE pc.idcliente = '$idcliente'");        
 
-      </tr>";
+    $dataPagos = $queryPagos->fetch(PDO::FETCH_ASSOC);
 
-  }
+    if($queryPagos->rowCount()) 
+    {
+    }else{
+        $detalle .= "
+        <tr>
+
+            <td>".$value["idcliente"]."</td>
+            <td>".$value["nombre"]."</td>
+            <td>"."Q. ".$value["saldo"]."</td>
+
+        </tr>";
+    }
+}
 
 
 // define some HTML content with style
@@ -111,30 +120,34 @@ h1 {
 
 <html>
 <head>
-    <title> Existencia </title>
+    <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Existencia de Productos </h1></div>
-    <div style="text-align:center;"> MISCELANEA EL EDEN </div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Morosos </h1></div>
+    
+    <div style="text-align:center;"> MISCELANEA EL EDEN </div> 
     <div> </div>
+    <br>
     
     <br>
 
     <table width="100%" cellpadding="5" border="1" align="center">
 
     <tr align='center'>
-        <td><strong><big>Código de Producto</big></strong></td>
-        <td><strong><big>Nombre del Producto</big></strong></td>
-        <td><strong><big>Cantidad</big></strong></td>
+
+        <td><strong>ID Cliente</strong></td>
+        <td><strong>Nombre</strong></td>
+        <td><strong>Saldo</strong></td>
+
     </tr>
 
         $detalle
 
     </table>
-
+    <br>
+    <br>
     <br>
 
-    
 </body>
 </html>
 

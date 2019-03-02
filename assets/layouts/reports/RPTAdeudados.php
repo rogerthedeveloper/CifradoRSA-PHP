@@ -14,14 +14,19 @@ setlocale(LC_TIME, "ES");
 ?>
 <?php
 
+// Consulta de Ventas
+$queryVenta = Controller::$connection->query("SELECT v.idventa, v.idcliente, c.nombre as nombreCliente, v.total,  v.fecha, v.idtipo_venta, tp.nombre AS nombreVenta 
+    from venta as v
+    inner join cliente as c on v.idcliente = c.idcliente
+    inner join tipo_venta as tp on tp.idtipo_venta = v.idtipo_venta
+    where v.idtipo_venta = '2' order by v.idventa asc");
 
-$queryProductos = Controller::$connection->query("SELECT p.idproducto, p.nombre 
-                                                    FROM producto p");
-
-if($queryProductos->rowCount()) {
-
-    $dataProductos = $queryProductos->fetchAll(PDO::FETCH_ASSOC);
-
+//  Asignamos la trama de datos a la variable Data
+if($queryVenta->rowCount()) {
+    $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);
+}
+else {
+  die("No hay datos.");
 }
 
 
@@ -52,7 +57,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 
 // set document information
-$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetCreator(PDF_CREATOR);  
 $pdf->SetAuthor('');
 $pdf->SetSubject('');
 
@@ -66,30 +71,39 @@ $pdf->SetMargins(18, 18, 18, true);
 $pdf->AddPage('P', 'LETTER');
 
 
-// declaro variable detalle
+// ---------------------------------------------------------
+
+
+$idventa = $dataVenta[0]["idventa"];
+$cliente = $dataVenta[0]["idcliente"];
+$nombreCliente = $dataVenta[0]["nombreCliente"];
+$nombreTipoVenta = $dataVenta[0]["nombreVenta"];
+
+
+$fecha = $dataVenta[0]["fecha"];
+
+
 $detalle = "";
 
-// Carga los productos a la variable detalle
-    foreach($dataProductos as $key => $value) {
 
-    $idproducto = $value["idproducto"];
-    $queryExistencia = Controller::$connection->query("SELECT i.existencia
-    FROM inventario i 
-    WHERE i.idproducto = $idproducto
-    ORDER BY i.idInventario DESC
-    LIMIT 1");        
 
-    $dataExistencia = $queryExistencia->fetch(PDO::FETCH_ASSOC);
+  $totalCredito = 0;
 
-      $detalle .= "<tr>
 
-      <td>".$value["idproducto"]."</td>
-      <td>".$value["nombre"]."</td>
-      <td>".$dataExistencia["existencia"]."</td>
+  // Llena el reporte con las ventas diarias
+foreach($dataVenta as $key => $value) {
 
-      </tr>";
+    $totalCredito = $value["total"];
 
-  }
+    $detalle .= "<tr>
+
+    <td>".$value["idventa"]."</td>
+    <td>".$value["idcliente"]."</td>
+    <td>".$value["nombreCliente"]."</td>
+    <td>"."Q. ".$value["total"]."</td>
+
+    </tr>";
+}
 
 
 // define some HTML content with style
@@ -111,30 +125,42 @@ h1 {
 
 <html>
 <head>
-    <title> Existencia </title>
+    <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Existencia de Productos </h1></div>
-    <div style="text-align:center;"> MISCELANEA EL EDEN </div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Deudas de Clienres </h1></div>
+    
+    <div style="text-align:center;"> MISCELANEA EL EDEN </div> 
     <div> </div>
+    <br>
     
     <br>
 
     <table width="100%" cellpadding="5" border="1" align="center">
 
     <tr align='center'>
-        <td><strong><big>Código de Producto</big></strong></td>
-        <td><strong><big>Nombre del Producto</big></strong></td>
-        <td><strong><big>Cantidad</big></strong></td>
+        <td><strong>ID Venta </strong></td>
+        <td><strong>ID Cliente</strong></td>
+        <td><strong>Nombre</strong></td>
+        <td><strong>Total de Venta</strong></td>
+
     </tr>
 
         $detalle
 
-    </table>
+     <tr align='center'>
 
+        <td><strong> </strong></td>
+        <td><strong></strong></td>
+        <td><strong>Total Adeudado</strong></td>
+        <td><strong>$totalCredito/strong></td>
+
+     </tr>
+    </table>
+    <br>
+    <br>
     <br>
 
-    
 </body>
 </html>
 
