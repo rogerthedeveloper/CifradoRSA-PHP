@@ -93,26 +93,26 @@ class Api extends Controller  {
 
         $query2 = Controller::$connection->query("SELECT * FROM detalle_compra INNER JOIN PRODUCTO ON detalle_compra.idproducto = PRODUCTO.idproducto WHERE idCompra = '$cod'");
 
+       
 
         if($query1 && $query2) {
 
             $data[0] = $query1->fetchAll(PDO::FETCH_ASSOC);
-            $data[1] = $query2->fetchAll(PDO::FETCH_NUM);
+            $data[1] = $query2->fetchAll(PDO::FETCH_ASSOC);
 
         }
 
         foreach($data[1] as $key => $value) {
 
-
             $itemVenta[$key][0] = $value["idproducto"]; // ID
             $itemVenta[$key][1] = $value["nombre"]; // PRODUCTO
             $itemVenta[$key][2] = $value["cantidad"]; // Cantidad
-            $itemVenta[$key][3] = $value["subtotal"] / $value["cantidad"]; // Precio
-            $itemVenta[$key][4] = $value["subtotal"];   // Subtotal
+            $itemVenta[$key][3] = $value["precioUnitario"] / $value["cantidad"]; // Precio
+            $itemVenta[$key][4] = $value["precioUnitario"];   // Subtotal
 
         }
 
-
+      
         $data[1] = $itemVenta;
 
 
@@ -800,8 +800,6 @@ class Api extends Controller  {
 
             if($mensaje === true) {
 
-            
-
 
                 if($data["idFormapago"] == "nothing") {
 
@@ -875,8 +873,8 @@ public function hacerCompra($table, $data, $data_detalle) {
 
 
     header('Content-Type: application/json');
-        
-
+     
+    
     foreach($data_detalle as $key => $value) {
 
         $query = Controller::$connection->query("SELECT * FROM producto WHERE idproducto = '$value[0]'");
@@ -887,8 +885,14 @@ public function hacerCompra($table, $data, $data_detalle) {
 
     }
 
+
     if($mensaje === true) {
 
+        if($data["idFormaPago"] == "nothing") {
+
+            $data["idFormaPago"] = 1;
+
+        }
 
         $values = Controller::values($data);
 
@@ -897,44 +901,42 @@ public function hacerCompra($table, $data, $data_detalle) {
         $insert = Controller::$connection->lastInsertId();
 
 
-        $totalVenta = 0;
+        $totalCompra = 0;
 
-        $tipo_venta = $data["idtipo_venta"];
+        $tipo_compra = $data["idTipoCompra"];
 
-        if($tipo_venta == 1) {
+
+        if($tipo_compra == 1) {
 
           foreach ($data_detalle as $key => $value) {
 
-
               $values = "('$insert', '$value[0]', $value[2], $value[4])";
 
-              $query = Controller::$connection->query("INSERT INTO detalle_compra (idcompra, idproducto, cantidad, subtotal) VALUES $values");
+              $query = Controller::$connection->query("INSERT INTO detalle_compra (idcompra, idproducto, cantidad, precioUnitario) VALUES $values");
 
-              $cant = $value[2];
-
-              $c = $value[0];
-
-              $totalVenta = $totalVenta + $value[4];
+              $totalCompra = $totalCompra + $value[4];
 
           }
 
-          $this->actualizarCaja($totalVenta, $data, "ingreso");
+          $this->actualizarCaja($totalCompra, $data, "ingreso");
 
         }
-        else if($tipo_venta == 2) {
+
+        else if($tipo_compra == 2) {
 
           foreach ($data_detalle as $key => $value) {
 
 
               $values = "('$insert', '$value[0]', $value[2], $value[4])";
 
-              $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
+              $query = Controller::$connection->query("INSERT INTO detalle_compra (idcompra, idproducto, cantidad, precioUnitario) VALUES $values");
 
-              $totalVenta = $totalVenta + $value[4];
+              $totalCompra = $totalCompra + $value[4];
+              
 
           }
 
-          $this->actualizarSaldoCredito($data, $totalVenta);
+          $this->actualizarSaldoCredito($data, $totalCompra);
 
         }
 
@@ -1438,7 +1440,7 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
         if(isset($_POST["data_detalle"]) && $_POST["data_detalle"] != 'undefined') {
 
                 $data_detalle = $_POST["data_detalle"];
-            }
+        }
 
 
             $request = new Api();

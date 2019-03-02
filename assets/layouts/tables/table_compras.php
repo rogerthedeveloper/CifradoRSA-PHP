@@ -101,10 +101,7 @@ try {
             <?php $counter = 0;
             foreach ($fields as $key => $value) : ?>
 
-
-
                <?php if ($value[3] == "MUL") : ?>
-
 
         <div class="form-group">
 
@@ -366,8 +363,6 @@ try {
             </div>
 
             <br>
-
-
 
                 <div style="text-align: center;">
 
@@ -781,7 +776,6 @@ try {
                                 switchUDDevolucion(control, true);
 
 
-
                             $.ajax({
 
                                 url: "../classes/Api.php?action=oneCompra",
@@ -831,12 +825,9 @@ try {
                     
 function addItemScanCompra(code, nombre, cantidad, precio) {
 
-
     $(".hacerCompra").attr("disabled", false);
 
-
     $("#add").attr("disabled", true);
-
 
     $("#cantidadCtn").val(0);
 

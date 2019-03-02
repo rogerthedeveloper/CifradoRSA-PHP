@@ -634,7 +634,7 @@ $("button.hacerCompra").on("click", function () {
 
     var cod = $(this).closest(".panel").find("input").first().val();
 
-    var data_detalle = detalle_devolucion_table.rows().data().toArray();
+    var data_detalle = detalle_compra_table.rows().data().toArray();
 
 
     if (!cod) {
