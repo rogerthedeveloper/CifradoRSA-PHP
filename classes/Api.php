@@ -287,14 +287,11 @@ class Api extends Controller  {
 
 
     public function addProducto($table, $data) {
-
+        
 
         $values = Controller::values($data);
 
         $query = Controller::$connection->query("INSERT INTO $table $values");
-
-        $data = $query->fetch(PDO::FETCH_ASSOC); 
-
 
         header('Content-Type: application/json');
 
@@ -936,7 +933,7 @@ public function hacerCompra($table, $data, $data_detalle) {
 
           }
 
-          $this->actualizarSaldoCredito($data, $totalCompra);
+          $this->actualizarSaldoCreditoProveedor($data, $totalCompra);
 
         }
 
@@ -1069,9 +1066,29 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
     }
 
+    public function actualizarSaldoCreditoProveedor($param, $total) {
+
+        $idcliente = $param["idProveedor"];
+    
+        $query = Controller::$connection->query("SELECT * FROM proveedor WHERE idProveedor = '$idcliente'");
+    
+        $query = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+        if(-$total <= $query[0]["saldo"]) {
+    
+            $query = Controller::$connection->query("UPDATE proveedor as P SET P.saldo  = P.saldo + $total WHERE P.idProveedor = '$idcliente'");
+    
+            return true;
+        }
+        else {
+    
+            return false;
+    
+        }
+    
+    }
 
     public function actualizarSaldoCredito($param, $total) {
-
 
     $idcliente = $param["idcliente"];
 
@@ -1416,13 +1433,11 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
 
         if(isset( $_POST["table"])) {
 
-
             $table = $_POST["table"];
 
             $key = $_POST["key"];
 
             $cod = $_POST["cod"];
-
 
         }
 

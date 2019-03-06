@@ -790,7 +790,6 @@ try {
 
                                         $(form).find("#"+key).val(value);
 
-
                                         if($(form).find("#"+key).data("select2")) {
 
                                             $(form).find("#"+key).select2("trigger", "select", {
@@ -921,8 +920,12 @@ function scanProductoCompra(code) {
                                         "data": {
                                             "idproducto": code,
                                             "preciocosto": nCosto,
+                                            "precioSugerido": nCosto * 1.20,
+                                            "precioTop": nCosto,
                                         },  
-                                        "table": "producto"
+                                        "table": "producto",
+                                        "cod": "",
+                                        "key": ""
                                     },
                                     dataType: "JSON",
                                     success: function(r) {
@@ -1025,16 +1028,18 @@ function scanProductoCompra(code) {
                                                 data: { 
                                                 "data": {
                                                     "idproducto": code,
-                                                    "idCategoria": 1,
+                                                    "idCategoria": "NULL",
                                                     "nombre": nombre,
                                                     "preciocosto": precio,
-                                                    "precioSugerido": 1,
-                                                    "precioTop": 1,
-                                                    "marca": "",
+                                                    "precioSugerido": precio * 1.20,
+                                                    "precioTop": precio,
+                                                    "marca": "NULL",
                                                     "serie": "",
                                                     "modelo": "",
                                                 },  
-                                                "table": "producto"
+                                                "table": "producto",
+                                                "cod": "",
+                                                "key": ""
                                                 },
                                                 dataType: "JSON",
                                                 success: function(r) {
