@@ -843,12 +843,11 @@ class Api extends Controller  {
 
                   }
 
-                  $this->actualizarCaja($totalVenta, $data, "Ingreso");
+                  $this->actualizarCaja($totalVenta, $data, "ingreso");
 
                 }
                 else if($tipo_venta == 2) {
 
-                    
 
                   foreach ($data_detalle as $key => $value) {
 
@@ -925,7 +924,7 @@ public function hacerCompra($table, $data, $data_detalle) {
 
           }
 
-          $this->actualizarCaja($totalCompra, $data, "ingreso");
+          $this->actualizarCaja($totalCompra, $data, "egreso");
 
         }
 
@@ -1129,6 +1128,8 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
         header('Content-Type: application/json');
 
+
+
         $query = Controller::$connection->query("SELECT * FROM caja ORDER BY id DESC LIMIT 1");
 
 
@@ -1138,12 +1139,11 @@ public function hacerDevolucion($table, $data, $data_detalle) {
             $saldo = $dataCaja[0]["saldo"];
             $fecha = $data["fecha"];
 
+     
 
         if($type == "ingreso") {
 
-
             $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo) VALUES ('$fecha', $param, $saldo + $param)");
-
 
         }
         else if($type == "egreso") {
@@ -1151,6 +1151,7 @@ public function hacerDevolucion($table, $data, $data_detalle) {
             $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo) VALUES ('$fecha', $param, $saldo - $param)");
 
         }
+
         else if($type == "retiro") {
 
           $motivo = $param["motivo"];
@@ -1329,12 +1330,6 @@ public function hacerDevolucion($table, $data, $data_detalle) {
         $data =  $data->fetchAll(PDO::FETCH_NUM);
 
         $i = 0;
-
-        foreach($data as $key => $value) {
-            
-            //$data[$i] = $value;
-
-        }
 
         echo json_encode($data, JSON_NUMERIC_CHECK);
 

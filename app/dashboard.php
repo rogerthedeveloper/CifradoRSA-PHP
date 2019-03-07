@@ -129,10 +129,7 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
             
                                     r.unshift(["Fecha", "Venta"]);
 
-                                    console.log(r);
-
                                     chartClientes.draw(google.visualization.arrayToDataTable(r), optionsClientes);
-
 
                                 }
 
