@@ -14,7 +14,7 @@
 
     <div class="col-md-12"><?php
 
-        View::showView("reportes_clientes");
+        View::showView("generador_barras");
 
         ?></div>
 

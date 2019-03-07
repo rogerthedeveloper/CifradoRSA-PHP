@@ -8,6 +8,12 @@ html {
     overflow-x: hidden;
 }
 
+.text-center {
+
+  text-align: center;
+  
+}
+
 body {
 
     background-image: url("../img/fondo.jpg");

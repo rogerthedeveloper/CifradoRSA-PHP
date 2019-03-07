@@ -51,6 +51,7 @@ include("../classes/permissions.inc");
 <!-- Jquery Confirm -->
 <link rel="stylesheet" type="text/css" href="../assets/libs/jquery-confirm/jquery-confirm.min.css"/>
 
+<script type="text/javascript" src="../assets/libs/jquery-confirm/jquery-confirm.min.js"></script>
 
 <!-- Jquery SweetAlert -->
 <script type="text/javascript" src="../assets/libs/SweetAlert/sweetalert2.all.js"></script>
@@ -58,11 +59,14 @@ include("../classes/permissions.inc");
 <!-- CSS SweetAlert -->
 <link rel="stylesheet" type="text/css" href="../assets/libs/SweetAlert/sweetalert2.css"/>
 
-
-<script type="text/javascript" src="../assets/libs/jquery-confirm/jquery-confirm.min.js"></script>
+<!-- Select2 JS -->
+<script type="text/javascript" src="../assets/libs/select2/js/select2.full.min.js"></script>
 
 <!-- Select2 JS -->
 <script type="text/javascript" src="../assets/libs/select2/js/select2.full.min.js"></script>
+
+<!-- jQuery Barcode -->
+<script type="text/javascript" src="../assets/libs/barcode-jquery/jquery-barcode.min.js"></script>
 
 <!-- Select2 CSS -->
 <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css">
@@ -83,7 +87,7 @@ include("../classes/permissions.inc");
 
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-<!-- Main Style agrega imagen-->
+<!-- Main Style -->
 <link rel="stylesheet" href="../assets/css/main.css"> 
 
 <!-- Responsive Voice -->
@@ -95,3 +99,7 @@ include("../classes/permissions.inc");
   google.charts.load('current', {'packages':['corechart']});                     
 
 </script>
+
+<!-- jQuert Print -->
+<script type="text/javascript" src="../assets/libs/jquery-print/dist/jQuery.print.min.js"></script>
+
