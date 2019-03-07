@@ -13,9 +13,9 @@ include("permissions.inc");
  * Time: 14:13
  */
 
-
 class Api extends Controller  {
 
+    // Obtiene todos los registros de una tabla
     public function allRegistries($table, $key) {
 
         $query = Controller::$connection->query("SELECT * FROM $table ORDER BY $key DESC");
@@ -33,6 +33,7 @@ class Api extends Controller  {
     }
 
 
+    // Obtiene un registro especifico de una tabla
     public function oneRegistry($table, $key, $cod) {
 
         $query = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
@@ -49,7 +50,7 @@ class Api extends Controller  {
 
     }
 
-
+    //Obtiene un registro de una venta
     public function oneRegistryVenta($table, $key, $cod) {
 
 
@@ -86,6 +87,7 @@ class Api extends Controller  {
 
     }
 
+    // Obtiene un registro de una compra
     public function oneRegistryCompra($table, $key, $cod) {
 
 
@@ -122,7 +124,8 @@ class Api extends Controller  {
 
     }
 
-        public function oneRegistryDevolucion($table, $key, $cod) {
+    // Obtiene un registro de una devolucion
+    public function oneRegistryDevolucion($table, $key, $cod) {
 
 
             $query1 = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
@@ -156,6 +159,7 @@ class Api extends Controller  {
 
         }
 
+        // Agrega un articulo a la compra
         public function addItemCompra($table, $key, $cod, $param) {
 
 
@@ -202,6 +206,8 @@ class Api extends Controller  {
 
         }
 
+
+    // Agrega un articulo a la venta
     public function addItemVenta($table, $key, $cod, $param) {
 
 
@@ -285,7 +291,7 @@ class Api extends Controller  {
 
     }
 
-
+    // Agrega un producto a Productos
     public function addProducto($table, $data) {
         
 
@@ -313,6 +319,7 @@ class Api extends Controller  {
     }
 
 
+    // Actualiza un producto en Productos
     public function updateProducto($table, $key, $cod, $data) {
 
 
@@ -340,6 +347,7 @@ class Api extends Controller  {
     }
 
 
+    // Crea un Registro nuevo
     public function create($table, $data) {
 
 
@@ -369,6 +377,7 @@ class Api extends Controller  {
     }
 
 
+    // Actualiza un Registro
     public function update($table, $key, $cod, $data) {
 
 
@@ -395,7 +404,7 @@ class Api extends Controller  {
 
     }
 
-
+    // Elimina un Registro
     public function delete($table, $key, $cod) {
 
         $query = Controller::$connection->query("DELETE FROM $table WHERE $key = '$cod' LIMIT 1");
@@ -420,6 +429,7 @@ class Api extends Controller  {
     }
 
 
+    // Registro Anterior
     public function prev($table, $key, $cod) {
 
         $query = Controller::$connection->query("SELECT * FROM $table WHERE $key < '$cod' ORDER BY $key DESC LIMIT 1");
@@ -545,6 +555,7 @@ class Api extends Controller  {
     }
 
 
+    // Registro Siguiente
     public function next($table, $key, $cod) {
 
         $query = Controller::$connection->query("SELECT * FROM $table WHERE $key > '$cod' ORDER BY $key ASC LIMIT 1");
@@ -678,7 +689,7 @@ class Api extends Controller  {
 
     }
 
-
+    // Login
     public function login($loginData) {
 
 
@@ -702,7 +713,7 @@ class Api extends Controller  {
 
     }
 
-
+    // Logout
     public function logout() {
 
 
@@ -726,7 +737,8 @@ class Api extends Controller  {
 
     }
 
-
+    
+    // Hacer PDF
     public function getPDF($template) {
 
 
@@ -737,7 +749,6 @@ class Api extends Controller  {
 
 
     // Hacer Pago
-
     public function hacerPago($table, $data) {
 
 
@@ -778,7 +789,6 @@ class Api extends Controller  {
 
 
      // Hacer Venta
-
     public function hacerVenta($table, $data, $data_detalle) {
 
 
@@ -1066,6 +1076,7 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
     }
 
+    // Actualiza Saldo del Provedor
     public function actualizarSaldoCreditoProveedor($param, $total) {
 
         $idcliente = $param["idProveedor"];
@@ -1300,7 +1311,6 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
         header('Content-Type: application/json');
 
-
         $param["fecha"] = "curdate()";
 
         $this->actualizarCaja($data, $param, "retiro");
@@ -1322,12 +1332,11 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
         foreach($data as $key => $value) {
             
-            $data[$i] = $value;
+            //$data[$i] = $value;
 
         }
 
         echo json_encode($data, JSON_NUMERIC_CHECK);
-
 
     }
 

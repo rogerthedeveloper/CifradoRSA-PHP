@@ -126,6 +126,7 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
                                 dataType: "JSON",
                                 success: function(r) {
 
+            
                                     r.unshift(["Fecha", "Venta"]);
 
                                     console.log(r);
@@ -153,18 +154,13 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
 
                 <div class="col-md-6">
 
+                    <select id="cliente" class="form-control" aria-describedby="basic-addon">
 
-                  <select id="cliente" class="form-control" aria-describedby="basic-addon">
+                            <option value="nothing">Selecciona un Cliente</option>
 
-                      <option value="nothing">Selecciona un Cliente</option>
-
-                  </select>
-
-
+                    </select>
 
                 </div>
-
-
 
                 </div>
 
@@ -210,7 +206,7 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
                 <div class="panel-body">
 
 
-
+                  <p style="text-align: center;">Haz click en imprimir para ver un registro detallado.</p>
 
 
                 </div>
@@ -259,7 +255,7 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
 
                 <div class="panel-body">
 
-                    <div id="chart_div"></div>
+                <p style="text-align: center;">Haz click en imprimir para ver un registro detallado.</p>
 
                 </div>
 
