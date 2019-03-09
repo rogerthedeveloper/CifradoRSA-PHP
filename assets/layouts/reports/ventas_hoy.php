@@ -5,7 +5,6 @@ $table = $_POST["table"];
 $key = $_POST["key"];
 $cod = $_POST["cod"];
 
-
 ?>
 <?php
 
@@ -19,13 +18,13 @@ setlocale(LC_TIME, "ES");
 $queryVenta = Controller::$connection->query("SELECT v.fecha, v.idventa, v.idtipo_venta, v.idcliente, v.total, c.nombre as nombreCliente, tv.nombre as nombreTipoVenta from venta as v
   inner join cliente AS c ON c.idcliente = v.idcliente
   inner join tipo_venta AS tv ON tv.idtipo_venta = v.idtipo_venta
-  where v.fecha = '$cod'");
+  where v.fecha = curdate()");
 
 
-if($queryVenta->rowCount()) {
+if($queryVenta) {
 
     $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);
-
+    
 }
 else {
 
