@@ -25,7 +25,8 @@ body {
 #capturar-foto {
 
   display: none;
-  width: 240px;
+  width: 100%;
+  max-width: 240px;
   border: 1px solid;
 
 }
