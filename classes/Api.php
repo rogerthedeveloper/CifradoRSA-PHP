@@ -1213,7 +1213,6 @@ public function hacerDevolucion($table, $data, $data_detalle) {
     }
 
 
-
     }
 
     public function actualizarCaja2($monto, $operacion, $params) {
@@ -1253,9 +1252,6 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
 
         header('Content-Type: application/json');
-
-        print_r($data);
-        
 
         $query = Controller::$connection->query("SELECT * FROM caja ORDER BY id DESC LIMIT 1");
 
@@ -1549,6 +1545,18 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
     }
 
+    // Cambia saldo de un banco hecho por depósitos
+    public function hacerDeposito($table, $param) {
+
+        $totalDepo = $param["total"];
+
+        $no_CuentaDepo = $param["NOCUENTA"];
+
+        $this->actualizarBancos($totalDepo, "ingreso", $no_CuentaDepo);
+
+        echo $this->actualizarCaja2($param["total"], "egreso", $param);
+        
+    }
 
 }
 
@@ -1770,7 +1778,11 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
                     $request->addProducto($table, $data);
 
                 break;
+                case 'hacerDeposito':
 
+                    $request->hacerDeposito($table, $data);
+
+                break;
 
         }
 

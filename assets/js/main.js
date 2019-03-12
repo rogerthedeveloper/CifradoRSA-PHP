@@ -1229,6 +1229,66 @@ $("button.create").on("click", function () {
 });
 
 
+$("button.hacerDeposito").on("click", function()  {
+
+
+    var control = this;
+
+    var fields = $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea, select");
+
+    var form = $(control).closest(".panel");
+
+
+    var arrayFields = [];
+
+
+    $.each(fields, function(key, value) {
+
+
+        arrayFields[value.id] = $(value).val();
+
+
+    });
+
+    var obj = $.extend({}, arrayFields);
+
+
+    var table = $(this).closest(".panel").attr("id");
+
+    var key = $(this).closest(".panel").find("input").first().attr("id");
+
+    var cod = $(this).closest(".panel").find("input").first().val();
+
+
+        $.ajax({
+
+        url: "../classes/Api.php?action=hacerDeposito",
+        method: "POST",
+        data: { "data": obj, "table": table, "key": key, "cod": cod },
+        dataType: "JSON",
+        success: function(r) {
+
+
+            if(r == "Inserted") {
+
+                $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                switchUD(control, false);
+                refreshDetail(form);
+                $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                    data: { id: "" }
+                });
+
+            }
+
+
+        }
+
+
+    });
+
+
+});
+
 $("button.update").on("click", function () {
 
 
