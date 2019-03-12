@@ -99,7 +99,7 @@ catch(mysqli_sql_exception $e) {
 
                 <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon">
 
-                    <option value="nothing"><?php echo strtoupper($value[0]); ?></option>
+                    <option value=""><?php echo strtoupper($value[0]); ?></option>
 
                 </select>
 
