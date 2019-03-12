@@ -1554,7 +1554,7 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
         $this->actualizarBancos($totalDepo, "ingreso", $no_CuentaDepo);
 
-        echo $this->actualizarCaja2($param["total"], "egreso", $param);
+        $this->actualizarCaja2($param["total"], "egreso", $param);
         
     }
 
