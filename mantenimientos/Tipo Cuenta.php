@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: BCalderon
  * Date: 01/30/19
- * Time: 10:48
+ * Time: 10:40
  */
 
  require_once("../assets/config.php");
@@ -16,7 +16,7 @@
 
     <div class="col-md-12"><?php
 
-        View::showViewFromTable("GASTO", "Administración de los Egresos", Array("photo" => false, "detail" => true),"table_gasto");
+        View::showViewFromTable("TIPOCUENTA", "Tipos de Cuenta", Array("photo" => false, "detail" => true));
 
         ?></div>
 
