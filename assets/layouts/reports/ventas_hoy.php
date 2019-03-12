@@ -21,7 +21,7 @@ $queryVenta = Controller::$connection->query("SELECT v.fecha, v.idventa, v.idtip
   where v.fecha = curdate()");
 
 
-if($queryVenta) {
+if($queryVenta->rowCount()) {
 
     $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);
     

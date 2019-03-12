@@ -13,7 +13,6 @@ class Controller extends App
     static function values($array) {
 
 
-
         $string = "VALUES(";
 
 
