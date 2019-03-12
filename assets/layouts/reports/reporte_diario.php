@@ -143,7 +143,7 @@ $gananciaDelDia = Controller::$connection->query("SELECT (SUM(dtv.subtotal)-SUM(
     FROM venta AS v
 	inner join detalle_venta as dtv on v.idventa = dtv.idventa
 	inner join producto as p on dtv.idproducto = p.idproducto
-    where v.fecha = '$cod'");
+    where v.fecha = '$cod' AND v.idtipo_venta = '1'");
 
   if($gananciaDelDia->rowCount()) {
 
@@ -162,20 +162,15 @@ $gananciaDevolucion = Controller::$connection->query("SELECT (SUM(dd.subtotal) -
         $gananciaDevolucion = $gananciaDevolucion->fetchAll(PDO::FETCH_NUM);
 
     }
-    //echo($gananciaDelDia[0][0]);
+
     
-    $gananciaDelDia = 0 + $gananciaDelDia[0][0] - $gananciaDevolucion[0][0];
+    $gananciaDelDia = 0 + $gananciaDelDia[0][0];
 
     $totalDevolucion = 0 + $gananciaDevolucion[0][1];
 
-    //echo($totalContado);
-    //echo($totalDevolucion);
-    //Ventas Netas
-    //if ($totalContado == 0) {
-    //   $ventasNetas = 0 ;
-   // }elseif ($totalContado > 0) {
+
         $ventasNetas = $totalContado - $totalDevolucion;
-   // }
+ 
 
     
 
