@@ -4,7 +4,6 @@ $data = $_POST["data"];
 $table = $_POST["table"];
 $key = $_POST["key"];
 $cod = $_POST["cod"];
-$idproducto = json_decode($data)->producto;
 
 ?>
 <?php
@@ -15,23 +14,23 @@ setlocale(LC_TIME, "ES");
 <?php
 
 // Concatenar el dia a las variables de rango de fechas 
-$cod2 = $cod . '-01';
-$cod3 = $cod . '-31';
 
-//Consultas a la base de datos
-$queryProductos = Controller::$connection->query("SELECT dv.idproducto, p.nombre, COUNT(dv.idproducto) AS Cantidad_Ventas, SUM(dv.cantidad) AS TOTAL
-    FROM venta AS v
-    INNER JOIN detalle_venta as dv ON dv.idventa = v.idventa 
-    INNER JOIN producto AS p ON p.idproducto = dv.idproducto
-    WHERE v.fecha BETWEEN '$cod2' AND '$cod3' AND DV.idproducto = '$idproducto'");
+$queryVenta = Controller::$connection->query("SELECT v.fecha, v.idventa, v.idtipo_venta, v.idcliente, v.total, c.nombre as nombreCliente, tv.nombre as nombreTipoVenta from venta as v
+  inner join cliente AS c ON c.idcliente = v.idcliente
+  inner join tipo_venta AS tv ON tv.idtipo_venta = v.idtipo_venta
+  where v.fecha = '$cod'");
 
-if($queryProductos->rowCount()) {
 
-    $dataProductos = $queryProductos->fetchAll(PDO::FETCH_ASSOC);
+if($queryVenta->rowCount()) {
 
-}else {
-    die("No hay datos.");
-  }
+    $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);
+    
+}
+else {
+
+  die("No hay datos.");
+
+}
 
 
 class MYPDF extends TCPDF {
@@ -74,21 +73,25 @@ $pdf->SetMargins(18, 18, 18, true);
 $pdf->AddPage('P', 'LETTER');
 
 
+$fecha = $dataVenta[0]["fecha"];
+
 // declaro variable detalle
 $detalle = "";
 
 // Carga los productos a la variable detalle
-    foreach($dataProductos as $key => $value) {
+foreach($dataVenta as $key => $value) {
 
-      $detalle .= "<tr>
+    $detalle .= "<tr>
 
-      <td>".$value["idproducto"]."</td>
-      <td>".$value["nombre"]."</td>
-      <td>".$value["TOTAL"]."</td>
+    <td>".$value["idventa"]."</td>
+    <td>".$value["idcliente"]."</td>
+    <td>".$value["nombreCliente"]."</td>
+    <td>".$value["nombreTipoVenta"]."</td>
+    <td>"."Q. ".$value["total"]."</td>
 
-      </tr>";
+    </tr>";
+}
 
-  }
 
 // define some HTML content with style
 $html = <<<EOF
@@ -97,39 +100,38 @@ $html = <<<EOF
 
 body{
 
-    font-size: 8px;
+    font-size: 14px;
 }
 
 h1 {
 
-    font-size: 20px;
+    font-size: 24px;
 }
 
 </style>
 
 <html>
 <head>
-    <title> Existencia </title>
+    <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Productos más Vendidos </h1></div>
-    <div style="text-align:center;"> MISCELANEA EL EDEN </div>
-    <div> </div>
-    <br>
-
-    <h2>Productos Más Vendidos</h2>
-    <table width="100%" cellpadding="5" border="1" align="center">
+    <div style="text-align:center; line-height: 1px;"><h1> VENTAS DEL DIA </h1></div>
+    <div style="text-align:center;">MISCELANEA EL EDEN</div>
+    <div style="text-align:left;"><h1> Fecha: $fecha </h1></div>
+    <table width="100%" border="1" align="center">
 
     <tr align='center'>
-        <td><strong><big>Código de Producto</big></strong></td>
-        <td><strong><big>Nombre del Producto</big></strong></td>
-        <td><strong><big>Total Vendido</big></strong></td>
+        <td><strong>Número de Venta</strong></td>
+        <td><strong>Código Cliente</strong></td>
+        <td><strong>Nombre Cliente</strong></td>
+        <td><strong>Tipo de Venta</strong></td>
+        <td><strong>Total</strong></td>
     </tr>
 
         $detalle
 
     </table>
-   
+
 </body>
 </html>
 

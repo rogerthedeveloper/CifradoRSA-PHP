@@ -38,8 +38,8 @@ $queryProductosMenos = Controller::$connection->query("SELECT dv.idproducto, p.n
 
 if($queryProductos->rowCount()) {
 
-    $dataProductos = $queryProductos->fetch(PDO::FETCH_ASSOC);
-    $dataProductosMenos = $queryProductosMenos->fetch(PDO::FETCH_ASSOC);
+    $dataProductos = $queryProductos->fetchAll(PDO::FETCH_ASSOC);
+    $dataProductosMenos = $queryProductosMenos->fetchAll(PDO::FETCH_ASSOC);
 
 }else {
     die("No hay datos.");
@@ -97,7 +97,7 @@ $detalle2 = "";
 
       <td>".$value["idproducto"]."</td>
       <td>".$value["nombre"]."</td>
-      <td>".$dataExistencia["TOTAL"]."</td>
+      <td>".$value["TOTAL"]."</td>
 
       </tr>";
 
@@ -109,7 +109,7 @@ $detalle2 = "";
 
     <td>".$value["idproducto"]."</td>
     <td>".$value["nombre"]."</td>
-    <td>".$dataExistencia["TOTAL"]."</td>
+    <td>".$value["TOTAL"]."</td>
 
     </tr>";
 

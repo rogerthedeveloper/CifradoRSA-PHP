@@ -176,7 +176,7 @@ catch(mysqli_sql_exception $e) {
                                                 <span class="input-group-addon" id="basic-addon">
                                                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                                                 </span>
-                                                <input id="fecha_Diario" class="datepicker form-control" placeholder="FECHA" aria-describedby="basic-addon" type="text">
+                                                <input id="Vfecha_Diario" class="datepicker form-control" placeholder="FECHA" aria-describedby="basic-addon" type="text">
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +189,7 @@ catch(mysqli_sql_exception $e) {
                             <div class="form-group">
                                 <br>
                                 
-                                <button id="print" template="ventas_hoy" type="button" class="print btn btn-default btn-md btn-block">
+                                <button id="print" template="ventas_diarias" type="button" class="print btn btn-default btn-md btn-block">
                                     <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte
                                 </button>
                                     <br>
@@ -335,7 +335,7 @@ catch(mysqli_sql_exception $e) {
                                                 <span class="input-group-addon" id="basic-addon">
                                                     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                                                 </span>
-                                                <input id="fecha_mes" class="date_mensual form-control" placeholder="FECHA" aria-describedby="basic-addon" type="text">
+                                                <input id="VPfecha_mes" class="date_mensual form-control" placeholder="FECHA" aria-describedby="basic-addon" type="text">
                                             </div>
                                             <br>
                                             <br>
