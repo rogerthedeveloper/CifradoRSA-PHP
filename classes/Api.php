@@ -554,7 +554,101 @@ class Api extends Controller  {
 
     }
 
+    public function actualizarBancos($monto, $operacion, $no_cuenta) {
 
+        if($operacion == "ingreso") {
+
+            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO + $monto WHERE noCuenta = '$no_cuenta'");
+
+            return true;
+
+        }
+        else if($operacion == "egreso") {
+
+            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO - $monto WHERE noCuenta = '$no_cuenta'");
+
+            return true;
+
+        }
+
+        return false;
+ 
+
+    }
+    // Hacer gastos y realizar operaciones contables
+
+public function hacerGasto($table, $param) {
+
+
+
+    switch($param["idFormaPago"]) {
+
+        case "1":
+        $param["noCuenta"] = "NULL";
+        $param["banco"] = "NULL";
+                     
+        $values = Controller::values($param);
+
+        $query = Controller::$connection->query("INSERT INTO $table $values");
+
+
+        if($query) {
+
+        // Actualizar Caja
+        $this->actualizarCaja2($param["total"], "egreso", $param);
+
+        header('Content-Type: application/json');
+
+        echo json_encode(["Inserted"]);
+    
+        }
+        else {
+
+            header('Content-Type: application/json');
+
+            echo json_encode(["Not-Inserted"]);
+
+        }
+
+
+        break;
+        case "2":
+
+        $values = Controller::values($param);
+
+        $query = Controller::$connection->query("INSERT INTO $table $values");
+
+        if($query) {
+
+        // Actualizar Cuenta bancaria
+        $this->actualizarBancos($param["total"], "egreso", $param["noCuenta"]);
+        
+        header('Content-Type: application/json');
+
+        echo json_encode(["Inserted"]);
+    
+
+        }
+        else {
+
+            header('Content-Type: application/json');
+
+            echo json_encode(["Not-Inserted"]);
+
+        }
+
+        break;
+        case "3":
+
+        
+            
+
+        break;
+        
+    }
+
+  
+}
     // Registro Siguiente
     public function next($table, $key, $cod) {
 
@@ -1119,6 +1213,37 @@ public function hacerDevolucion($table, $data, $data_detalle) {
     }
 
 
+    }
+
+    public function actualizarCaja2($monto, $operacion, $params) {
+
+        $fecha_pago = $params["fecha"];
+        $total_pago = $params["total"];
+        $motivo_pago = $params["motivo"];
+
+        if($operacion == "ingreso") {
+
+            $queryCaja = Controller::$connection->query("SELECT SALDO FROM CAJA ORDER BY ID DESC LIMIT 1");
+            $total_saldo_caja = $queryCaja->fetch();
+
+
+            $queryCaja = Controller::$connection->query("INSERT INTO CAJA (FECHA, INGRESO, MOTIVO, SALDO) VALUES('$fecha_pago',$total_pago,'$motivo_pago', $total_saldo_caja[0] + $total_pago)");
+            return true;
+
+        }
+        else if($operacion == "egreso") {
+
+            
+          
+            $queryCaja = Controller::$connection->query("SELECT SALDO FROM CAJA ORDER BY ID DESC LIMIT 1");
+            $total_saldo_caja = $queryCaja->fetch();
+          
+            $queryCaja = Controller::$connection->query("INSERT INTO CAJA (FECHA, RETIRO, MOTIVO, SALDO) VALUES('$fecha_pago',$total_pago,'$motivo_pago', $total_saldo_caja[0] - $total_pago)");
+            
+            return true;
+
+        }
+ 
 
     }
 
@@ -1128,18 +1253,14 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
         header('Content-Type: application/json');
 
-
-
         $query = Controller::$connection->query("SELECT * FROM caja ORDER BY id DESC LIMIT 1");
 
 
         $dataCaja = $query->fetchAll(PDO::FETCH_ASSOC);
-
-
+   
             $saldo = $dataCaja[0]["saldo"];
             $fecha = $data["fecha"];
 
-     
 
         if($type == "ingreso") {
 
@@ -1424,6 +1545,18 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
     }
 
+    // Cambia saldo de un banco hecho por depósitos
+    public function hacerDeposito($table, $param) {
+
+        $totalDepo = $param["total"];
+
+        $no_CuentaDepo = $param["NOCUENTA"];
+
+        $this->actualizarBancos($totalDepo, "ingreso", $no_CuentaDepo);
+
+        $this->actualizarCaja2($param["total"], "egreso", $param);
+        
+    }
 
 }
 
@@ -1590,6 +1723,11 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
                     $request->nextCompra($table, $key, $cod);
 
                 break;
+                case 'hacerGasto':
+
+                $request->hacerGasto($table, $data);
+
+                break;
                 case 'prevVenta':
 
                     $request->prevVenta($table, $key, $cod);
@@ -1640,7 +1778,11 @@ if(isset($_POST["data"]) && isset($_GET["action"])) {
                     $request->addProducto($table, $data);
 
                 break;
+                case 'hacerDeposito':
 
+                    $request->hacerDeposito($table, $data);
+
+                break;
 
         }
 

@@ -16,7 +16,7 @@
 
     <div class="col-md-12"><?php
 
-        View::showViewFromTable("deposito", "Administrar Depósitos", Array("photo" => false, "detail" => true));
+        View::showViewFromTable("deposito", "Administrar Depósitos", Array("photo" => false, "detail" => true), "table_deposito");
 
         ?></div>
 

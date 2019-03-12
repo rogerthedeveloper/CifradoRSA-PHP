@@ -99,7 +99,7 @@ catch(mysqli_sql_exception $e) {
 
                 <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon">
 
-                    <option value=""><?php echo strtoupper($value[0]); ?></option>
+                    <option value="nothing"><?php echo strtoupper($value[0]); ?></option>
 
                 </select>
 
@@ -114,14 +114,15 @@ catch(mysqli_sql_exception $e) {
                 $("select#<?php echo $value[0]; ?>").select2({ data:[
 
 
-                    <?php $FK_table = Controller::$connection->query("SELECT referenced_table_name as table_name from information_schema.referential_constraints  where table_name = '$table_name'");
-                 
-                 
+                    <?php $FK_table = Controller::$connection->query("SELECT referenced_table_name as table_name
+                  from information_schema.referential_constraints
+                  where table_name = '$table_name'");
+
                     $FK_table = $FK_table->fetchAll(PDO::FETCH_NUM); ?>
 
                     <?php $FKData = Controller::$connection->query("SELECT * FROM ".$FK_table[$counter][0]);
 
-                  
+
                     $FKData = $FKData->fetchAll(PDO::FETCH_NUM); ?>
 
 
@@ -180,7 +181,7 @@ catch(mysqli_sql_exception $e) {
 
             <br>
 
-
+     
 
                 <div style="text-align: center;">
 
@@ -188,11 +189,19 @@ catch(mysqli_sql_exception $e) {
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
                     </button>
 
-                    <button id="create" type="button" class="hacerGasto btn btn-primary btn-md btn-md">
-                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Pago
-                    </button> 
+                     <button id="create" type="button" class="create hacerDeposito btn btn-primary btn-md btn-md">
+                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Depositar
+                    </button>                
 
-                   
+                    <!--<button id="delete" type="button" class="delete btn btn-danger btn-md" disabled>
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Borrar
+                    </button>
+
+                    <button id="update" type="button" class="update btn btn-info btn-md" disabled>
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Actualizar
+                    </button>
+                    -->
+
                     <button id="prev" type="button" class="prev btn btn-warning btn-md">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior
                     </button>
@@ -203,7 +212,7 @@ catch(mysqli_sql_exception $e) {
 
                 </div>
 
-
+           
 
 
         </div>
@@ -279,6 +288,21 @@ catch(mysqli_sql_exception $e) {
 
                 </tbody>
 
+                <tfoot>
+
+                    <tr>
+
+                        <?php foreach($fields as $key => $value): ?>
+
+                            <th><?php echo $value[0]; ?></th>
+
+                        <?php endforeach; ?>
+
+                    </tr>
+
+
+                </tfoot>
+
 
 
             </table>
@@ -297,57 +321,6 @@ catch(mysqli_sql_exception $e) {
 
 </div>
 
-<script>
-
-$("#noCheque").parent().parent().css({"display":"none"});
-$("#banco").parent().parent().css({"display":"none"});
-$("#noCuenta").parent().parent().css({"display":"none"});
 
 
 
-        $("#idFormaPago").on('select2:select', function(e) {
-
-           switch(e.params.data.id) {
-
-            case "1":
-            
-                $("#noCheque").parent().parent().css({"display":"none"});
-                $("#banco").parent().parent().css({"display":"none"});
-                $("#noCuenta").parent().parent().css({"display":"none"});
-   
-
-            break;
-
-            case "2":
-
-                $("#noCheque").parent().parent().css({"display":"block"});
-                $("#banco").parent().parent().css({"display":"block"});
-                $("#noCuenta").parent().parent().css({"display":"block"});
-               
-            break;
-
-            case "3":
-                $("#noCheque").parent().parent().css({"display":"none"});
-                $("#banco").parent().parent().css({"display":"none"});
-                $("#noCuenta").parent().parent().css({"display":"none"});
-                
-               
-                        swal({
-                            title: 'Alerta',
-                            html: "Ésta acción no está disponible",
-                            type: 'info',
-                            cancelButtonText: 'Aceptar'
-                        });
-
-                
-
-            break;
-              
-           }
-
-        });
-
-        
-
-
-</script>

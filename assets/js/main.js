@@ -359,7 +359,160 @@ $(".updatetake-pic").on("click", function () {
 
 });
 
+$("button.hacerGasto").on("click", function()  {
 
+
+    errors = [];
+    
+
+    if(!$("#noDocumento").val()) {
+
+        errors[9] = "No se ha ingresado un numero de Documento.";
+    }
+
+    if(!$("#tipoDocumento").val()) {
+
+        errors[8] = "No se ha seleccionado un tipo de Documento.";
+    }
+
+    if(!$("#idEgreso").val()) {
+
+        errors[7] = "No se ha seleccionado un ID de Egreso";
+    }
+
+    if(!$("#fecha").val()) {
+
+        errors[6] = "No se especificado una Fecha.";
+    }
+
+    if(!$("#idFormaPago").val()) {
+
+        errors[5] = "No se ha seleccionado una forma de Pago.";
+    }
+
+    else if($("#idFormaPago").val() == 2) {
+
+        
+        if(!$("#noCheque").val()) {
+
+            errors[4] = "No se ha ingresado un no. de Cheque.";
+
+        }
+
+        if(!$("#banco").val()) {
+
+            errors[3] = "No se ha ingresado un Banco de este Cheque.";
+
+        }
+
+        if(!$("#noCuenta").val()) {
+
+            errors[2] = "No se ha ingresado una Cuenta para este Pago.";
+
+        }
+
+    }
+
+        if(!$("#motivo").val()) {
+
+        errors[1] = "No se ingresado un Motivo.";
+    }
+
+    if(!$("#total").val()) {
+
+        errors[0] = "No se ingresado un Total.";
+    }
+
+
+
+    if(errors.length == 0) {
+
+
+    swal({
+
+        title: 'Gastos',
+        text: "¿Quieres hacer este gasto?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No'
+
+    }).then((result) => {
+
+
+    var control = this;
+
+    var fields = $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea, select");
+
+    var form = $(control).closest(".panel");
+
+
+    var arrayFields = [];
+
+
+    $.each(fields, function(key, value) {
+
+
+        arrayFields[value.id] = $(value).val();
+
+
+    });
+
+    var obj = $.extend({}, arrayFields);
+
+
+    var table = $(this).closest(".panel").attr("id");
+
+    var key = $(this).closest(".panel").find("input").first().attr("id");
+
+    var cod = $(this).closest(".panel").find("input").first().val();
+
+
+        $.ajax({
+
+        url: "../classes/Api.php?action=hacerGasto",
+        method: "POST",
+        data: { "data": obj, "table": table, "key": key, "cod": cod },
+        dataType: "JSON",
+        success: function(r) {
+
+
+            if(r == "Inserted") {
+
+                $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                switchUD(control, false);
+                refreshDetail(form);
+                $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                    data: { id: "" }
+                });
+
+            }
+
+
+        }
+
+
+    });
+
+    });
+
+        } else {
+
+            $.each(errors, function(key, value) {
+
+                swal({
+                    title: 'Error',
+                    text: value,
+                    type: 'error'
+                })
+            })
+        }
+
+    });
+
+    
 $("button.new").on("click", function () {
 
 
@@ -1075,6 +1228,66 @@ $("button.create").on("click", function () {
 
 });
 
+
+$("button.hacerDeposito").on("click", function()  {
+
+
+    var control = this;
+
+    var fields = $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea, select");
+
+    var form = $(control).closest(".panel");
+
+
+    var arrayFields = [];
+
+
+    $.each(fields, function(key, value) {
+
+
+        arrayFields[value.id] = $(value).val();
+
+
+    });
+
+    var obj = $.extend({}, arrayFields);
+
+
+    var table = $(this).closest(".panel").attr("id");
+
+    var key = $(this).closest(".panel").find("input").first().attr("id");
+
+    var cod = $(this).closest(".panel").find("input").first().val();
+
+
+        $.ajax({
+
+        url: "../classes/Api.php?action=hacerDeposito",
+        method: "POST",
+        data: { "data": obj, "table": table, "key": key, "cod": cod },
+        dataType: "JSON",
+        success: function(r) {
+
+
+            if(r == "Inserted") {
+
+                $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
+                switchUD(control, false);
+                refreshDetail(form);
+                $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
+                    data: { id: "" }
+                });
+
+            }
+
+
+        }
+
+
+    });
+
+
+});
 
 $("button.update").on("click", function () {
 
