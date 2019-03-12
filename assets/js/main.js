@@ -390,7 +390,7 @@ $("button.hacerGasto").on("click", function()  {
         errors[5] = "No se ha seleccionado una forma de Pago.";
     }
 
-    else if($("#formaPago").val() == 2) {
+    else if($("#idFormaPago").val() == 2) {
 
         
         if(!$("#noCheque").val()) {
