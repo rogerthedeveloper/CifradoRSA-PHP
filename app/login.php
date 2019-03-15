@@ -16,7 +16,7 @@
 
 <link rel="stylesheet" href="../assets/login-form/css/style.css">
 <div class="login2">
-    <h1><strong><big>MISCELANEA <br> "EL EDEN"</big></strong></h1> 
+    <h1><strong><big>COMERCIAL <br> "CINDY"</big></strong></h1> 
 </div>
 
 <div class="login">
