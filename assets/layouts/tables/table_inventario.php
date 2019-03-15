@@ -109,7 +109,6 @@ catch(mysqli_sql_exception $e) {
 
         <script>
 
-
             $(document).ready(function() {
 
                 $("select#<?php echo $value[0]; ?>").select2({ data:[
@@ -182,49 +181,6 @@ catch(mysqli_sql_exception $e) {
 
             <br>
 
-            <script type="text/javascript">
-
-
-
-                $("#saldo_anterior").attr("disabled", true);
-
-                $("select#idcliente").on("select2:select", function(e) {
-
-
-                  id = $("select#idcliente").val();
-
-                  if(creating == 1) {
-
-                  $.ajax({
-
-                      url: "../classes/Api.php?action=one",
-                      method: "POST",
-                      data: { "data": id, "table": "cliente", "key": "idcliente", "cod": id },
-                      dataType: "JSON",
-                      success: function(r) {
-
-                        if(r[0]) {
-
-                        $("#saldo_anterior").val(r[0].saldo);
-
-                      }
-
-
-                      }
-
-
-                  });
-
-                  }
-
-                  creating = 1;
-
-
-                });
-
-
-
-            </script>
 
 
                 <div style="text-align: center;">
@@ -232,14 +188,6 @@ catch(mysqli_sql_exception $e) {
                     <button id="new" type="button" class="new btn btn-success btn-md">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
                     </button>
-
-                     <button id="create" type="button" class="hacerPago btn btn-primary btn-md btn-md">
-                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Pago
-                    </button>
-
-                    <!-- <button id="delete" type="button" class="delete btn btn-danger btn-md" disabled>
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Borrar
-                    </button> -->
 
                     <button id="prev" type="button" class="prev btn btn-warning btn-md">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior
@@ -249,11 +197,9 @@ catch(mysqli_sql_exception $e) {
                         Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </button>
 
-                    <button id="print" template="recibo" type="button" class="print btn btn-default btn-md" disabled>
-                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Recibo
-                    </button>
-
                 </div>
+
+
 
 
         </div>
@@ -280,6 +226,8 @@ catch(mysqli_sql_exception $e) {
                     </div>
 
 
+
+
                 </div>
 
 
@@ -298,15 +246,11 @@ catch(mysqli_sql_exception $e) {
                 <thead>
                 <tr>
 
+                    <?php foreach($fields as $key => $value): ?>
 
-                        <th>idpago_cliente</th>
-                        <th>Fecha</th>
-                        <th>Cód. Cliente</th>
-                        <th>Forma de Pago</th>
-                        <th>No. Cheque</th>
-                        <th>Banco</th>
-                        <th>No. Cuenta</th>
-                        <th>Total Abono</th>
+                        <th><?php echo $value[0]; ?></th>
+
+                    <?php endforeach; ?>
 
                 </tr>
                 </thead>
@@ -332,6 +276,7 @@ catch(mysqli_sql_exception $e) {
                 </tbody>
 
 
+
             </table>
 
                 </div>
@@ -347,44 +292,3 @@ catch(mysqli_sql_exception $e) {
     </div>
 
 </div>
-
-<script>
-
-    $("#noCheque").parent().css({"display":"none"});
-    $("#banco").parent().css({"display":"none"});
-    $("#nocuenta").parent().css({"display":"none"});
-
-
-    $("select#idFormapago").on("change", function(e) {
-
-        switch(this.value) {
-
-            case "1":
-
-                $("#noCheque").parent().css({"display":"none"});
-                $("#banco").parent().css({"display":"none"});
-                $("#nocuenta").parent().css({"display":"none"});
-
-
-            break;
-
-            case "2":
-
-                $("#noCheque").parent().css({"display":"table"});
-                $("#banco").parent().css({"display":"table"});
-                $("#nocuenta").parent().css({"display":"none"});
-
-            break;
-            case "3":
-
-                $("#noCheque").parent().css({"display":"none"});
-                $("#banco").parent().css({"display":"none"});
-                $("#nocuenta").parent().css({"display":"table"});
-
-            break;
-
-        }
-        
-    });
-
-</script>

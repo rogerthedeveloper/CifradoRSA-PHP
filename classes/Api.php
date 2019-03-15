@@ -558,14 +558,14 @@ class Api extends Controller  {
 
         if($operacion == "ingreso") {
 
-            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO + $monto WHERE NOCUENTA = '$no_cuenta'");
+            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO + $monto WHERE nocuenta = '$no_cuenta'");
 
             return true;
 
         }
         else if($operacion == "egreso") {
 
-            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO - $monto WHERE NOCUENTA = '$no_cuenta'");
+            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO - $monto WHERE nocuenta = '$no_cuenta'");
 
             return true;
 
@@ -861,8 +861,22 @@ public function hacerGasto($table, $param) {
             $insert = Controller::$connection->lastInsertId();
 
 
+            switch ($data["idFormaPago"]) {
 
-            $this->actualizarCaja($data["total_abono"], $data, "ingreso");
+                case '1':
+                    $this->actualizarCaja($data["total_abono"], $data, "ingreso");
+                    break;
+                case '2':
+                    $this->actualizarCaja($data["total_abono"], $data, "ingreso");
+                    break;
+                case '3':
+                    
+                    $no_CuentaDepo = $data["nocuenta"];
+
+                    $this->actualizarBancos($data["total_abono"], "ingreso", $no_CuentaDepo);
+
+                    break;
+            }
 
 
             $output[0] = ["Inserted"];
@@ -876,7 +890,6 @@ public function hacerGasto($table, $param) {
             echo json_encode(["cliente_saldado"]);
 
         }
-
 
 
     }
@@ -937,6 +950,8 @@ public function hacerGasto($table, $param) {
 
                   }
 
+                  $data["motivo"] = "VENTA";
+
                   $this->actualizarCaja($totalVenta, $data, "ingreso");
 
                 }
@@ -954,8 +969,29 @@ public function hacerGasto($table, $param) {
 
                   }
 
+                  $data["motivo"] = "VENTA";
+
                   $this->actualizarSaldoCredito($data, $totalVenta);
 
+                }
+                else if($tipo_venta == 3) {
+
+
+                    foreach ($data_detalle as $key => $value) {
+  
+  
+                        $values = "('$insert', '$value[0]', $value[2], $value[4])";
+  
+                        $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
+  
+                        $totalVenta = $totalVenta + $value[4];
+  
+                    }
+  
+                    $no_CuentaDepo = $data["nocuenta"];
+
+                    $this->actualizarBancos($totalVenta, "ingreso", $no_CuentaDepo);
+  
                 }
 
                 $output[0] = ["Inserted"];
@@ -1260,16 +1296,21 @@ public function hacerDevolucion($table, $data, $data_detalle) {
    
             $saldo = $dataCaja[0]["saldo"];
             $fecha = $data["fecha"];
+            $motivo = "";
+
+            if(isset($param["motivo"])) {
+                $motivo = $param["motivo"];
+            }
 
 
         if($type == "ingreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo) VALUES ('$fecha', $param, $saldo + $param)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo, motivo) VALUES ('$fecha', $param, $saldo + $param, $motivo)");
 
         }
         else if($type == "egreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo) VALUES ('$fecha', $param, $saldo - $param)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo, motivo) VALUES ('$fecha', $param, $saldo - $param, $motivo)");
 
         }
 
@@ -1550,7 +1591,7 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
         $totalDepo = $param["total"];
 
-        $no_CuentaDepo = $param["NOCUENTA"];
+        $no_CuentaDepo = $param["nocuenta"];
 
         $this->actualizarBancos($totalDepo, "ingreso", $no_CuentaDepo);
 

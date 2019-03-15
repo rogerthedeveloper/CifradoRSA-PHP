@@ -189,7 +189,7 @@ catch(mysqli_sql_exception $e) {
 
                 <div style="text-align: center;">
 
-                    <button style="visibility: hidden;" id="new" type="button" class="new btn btn-success btn-md">
+                    <button id="new" type="button" class="new btn btn-success btn-md">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
                     </button>
 

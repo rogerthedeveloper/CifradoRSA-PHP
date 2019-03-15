@@ -678,6 +678,7 @@ try {
                                 <th>Forma Pago</th>
                                 <th>No. Cheque</th>
                                 <th>Banco</th>
+                                <th>No. Cuenta</th>
                                 <th>Total</th>
 
                             </tr>
@@ -1240,6 +1241,9 @@ try {
 
     $("#noCheque").parent().css({"display":"none"});
     $("#banco").parent().css({"display":"none"});
+    $("#nocuenta").parent().css({"display":"none"});
+
+
 
     $("select#idFormapago").on("change", function(e) {
 
@@ -1249,6 +1253,7 @@ try {
 
                 $("#noCheque").parent().css({"display":"none"});
                 $("#banco").parent().css({"display":"none"});
+                $("#nocuenta").parent().css({"display":"none"});
 
             break;
 
@@ -1256,6 +1261,14 @@ try {
 
                 $("#noCheque").parent().css({"display":"table"});
                 $("#banco").parent().css({"display":"table"});
+                $("#nocuenta").parent().css({"display":"none"});
+
+            break;
+            case "3":
+
+                $("#noCheque").parent().css({"display":"none"});
+                $("#banco").parent().css({"display":"none"});
+                $("#nocuenta").parent().css({"display":"table"});
 
             break;
 

@@ -431,7 +431,7 @@ $("button.hacerGasto").on("click", function()  {
     swal({
 
         title: 'Gastos',
-        text: "¿Quieres realizar este gasto?",
+        text: "¿Quiere realizar éste gasto?",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -441,7 +441,8 @@ $("button.hacerGasto").on("click", function()  {
 
     }).then((result) => {
 
-
+    if(result.value) {
+   
     var control = this;
 
     var fields = $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea, select");
@@ -485,7 +486,7 @@ $("button.hacerGasto").on("click", function()  {
                 switchUD(control, false);
                 refreshDetail(form);
                 $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
-                    data: { id: "" }
+                    data: { id: "nothing" }
                 });
 
             }
@@ -495,6 +496,10 @@ $("button.hacerGasto").on("click", function()  {
 
 
     });
+
+
+}
+
 
     });
 

@@ -16,7 +16,7 @@
 
     <div class="col-md-12"><?php
 
-        View::showViewFromTable("INVENTARIO", "Inventario", Array("photo" => false, "detail" => true));
+        View::showViewFromTable("INVENTARIO", "Inventario", Array("photo" => false, "detail" => true), "table_inventario");
 
         ?></div>
 
