@@ -246,15 +246,12 @@ try {
 
                       }
 
-
                   });
-
-
 
               });
 
 
-                $("button.newDevolucion").on("click", function()     {
+                $("button.newCompra").on("click", function()     {
 
 
                     var control = this;
@@ -366,7 +363,7 @@ try {
 
                 <div style="text-align: center;">
 
-                    <button id="new" type="button" class="newDevolucion btn btn-success btn-md">
+                    <button id="new" type="button" class="newCompra btn btn-success btn-md">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
                     </button>
 
@@ -386,7 +383,7 @@ try {
                         Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </button>
 
-                    <button disabled id="print" template="devolucion" type="button" class="print btn btn-default btn-md">
+                    <button disabled id="print" template="compra" type="button" class="print btn btn-default btn-md">
                         <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Recibo
                     </button>
 
@@ -762,7 +759,7 @@ try {
                         if ( $(this).hasClass('selected') ) {
 
 
-                                var control = $(this).closest('.panel').find('.newDevolucion');
+                                var control = $(this).closest('.panel').find('.newCompra');
 
                                 var form = $(control).closest(".panel");
 

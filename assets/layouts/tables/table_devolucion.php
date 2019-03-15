@@ -642,6 +642,7 @@ catch(mysqli_sql_exception $e) {
 
 <script>
 
+
 var code = "";
 
 window.addEventListener("keydown", (e) => {
@@ -664,6 +665,169 @@ window.addEventListener("keydown", (e) => {
     }, 250);
 
 });
+
+</script>
+
+<script>
+
+function scanProductVenta(producto_code) {
+
+
+$(".hacerVenta").attr("disabled", false);
+
+
+descuento = $("#descuentoCtn").val();
+
+if ($('#precioMayorista').is(":checked")) {
+
+    precioMayorista = 1;
+
+} else {
+
+    precioMayorista = 0;
+
+}
+
+
+$("#cantidadCtn").val(0);
+
+$("#descuentoCtn").val(0);
+
+$('#precioMayorista').removeAttr("checked");
+
+
+$.ajax({
+    url: "../classes/Api.php?action=askExistencia",
+    method: "POST",
+    data: {
+        "data": {
+            "id_producto": code
+        },
+        "table": "inventario",
+        "key": "idproducto",
+        "cod": code
+    },
+    dataType: "JSON",
+    success: function(r) {
+
+        if (r) {
+
+            stock = r.existencia;
+
+            $("select#producto").select2("trigger", "select", {
+
+                data: {
+                    id: producto_code
+                }
+
+            });
+
+            swal({
+                title: 'Inventario',
+                html: '<strong>' + r.nombre + '</strong><br><strong>Existencia: ' + r.existencia + '</strong><br><strong>Precio: Q' + r.precioSugerido + '</strong><br> Ingresa la "Cantidad a Vender"',
+                input: 'text',
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Agregar',
+                cancelButtonText: 'Cancelar',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: true
+            }).then((result) => {
+
+                if (result.value || result.value == " ") {
+
+                    cantidad = result.value
+
+                    if (parseFloat(cantidad) <= parseFloat(stock)) {
+
+                        $.ajax({
+
+                            url: "../classes/Api.php?action=addItemVenta",
+                            method: "POST",
+                            data: {
+                                "data": {
+                                    "cantidad": cantidad,
+                                    "descuento": descuento,
+                                    "precioMayorista": precioMayorista
+                                },
+                                "table": "producto",
+                                "key": "idproducto",
+                                "cod": producto_code
+                            },
+                            dataType: "JSON",
+                            success: function(r) {
+
+                                if (r != "error_descuento" && r != "error_id_product") {
+
+
+                                    total = total + parseFloat(r[0][4]);
+
+                                    $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+
+                                    $(".detalle_venta_table").DataTable().rows.add(r).draw();
+
+                                    $("#remove").attr("disabled", true);
+
+                                } else if (r == "error_id_product") {
+
+                                    swal({
+                                        title: 'Existencia de Producto',
+                                        text: "Error, El producto no existe en el inventario.",
+                                        type: 'error',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+
+                                } else {
+
+                                    swal({
+                                        title: 'Descuento de Producto',
+                                        text: "Error, el descuento que aplicaste supera al precio del producto.",
+                                        type: 'error',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+
+                                }
+
+                            }
+
+                        });
+
+                    } else {
+
+                        swal({
+                            title: 'Existencia de Producto',
+                            text: "Error, no hay stock.",
+                            type: 'error',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Aceptar'
+                        });
+
+                    }
+
+                }
+
+            });
+
+        } else {
+
+            swal({
+                title: 'Existencia de Producto',
+                text: "Error, El producto no existe en el inventario.",
+                type: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+
+
+        }
+
+    }
+});
+
+}
+
 
 </script>
 
@@ -730,7 +894,6 @@ window.addEventListener("keydown", (e) => {
 
                                        
                                        if(cant <= v[2]) {
-
 
 
                                         flag = 1;
