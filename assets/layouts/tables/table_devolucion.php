@@ -640,11 +640,36 @@ catch(mysqli_sql_exception $e) {
 
 </div>
 
+<script>
+
+var code = "";
+
+window.addEventListener("keydown", (e) => {
+
+    if (e.keyCode === 13 && code.length > 1) {
+
+        //alert(code);
+
+        scanProductVenta(code);
+
+    } else {
+
+        code += String.fromCharCode(e.keyCode);
+    }
+
+    setTimeout(() => {
+
+        code = "";
+
+    }, 250);
+
+});
+
+</script>
+
         <script type="text/javascript">
 
-
-                    var total = 0.00;
-
+                var total = 0.00;
 
                     $("#remove").on('click', function() {
 

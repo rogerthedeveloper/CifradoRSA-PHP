@@ -431,7 +431,7 @@ $("button.hacerGasto").on("click", function()  {
     swal({
 
         title: 'Gastos',
-        text: "¿Quieres hacer este gasto?",
+        text: "¿Quieres realizar este gasto?",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
