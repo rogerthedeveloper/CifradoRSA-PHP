@@ -558,14 +558,14 @@ class Api extends Controller  {
 
         if($operacion == "ingreso") {
 
-            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO + $monto WHERE noCuenta = '$no_cuenta'");
+            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO + $monto WHERE NOCUENTA = '$no_cuenta'");
 
             return true;
 
         }
         else if($operacion == "egreso") {
 
-            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO - $monto WHERE noCuenta = '$no_cuenta'");
+            $queryBancos = Controller::$connection->query("UPDATE CUENTABANCARIA SET SALDO = SALDO - $monto WHERE NOCUENTA = '$no_cuenta'");
 
             return true;
 

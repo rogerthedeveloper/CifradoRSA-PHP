@@ -251,8 +251,7 @@ $fecha = $dataPago[0]["fecha"];
 $cliente = $dataPago[0]["idcliente"];
 $nombre_cliente = $dataPago[0]["nombre"];
 $total_abonado = $dataPago[0]["total_abono"];
-$saldoAnterior = sprintf("%.2f", $dataPago[0]["saldo_anterior"]);
-$saldoActual = sprintf("%.2f", $saldoAnterior - $total_abonado);
+$saldoActual = sprintf("%.2f", $saldoAnterior - $total_abono);
 
 
 // define some HTML content with style
