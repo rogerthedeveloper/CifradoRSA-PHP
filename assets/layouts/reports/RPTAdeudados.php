@@ -139,6 +139,7 @@ h1 {
     <table width="100%" cellpadding="5" border="1" align="center">
 
     <tr align='center'>
+    
         <td><strong>ID Venta </strong></td>
         <td><strong>ID Cliente</strong></td>
         <td><strong>Nombre</strong></td>
@@ -150,10 +151,10 @@ h1 {
 
      <tr align='center'>
 
-        <td><strong> </strong></td>
+        <td><strong></strong></td>
         <td><strong></strong></td>
         <td><strong>Total Adeudado</strong></td>
-        <td><strong>$totalCredito/strong></td>
+        <td><strong>$totalCredito</strong></td>
 
      </tr>
     </table>
@@ -168,7 +169,6 @@ h1 {
 EOF;
 
 
-
 // output the HTML content
 $pdf->writeHTML($html, true, false, true, false, '');
 
@@ -176,6 +176,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 $pdf->lastPage();
 
 // ---------------------------------------------------------
+
 
 //Close and output PDF document
 $pdf->Output('Venta.pdf', 'I');

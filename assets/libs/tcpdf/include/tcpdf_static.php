@@ -55,7 +55,7 @@ class TCPDF_STATIC {
 	 * Current TCPDF version.
 	 * @private static
 	 */
-	private static $tcpdf_version = '6.2.13';
+	private static $tcpdf_version = '6.2.26';
 
 	/**
 	 * String alias for total number of pages.
@@ -1774,39 +1774,6 @@ class TCPDF_STATIC {
 		return $angle;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ====================================================================================================================
-// REIMPLEMENTED
-// ====================================================================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * Split string by a regular expression.
 	 * This is a wrapper for the preg_split function to avoid the bug: https://bugs.php.net/bug.php?id=45850
@@ -1852,6 +1819,49 @@ class TCPDF_STATIC {
 			return false;
 		}
 		return fopen($filename, $mode);
+	}
+
+	/**
+	 * Check if the URL exist.
+	 * @param url (string) URL to check.
+	 * @return Returns TRUE if the URL exists; FALSE otherwise.
+	 * @public static
+	 */
+	public static function url_exists($url) {
+		$crs = curl_init();
+		curl_setopt($crs, CURLOPT_URL, $url);
+		curl_setopt($crs, CURLOPT_NOBODY, true);
+		curl_setopt($crs, CURLOPT_FAILONERROR, true);
+		if ((ini_get('open_basedir') == '') && (!ini_get('safe_mode'))) {
+			curl_setopt($crs, CURLOPT_FOLLOWLOCATION, true);
+		}
+		curl_setopt($crs, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($crs, CURLOPT_TIMEOUT, 30);
+		curl_setopt($crs, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($crs, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($crs, CURLOPT_USERAGENT, 'tc-lib-file');
+		curl_exec($crs);
+		$code = curl_getinfo($crs, CURLINFO_HTTP_CODE);
+		curl_close($crs);
+		return ($code == 200);
+	}
+
+	/**
+	 * Wrapper for file_exists.
+	 * Checks whether a file or directory exists.
+	 * Only allows some protocols and local files.
+	 * @param filename (string) Path to the file or directory. 
+	 * @return Returns TRUE if the file or directory specified by filename exists; FALSE otherwise.  
+	 * @public static
+	 */
+	public static function file_exists($filename) {
+		if (preg_match('|^https?://|', $filename) == 1) {
+			return self::url_exists($filename);
+		}
+		if (strpos($filename, '://')) {
+			return false; // only support http and https wrappers for security reasons
+		}
+		return @file_exists($filename);
 	}
 
 	/**
@@ -1910,12 +1920,14 @@ class TCPDF_STATIC {
 		    && !preg_match('%^//%', $file)
 		) {
 		    $urldata = @parse_url($_SERVER['SCRIPT_URI']);
-		    return $urldata['scheme'].'://'.$urldata['host'].(($file[0] == '/') ? '' : '/').$file;
+		    $alt[] = $urldata['scheme'].'://'.$urldata['host'].(($file[0] == '/') ? '' : '/').$file;
 		}
 		//
 		$alt = array_unique($alt);
-		//var_dump($alt);exit;//DEBUG
 		foreach ($alt as $path) {
+			if (!self::file_exists($path)) {
+				continue;
+			}
 			$ret = @file_get_contents($path);
 			if ($ret !== false) {
 			    return $ret;
@@ -1948,8 +1960,6 @@ class TCPDF_STATIC {
 		}
 		return false;
 	}
-
-    
 
 	/**
 	 * Get ULONG from string (Big Endian 32-bit unsigned integer).
@@ -2213,7 +2223,6 @@ class TCPDF_STATIC {
 		'ORGANIZERM'             => array(  612.000,   792.000), // = (  216 x 279  ) mm  = (  8.50 x 11.00 ) in
 		'USLETTER'               => array(  612.000,   792.000), // = (  216 x 279  ) mm  = (  8.50 x 11.00 ) in
 		'LETTER'                 => array(  612.000,   792.000), // = (  216 x 279  ) mm  = (  8.50 x 11.00 ) in
-		'HALF_LETTER'            => array(  768.000,   960.000), // = (  216 x 279  ) mm  = (  8.50 x 11.00 ) in
 		'USLEGAL'                => array(  612.000,  1008.000), // = (  216 x 356  ) mm  = (  8.50 x 14.00 ) in
 		'LEGAL'                  => array(  612.000,  1008.000), // = (  216 x 356  ) mm  = (  8.50 x 14.00 ) in
 		'GOVERNMENTLETTER'       => array(  576.000,   756.000), // = (  203 x 267  ) mm  = (  8.00 x 10.50 ) in
