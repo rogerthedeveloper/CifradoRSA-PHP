@@ -921,9 +921,28 @@ public function hacerGasto($table, $param) {
         
                 }
 
+
+                if($data["nocuenta"] == "nothing") {
+
+                    $data["nocuenta"] = "NULL";
+        
+                }
+
+                if($data["banco"] == "nothing") {
+
+                    $data["banco"] = "NULL";
+        
+                }
+
+
                 $values = Controller::values($data);
 
+                
+               
+
+
                 $query = Controller::$connection->query("INSERT INTO $table $values");
+
 
         
                 $insert = Controller::$connection->lastInsertId();
@@ -935,12 +954,14 @@ public function hacerGasto($table, $param) {
 
                 if($tipo_venta == 1) {
 
+
                   foreach ($data_detalle as $key => $value) {
 
 
                       $values = "('$insert', '$value[0]', $value[2], $value[4])";
 
                       $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
+
 
                       $cant = $value[2];
 
@@ -952,8 +973,18 @@ public function hacerGasto($table, $param) {
 
                   $data["motivo"] = "VENTA";
 
-                  $this->actualizarCaja($totalVenta, $data, "ingreso");
+                  if($data["idFormapago"] == 1 || $data["idFormapago"] == 2) {
 
+                    $this->actualizarCaja($totalVenta, $data, "ingreso");
+
+                  }
+                  else if($data["idFormapago"] == 3) {
+
+                    $this->actualizarBancos($totalVenta, "ingreso", $data["nocuenta"]);
+
+                  }
+
+               
                 }
                 else if($tipo_venta == 2) {
 
@@ -974,25 +1005,7 @@ public function hacerGasto($table, $param) {
                   $this->actualizarSaldoCredito($data, $totalVenta);
 
                 }
-                else if($tipo_venta == 3) {
-
-
-                    foreach ($data_detalle as $key => $value) {
-  
-  
-                        $values = "('$insert', '$value[0]', $value[2], $value[4])";
-  
-                        $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
-  
-                        $totalVenta = $totalVenta + $value[4];
-  
-                    }
-  
-                    $no_CuentaDepo = $data["nocuenta"];
-
-                    $this->actualizarBancos($totalVenta, "ingreso", $no_CuentaDepo);
-  
-                }
+            
 
                 $output[0] = ["Inserted"];
                 $output[1] = [$insert];
