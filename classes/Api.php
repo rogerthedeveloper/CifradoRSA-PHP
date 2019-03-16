@@ -921,9 +921,28 @@ public function hacerGasto($table, $param) {
         
                 }
 
+
+                if($data["nocuenta"] == "nothing") {
+
+                    $data["nocuenta"] = "NULL";
+        
+                }
+
+                if($data["banco"] == "nothing") {
+
+                    $data["banco"] = "NULL";
+        
+                }
+
+
                 $values = Controller::values($data);
 
+                
+               
+
+
                 $query = Controller::$connection->query("INSERT INTO $table $values");
+
 
         
                 $insert = Controller::$connection->lastInsertId();
@@ -935,6 +954,7 @@ public function hacerGasto($table, $param) {
 
                 if($tipo_venta == 1) {
 
+
                   foreach ($data_detalle as $key => $value) {
 
 
@@ -942,8 +962,11 @@ public function hacerGasto($table, $param) {
 
                       $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
 
+<<<<<<< HEAD
                       print_r(Controller::$connection->errorInfo());
 
+=======
+>>>>>>> 1799aa7cb8d9a819372d21b3eb4d25d30975fe27
 
                       $cant = $value[2];
 
@@ -955,8 +978,19 @@ public function hacerGasto($table, $param) {
 
                   $data["motivo"] = "VENTA";
 
-                  $this->actualizarCaja($totalVenta, $data, "ingreso");
 
+                  if($data["idFormapago"] == 1 || $data["idFormapago"] == 2) {
+
+                    $this->actualizarCaja($totalVenta, $data, "ingreso");
+
+                  }
+                  else if($data["idFormapago"] == 3) {
+
+                    $this->actualizarBancos($totalVenta, "ingreso", $data["nocuenta"]);
+
+                  }
+
+               
                 }
                 else if($tipo_venta == 2) {
 
@@ -977,25 +1011,7 @@ public function hacerGasto($table, $param) {
                   $this->actualizarSaldoCredito($data, $totalVenta);
 
                 }
-                else if($tipo_venta == 3) {
-
-
-                    foreach ($data_detalle as $key => $value) {
-  
-  
-                        $values = "('$insert', '$value[0]', $value[2], $value[4])";
-  
-                        $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
-  
-                        $totalVenta = $totalVenta + $value[4];
-  
-                    }
-  
-                    $no_CuentaDepo = $data["nocuenta"];
-
-                    $this->actualizarBancos($totalVenta, "ingreso", $no_CuentaDepo);
-  
-                }
+            
 
                 $output[0] = ["Inserted"];
                 $output[1] = [$insert];
@@ -1024,7 +1040,6 @@ public function hacerCompra($table, $data, $data_detalle) {
 
     }
 
-
     if($mensaje === true) {
 
         if($data["idFormaPago"] == "nothing") {
@@ -1032,6 +1047,13 @@ public function hacerCompra($table, $data, $data_detalle) {
             $data["idFormaPago"] = 1;
 
         }
+
+        if($data["nocuenta"] == "nothing") {
+
+            $data["nocuenta"] = "NULL";
+
+        }
+
 
         $values = Controller::values($data);
 
@@ -1056,6 +1078,8 @@ public function hacerCompra($table, $data, $data_detalle) {
               $totalCompra = $totalCompra + $value[4];
 
           }
+
+          $data["motivo"] = "COMPRA";
 
           $this->actualizarCaja($totalCompra, $data, "egreso");
 
@@ -1301,19 +1325,24 @@ public function hacerDevolucion($table, $data, $data_detalle) {
             $fecha = $data["fecha"];
             $motivo = "";
 
-            if(isset($param["motivo"])) {
-                $motivo = $param["motivo"];
+            if(!isset($data["motivo"])) {
+
+                $motivo = "";
+            }
+            else {
+
+                $motivo = $data["motivo"];
             }
 
 
         if($type == "ingreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo, motivo) VALUES ('$fecha', $param, $saldo + $param, $motivo)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo, motivo) VALUES ('$fecha', $param, $saldo + $param, '$motivo')");
 
         }
         else if($type == "egreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo, motivo) VALUES ('$fecha', $param, $saldo - $param, $motivo)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo, motivo) VALUES ('$fecha', $param, $saldo - $param, '$motivo')");
 
         }
 
