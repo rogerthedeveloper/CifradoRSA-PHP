@@ -264,17 +264,16 @@ try {
 
                                     $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea").val("");
 
-                                    $("select#IDCLIENTE").select2("trigger", "select", {
-                                        data: {
-                                            id: "nothing"
-                                        }
-                                    });
+                                    $("select").each(function(key, html) {
 
-                                    $("select#IDVENTA").select2("trigger", "select", {
-                                        data: {
-                                            id: "nothing"
-                                        }
-                                    });
+                                        $(html).select2("trigger", "select", {
+                                            data: {
+                                                id: "nothing"
+                                            }
+                                        });
+
+                                    })
+
 
                                     $(".detalle_compra_table").DataTable().clear().draw();
 
@@ -443,7 +442,7 @@ try {
 
                         <select id="producto" class="form-control" aria-describedby="basic-addon">
 
-                            <option value="0">Selecciona un Producto</option>
+                            <option value="nothing">Selecciona un Producto</option>
 
                         </select>
 
@@ -646,7 +645,7 @@ try {
 
         r = detalle_compra_table.row().data();
 
-        total = total - parseFloat(r[3]);
+        total = total - parseFloat(r[4]);
 
 
         $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
@@ -687,7 +686,7 @@ try {
         $("select#producto").select2("trigger", "select", {
 
             data: {
-                id: 0
+                id: "nothing"
             }
 
         });
@@ -705,7 +704,7 @@ try {
             dataType: "JSON",
             success: function(r) {
 
-                total = total + parseFloat(r[0][3]);
+                total = total + parseFloat(r[0][4]);
 
                 $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
@@ -759,6 +758,7 @@ try {
 
     $('.detail_table_compra tbody').on('click', 'tr', function() {
 
+   
         $("#create").attr("disabled", true);
 
 
@@ -791,28 +791,30 @@ try {
                 },
                 dataType: "JSON",
                 success: function(r) {
-
+                
 
                     $.each(r[0][0], function(key, value) {
 
-
                         $(form).find("#" + key).val(value);
+
 
                         if ($(form).find("#" + key).data("select2")) {
 
                             $(form).find("#" + key).select2("trigger", "select", {
                                 data: {
-                                    id: value
+                                    id: value ? value : "nothing"
                                 }
                             });
 
                         }
 
-
                     });
+
+                    console.log(r);
 
 
                     if (r[1]) {
+                  
 
                         $(".detalle_compra_table").DataTable().clear().draw();
 
@@ -866,7 +868,8 @@ try {
             dataType: "JSON",
             success: function(r) {
 
-                total = total + parseFloat(r[0][3] * cant);
+                total = total + parseFloat(r[0][4]);
+
 
                 $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 

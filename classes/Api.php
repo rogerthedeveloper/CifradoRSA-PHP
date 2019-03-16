@@ -93,9 +93,8 @@ class Api extends Controller  {
 
         $query1 = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
 
-        $query2 = Controller::$connection->query("SELECT * FROM detalle_compra INNER JOIN PRODUCTO ON detalle_compra.idproducto = PRODUCTO.idproducto WHERE idCompra = '$cod'");
+        $query2 = Controller::$connection->query("SELECT * FROM detalle_compra INNER JOIN producto ON detalle_compra.idproducto = PRODUCTO.idproducto WHERE idCompra = '$cod'");
 
-       
 
         if($query1 && $query2) {
 
@@ -937,9 +936,7 @@ public function hacerGasto($table, $param) {
 
                 $values = Controller::values($data);
 
-                
-               
-
+            
 
                 $query = Controller::$connection->query("INSERT INTO $table $values");
 
@@ -962,11 +959,6 @@ public function hacerGasto($table, $param) {
 
                       $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
 
-<<<<<<< HEAD
-                      print_r(Controller::$connection->errorInfo());
-
-=======
->>>>>>> 1799aa7cb8d9a819372d21b3eb4d25d30975fe27
 
                       $cant = $value[2];
 
@@ -1044,7 +1036,7 @@ public function hacerCompra($table, $data, $data_detalle) {
 
         if($data["idFormaPago"] == "nothing") {
 
-            $data["idFormaPago"] = 1;
+            $data["idFormaPago"] = "NULL";
 
         }
 
@@ -1057,6 +1049,7 @@ public function hacerCompra($table, $data, $data_detalle) {
 
         $values = Controller::values($data);
 
+    
         $query = Controller::$connection->query("INSERT INTO $table $values");
 
         $insert = Controller::$connection->lastInsertId();
@@ -1067,7 +1060,7 @@ public function hacerCompra($table, $data, $data_detalle) {
         $tipo_compra = $data["idTipoCompra"];
 
 
-        if($tipo_compra == 1) {
+        if($tipo_compra == 2) {
 
           foreach ($data_detalle as $key => $value) {
 
@@ -1085,7 +1078,7 @@ public function hacerCompra($table, $data, $data_detalle) {
 
         }
 
-        else if($tipo_compra == 2) {
+        else if($tipo_compra == 1) {
 
           foreach ($data_detalle as $key => $value) {
 
@@ -1386,7 +1379,7 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
     public function askExistencia($data, $table, $key, $cod) {
 
-        $existencia = Controller::$connection->query("SELECT * FROM $table AS I RIGHT JOIN producto AS P on P.idproducto = I.idproducto WHERE P.$key = '$cod' ORDER BY I.idInventario DESC LIMIT 1");
+        $existencia = Controller::$connection->query("SELECT * FROM $table AS I INNER JOIN producto AS P on P.idproducto = I.idproducto WHERE P.$key = '$cod' ORDER BY I.idInventario DESC LIMIT 1");
         
         $exist = $existencia->fetch(PDO::FETCH_ASSOC);
 
@@ -1556,8 +1549,10 @@ public function hacerDevolucion($table, $data, $data_detalle) {
                     // Nueva Existencia
                     $existencia = $existencia + $cantidad;
 
-                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES($id_producto, '$fecha', $cantidad, 'Venta', $existencia)");
+                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES('$id_producto', '$fecha', $cantidad, 'Venta', $existencia)");
 
+
+       
                     return true;
 
                 }

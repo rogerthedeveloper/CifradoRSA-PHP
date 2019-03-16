@@ -822,6 +822,8 @@ $("button.hacerCompra").on("click", function () {
 
                         if (result.value) {
 
+                        
+
                             printManager.trigger("click");
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
                             $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
@@ -829,7 +831,6 @@ $("button.hacerCompra").on("click", function () {
                             });
 
                             $(".detalle_compra_table").DataTable().clear().draw();
-
 
 
                         } else {
@@ -1520,8 +1521,9 @@ $("button.prev").on("click", function () {
                 $(form).find("#" + key).val(value);
 
                 if ($(form).find("#" + key).data("select2")) {
-
+                   
                     $(form).find("#" + key).select2("trigger", "select", {
+                       
                         data: { id: value }
                     });
 
@@ -1832,9 +1834,9 @@ function refreshDetailDevolucion(control) {
             if (r) {
 
 
-                $(control).closest(".panel").find('.detail_table_devolucion').DataTable().clear().draw();
+                $(control).closest(".panel").find('.detail_table_'+table).DataTable().clear().draw();
 
-                $(control).closest(".panel").find('.detail_table_devolucion').DataTable().rows.add(r).draw();
+                $(control).closest(".panel").find('.detail_table_'+table).DataTable().rows.add(r).draw();
 
                 adjustHeaders();
 
