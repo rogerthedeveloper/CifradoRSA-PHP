@@ -17,13 +17,9 @@ try {
 
         $fields = $fields->fetchAll(PDO::FETCH_NUM);
     }
-
-
-
 } catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
-
 }
 
 
@@ -36,12 +32,10 @@ try {
     if ($registries) {
 
         $registries = $registries->fetchAll(PDO::FETCH_NUM);
-
     }
 } catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
-
 }
 
 
@@ -53,12 +47,10 @@ try {
     if ($productos) {
 
         $productos = $productos->fetchAll(PDO::FETCH_NUM);
-
     }
 } catch (mysqli_sql_exception $e) {
 
     echo $e->getMessage();
-
 }
 
 /* End Form Construct Data */
@@ -81,321 +73,338 @@ try {
 
     <div id="<?php echo $table_name . "-panel"; ?>" class="panel-collapse collapse in">
 
-    <div class="panel-body">
+        <div class="panel-body">
 
 
-    <div class="col-md-<?php if ($options["photo"] == true) {
-                            echo "8";
-                        } else {
-                            echo "12";
-                        } ?>">
+            <div class="col-md-<?php if ($options["photo"] == true) {
+                                    echo "8";
+                                } else {
+                                    echo "12";
+                                } ?>">
 
-        <div class="well">
+                <div class="well">
 
 
-            <div class="inputs_wrapper" style="max-height: inherit;">
+                    <div class="inputs_wrapper" style="max-height: inherit;">
 
 
-            <?php if ($fields) : ?>
+                        <?php if ($fields) : ?>
 
-            <?php $counter = 0;
-            foreach ($fields as $key => $value) : ?>
+                        <?php $counter = 0;
+                        foreach ($fields as $key => $value) : ?>
 
-               <?php if ($value[3] == "MUL") : ?>
+                        <?php if ($value[3] == "MUL") : ?>
 
-        <div class="form-group">
+                        <div class="form-group">
 
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </span>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </span>
 
-                <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon">
+                                <select id="<?php echo $value[0]; ?>" class="form-control" aria-describedby="basic-addon">
 
-                    <option value="nothing"><?php echo strtoupper($value[0]); ?></option>
+                                    <option value="nothing"><?php echo strtoupper($value[0]); ?></option>
 
-                </select>
+                                </select>
 
-            </div>
+                            </div>
 
-        </div>
+                        </div>
 
-        <script>
+                        <script>
+                            $(document).ready(function() {
 
 
-            $(document).ready(function() {
+                                $("button.nextCompra").on("click", function() {
 
 
-              $("button.nextCompra").on("click", function()    {
+                                    var control = this;
 
+                                    var fields = $(this).closest(".panel").find("input").first().val();
 
-                  var control = this;
+                                    var form = $(control).closest(".panel");
 
-                  var fields = $(this).closest(".panel").find("input").first().val();
 
-                  var form = $(control).closest(".panel");
+                                    var table = $(this).closest(".panel").attr("id");
 
+                                    var key = $(this).closest(".panel").find("input").first().attr("id");
 
-                  var table = $(this).closest(".panel").attr("id");
+                                    var cod = $(this).closest(".panel").find("input").first().val();
 
-                  var key = $(this).closest(".panel").find("input").first().attr("id");
 
-                  var cod = $(this).closest(".panel").find("input").first().val();
 
+                                    $.ajax({
 
 
-                  $.ajax({
+                                        url: "../classes/Api.php?action=nextCompra",
+                                        method: "POST",
+                                        data: {
+                                            "data": fields,
+                                            "table": table,
+                                            "key": key,
+                                            "cod": cod
+                                        },
+                                        dataType: "JSON",
+                                        success: function(r) {
 
+                                            if (r != "") {
 
-                      url: "../classes/Api.php?action=nextCompra",
-                      method: "POST",
-                      data: { "data": fields, "table": table, "key": key, "cod": cod },
-                      dataType: "JSON",
-                      success: function(r) {
+                                                switchUDDevolucion(control, true);
+                                                refreshDetailDevolucion(control);
 
-                        if(r != "") {
+                                            }
 
-                            switchUDDevolucion(control, true);
-                            refreshDetailDevolucion(control);
+                                            $(".detalle_compra_table").DataTable().clear().draw();
 
-                        }
+                                            $(".detalle_compra_table").DataTable().rows.add(r[1]).draw();
 
-                          $(".detalle_compra_table").DataTable().clear().draw();
 
-                          $(".detalle_compra_table").DataTable().rows.add(r[1]).draw();
+                                            $.each(r[0][0], function(key, value) {
 
 
-                          $.each(r[0][0], function(key, value) {
+                                                $(form).find("#" + key).val(value);
 
+                                                if ($(form).find("#" + key).data("select2")) {
 
-                              $(form).find("#"+key).val(value);
+                                                    $(form).find("#" + key).select2("trigger", "select", {
+                                                        data: {
+                                                            id: value
+                                                        }
+                                                    });
 
-                              if($(form).find("#"+key).data("select2")) {
+                                                }
 
-                                  $(form).find("#"+key).select2("trigger", "select", {
-                                      data: { id: value }
-                                  });
 
-                              }
+                                            });
 
 
-                          });
 
+                                        }
 
 
-                      }
+                                    });
 
 
-                  });
 
+                                });
 
 
-              });
+                                $("button.prevCompra").on("click", function() {
 
 
-              $("button.prevCompra").on("click", function()    {
+                                    var control = this;
 
+                                    var fields = $(this).closest(".panel").find("input").first().val();
 
-                  var control = this;
+                                    var form = $(control).closest(".panel");
 
-                  var fields = $(this).closest(".panel").find("input").first().val();
 
-                  var form = $(control).closest(".panel");
+                                    var table = $(this).closest(".panel").attr("id");
 
+                                    var key = $(this).closest(".panel").find("input").first().attr("id");
 
-                  var table = $(this).closest(".panel").attr("id");
+                                    var cod = $(this).closest(".panel").find("input").first().val();
 
-                  var key = $(this).closest(".panel").find("input").first().attr("id");
 
-                  var cod = $(this).closest(".panel").find("input").first().val();
+                                    $.ajax({
 
+                                        url: "../classes/Api.php?action=prevCompra",
+                                        method: "POST",
+                                        data: {
+                                            "data": fields,
+                                            "table": table,
+                                            "key": key,
+                                            "cod": cod
+                                        },
+                                        dataType: "JSON",
+                                        success: function(r) {
 
-                  $.ajax({
+                                            if (r != "") {
 
-                      url: "../classes/Api.php?action=prevCompra",
-                      method: "POST",
-                      data: { "data": fields, "table": table, "key": key, "cod": cod },
-                      dataType: "JSON",
-                      success: function(r) {
+                                                switchUDDevolucion(control, true);
+                                                refreshDetailDevolucion(control);
 
-                        if(r != "") {
+                                            }
 
-                            switchUDDevolucion(control, true);
-                            refreshDetailDevolucion(control);
+                                            $(".detalle_compra_table").DataTable().clear().draw();
 
-                        }
+                                            $(".detalle_compra_table").DataTable().rows.add(r[1]).draw()
 
-                          $(".detalle_compra_table").DataTable().clear().draw();
 
-                          $(".detalle_compra_table").DataTable().rows.add(r[1]).draw()
+                                            $.each(r[0][0], function(key, value) {
 
+                                                $(form).find("#" + key).val(value);
 
-                          $.each(r[0][0], function(key, value) {
+                                                if ($(form).find("#" + key).data("select2")) {
 
-                              $(form).find("#"+key).val(value);
+                                                    $(form).find("#" + key).select2("trigger", "select", {
+                                                        data: {
+                                                            id: value
+                                                        }
+                                                    });
 
-                              if($(form).find("#"+key).data("select2")) {
+                                                }
 
-                                  $(form).find("#"+key).select2("trigger", "select", {
-                                      data: { id: value }
-                                  });
+                                            });
 
-                              }
+                                        }
 
-                          });
+                                    });
 
-                      }
+                                });
 
-                  });
 
-              });
+                                $("button.newCompra").on("click", function() {
 
 
-                $("button.newCompra").on("click", function()     {
+                                    var control = this;
 
+                                    var form = $(control).closest(".panel");
 
-                    var control = this;
+                                    $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea").val("");
 
-                    var form = $(control).closest(".panel");
+                                    $("select#IDCLIENTE").select2("trigger", "select", {
+                                        data: {
+                                            id: "nothing"
+                                        }
+                                    });
 
-                    $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea").val("");
+                                    $("select#IDVENTA").select2("trigger", "select", {
+                                        data: {
+                                            id: "nothing"
+                                        }
+                                    });
 
-                    $("select#IDCLIENTE").select2("trigger", "select", {
-                        data: { id: "nothing" }
-                    });
+                                    $(".detalle_compra_table").DataTable().clear().draw();
 
-                    $("select#IDVENTA").select2("trigger", "select", {
-                        data: { id: "nothing" }
-                    });
+                                    switchUDDevolucion(control, false);
+                                    refreshDetailDevolucion(form);
 
-                     $(".detalle_compra_table").DataTable().clear().draw();
 
-                    switchUDDevolucion(control, false);
-                    refreshDetailDevolucion(form);
+                                });
 
 
-                });
+                                $("select#<?php echo $value[0]; ?>").select2({
+                                    data: [
 
 
-                $("select#<?php echo $value[0]; ?>").select2({ data:[
-
-
-                    <?php $FK_table = Controller::$connection->query("SELECT referenced_table_name as table_name
+                                        <?php $FK_table = Controller::$connection->query("SELECT referenced_table_name as table_name
                   from information_schema.referential_constraints
                   where table_name = '$table_name'");
 
-                    $FK_table = $FK_table->fetchAll(PDO::FETCH_NUM); ?>
+                                        $FK_table = $FK_table->fetchAll(PDO::FETCH_NUM); ?>
 
-                    <?php $FKData = Controller::$connection->query("SELECT * FROM " . $FK_table[$counter][0]);
-
-
-                    $FKData = $FKData->fetchAll(PDO::FETCH_NUM);
-
-                    $Validador = $FKData;
-
-                    ?>
+                                        <?php $FKData = Controller::$connection->query("SELECT * FROM " . $FK_table[$counter][0]);
 
 
-                <?php foreach ($FKData as $key => $value) : ?>
+                                        $FKData = $FKData->fetchAll(PDO::FETCH_NUM);
 
-                        {
-                            id: '<?php echo $value[0]; ?>',
-                            text: '<?php if (isset($value[0])) {
-                                        echo $value[0];
-                                    } ?><?php if (isset($value[1])) {
+                                        $Validador = $FKData;
+
+                                        ?>
+
+
+                                        <?php foreach ($FKData as $key => $value) : ?>
+
+                                        {
+                                            id: '<?php echo $value[0]; ?>',
+                                            text: '<?php if (isset($value[0])) {
+                                                        echo $value[0];
+                                                    } ?><?php if (isset($value[1])) {
                                             echo " - " . $value[1];
                                         } ?><?php if (isset($value[3])) {
-                                                                                            echo " - " . $value[4];
-                                                                                        } ?>'
-                        },
+                                                echo " - " . $value[4];
+                                            } ?>'
+                                        },
 
 
-                <?php endforeach; ?>
+                                        <?php endforeach; ?>
 
-                ],
-
-
-                    minimumInputLength: 1
+                                    ],
 
 
-                })
-
-            });
+                                    minimumInputLength: 1
 
 
-        </script>
+                                })
+
+                            });
+                        </script>
 
 
-                <?php $counter++;
-                else : ?>
+                        <?php $counter++;
+                    else : ?>
 
-        <div class="form-group">
+                        <div class="form-group">
 
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </span>
-                <input id="<?php echo $value[0]; ?>" type="text" class="<?php if ($value[1] == "date") {
-                                                                            echo "datepicker";
-                                                                        } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if ($value[5] == "auto_increment") {
-                                                                                                                                                                                echo "disabled";
-                                                                                                                                                                            } ?>>
-            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </span>
+                                <input id="<?php echo $value[0]; ?>" type="text" class="<?php if ($value[1] == "date") {
+                                                                                            echo "datepicker";
+                                                                                        } ?> form-control" placeholder="<?php echo strtoupper($value[0]); ?>" aria-describedby="basic-addon" <?php if ($value[5] == "auto_increment") {
+                                                                                                                                                                                    echo "disabled";
+                                                                                                                                                                                } ?>>
+                            </div>
 
-        </div>
-
-
-        <?php endif; ?>
+                        </div>
 
 
-            <?php endforeach; ?>
-
-                <?php else : ?>
-
-                 <div style="font-size: 16px;"><center>Error: tabla especificada no existe en la base de datos.</center></div>
-
-                <?php endif; ?>
+                        <?php endif; ?>
 
 
-            </div>
+                        <?php endforeach; ?>
 
-            <br>
+                        <?php else : ?>
 
-                <div style="text-align: center;">
+                        <div style="font-size: 16px;">
+                            <center>Error: tabla especificada no existe en la base de datos.</center>
+                        </div>
 
-                    <button id="new" type="button" class="newCompra btn btn-success btn-md">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
-                    </button>
+                        <?php endif; ?>
 
-                     <button id="create" type="button" class="hacerCompra btn btn-primary btn-md btn-md" disabled>
-                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Compra
-                    </button>
 
-                    <!-- <button id="delete" type="button" class="deleteDevolucion btn btn-danger btn-md" disabled>
+                    </div>
+
+                    <br>
+
+                    <div style="text-align: center;">
+
+                        <button id="new" type="button" class="newCompra btn btn-success btn-md">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
+                        </button>
+
+                        <button id="create" type="button" class="hacerCompra btn btn-primary btn-md btn-md" disabled>
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Hacer Compra
+                        </button>
+
+                        <!-- <button id="delete" type="button" class="deleteDevolucion btn btn-danger btn-md" disabled>
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Borrar
                     </button> -->
 
-                    <button id="prev" type="button" class="prevCompra btn btn-warning btn-md">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior
-                    </button>
+                        <button id="prev" type="button" class="prevCompra btn btn-warning btn-md">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Anterior
+                        </button>
 
-                    <button id="next" type="button" class="nextCompra btn btn-warning btn-md">
-                        Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </button>
+                        <button id="next" type="button" class="nextCompra btn btn-warning btn-md">
+                            Siguiente <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </button>
 
-                    <button disabled id="print" template="compra" type="button" class="print btn btn-default btn-md">
-                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Recibo
-                    </button>
+                        <button disabled id="print" template="compra" type="button" class="print btn btn-default btn-md">
+                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Recibo
+                        </button>
+
+                    </div>
+
 
                 </div>
 
 
-        </div>
+            </div>
 
-
-    </div>
-
-        <?php if ($options["photo"] == true) : ?>
+            <?php if ($options["photo"] == true) : ?>
 
             <div class="col-md-4">
 
@@ -403,7 +412,7 @@ try {
 
                     <div style="text-align: center;">
 
-                    <img class="form_image" src="../assets/img/no_pic.jpg">
+                        <img class="form_image" src="../assets/img/no_pic.jpg">
 
                         <br>
 
@@ -419,216 +428,208 @@ try {
 
             </div>
 
-        <?php endif; ?>
+            <?php endif; ?>
 
-    <div class="col-md-7">
+            <div class="col-md-7">
 
-            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Compra</b>
-
-
-            <div class="well">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> <b>Detalle de la Compra</b>
 
 
-                <div class="col-md-6">
+                <div class="well">
 
 
-                <select id="producto" class="form-control" aria-describedby="basic-addon">
-
-                    <option value="0">Selecciona un Producto</option>
-
-                </select>
+                    <div class="col-md-6">
 
 
-            </div>
+                        <select id="producto" class="form-control" aria-describedby="basic-addon">
 
-            <div class="col-md-6">
+                            <option value="0">Selecciona un Producto</option>
 
-
-                <div class="form-group">
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        </span>
-
-
-
-                        <script type="text/javascript">
-
-
-
-                            function enableAdd(cantidad) {
-                    
-
-                                if($("select#producto").val() != 0 && $(cantidad).val() > 0) {
-
-                                    $("#add").removeAttr("disabled");
-
-                                    
-                                }
-                                else {
-
-                                    $("#add").attr("disabled", true);
-
-                                }
-
-                            }
-
-
-                        </script>
-
-
-                        <input id="cantidadCtn" min="0" type="number" value="0" class="form-control" placeholder="CANTIDAD" aria-describedby="basic-addon" onchange="enableAdd(this)">
+                        </select>
 
 
                     </div>
 
-                </div>
+                    <div class="col-md-6">
 
+
+                        <div class="form-group">
+
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </span>
+
+
+
+                                <script type="text/javascript">
+                                    function enableAdd(cantidad) {
+
+
+                                        if ($("select#producto").val() != 0 && $(cantidad).val() > 0) {
+
+                                            $("#add").removeAttr("disabled");
+
+
+                                        } else {
+
+                                            $("#add").attr("disabled", true);
+
+                                        }
+
+                                    }
+                                </script>
+
+
+                                <input id="cantidadCtn" min="0" type="number" value="0" class="form-control" placeholder="CANTIDAD" aria-describedby="basic-addon" onchange="enableAdd(this)">
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <br>
+
+                    <br>
+
+
+                    <script>
+                        $('#total').attr('disabled', 'disabled'); //Disable
+
+
+                        $(document).ready(function() {
+
+                            $("select#producto").select2({
+                                data: [
+
+
+                                    <?php foreach ($productos as $key => $value) : ?>
+
+                                    {
+                                        id: '<?php echo $value[0]; ?>',
+                                        text: '<?php if (isset($value[0])) {
+                                                    echo $value[0];
+                                                } ?><?php if (isset($value[2])) {
+                                                    echo " - " . $value[2];
+                                                } ?>'
+                                    },
+
+
+                                    <?php endforeach; ?>
+
+
+                                ],
+
+
+                                minimumInputLength: 0
+
+
+                            });
+
+
+
+                        })
+                    </script>
+
+                    <center>
+
+                        <button id="add" type="button" class="btn btn-success btn-md" disabled>
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Añadir
+                        </button>
+
+                        <button id="remove" type="button" class="btn btn-danger btn-md" disabled>
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar
+                        </button>
+
+                    </center>
+
+                    <table id="" class="detalle_compra_table display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+
+                                <th>ID PRODUCTO</th>
+                                <th>NOMBRE</th>
+                                <th>CANTIDAD</th>
+                                <th>PRECIO</th>
+                                <th>SUBTOTAL</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
 
             </div>
 
 
 
-                <br>
-
-                <br>
+            <?php if ($options["detail"] == true) : ?>
 
 
-                <script>
+            <div class="col-md-5">
+
+                <span class="glyphicon glyphicon-file" aria-hidden="true"></span> <b>Registro de Compras</b>
+
+                <div class="well">
 
 
-                $('#total').attr('disabled', 'disabled'); //Disable
+                    <table id="<?php echo $table_name; ?>" class="detail_table_compra display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+
+                                <?php foreach ($fields as $key => $value) : ?>
+
+                                <th><?php echo $value[0]; ?></th>
+
+                                <?php endforeach; ?>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
 
 
-                    $(document).ready(function() {
-
-                        $("select#producto").select2({ data:[
-
-
-                        <?php foreach ($productos as $key => $value) : ?>
-
-                                {
-                                    id: '<?php echo $value[0]; ?>',
-                                    text: '<?php if (isset($value[0])) {
-                                                echo $value[0];
-                                            } ?><?php if (isset($value[2])) {
-                                                    echo " - " . $value[2];
-                                                } ?>'
-                                },
+                            <?php foreach ($registries as $key => $value) : ?>
+                            <tr>
 
 
-                        <?php endforeach; ?>
-
-
-                        ],
-
-
-                            minimumInputLength: 0
-
-
-                        });
+                                <?php foreach ($value as $key => $value) : ?>
+                                <td><?php echo $value; ?></td>
+                                <?php endforeach; ?>
 
 
 
-                    })
-
-                </script>
-
-            <center>
-
-                <button id="add" type="button" class="btn btn-success btn-md" disabled>
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Añadir
-                </button>
-
-                <button id="remove" type="button" class="btn btn-danger btn-md" disabled>
-                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar
-                </button>
-
-            </center>
-
-            <table id="" class="detalle_compra_table display" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-
-                        <th>ID PRODUCTO</th>
-                        <th>NOMBRE</th>
-                        <th>CANTIDAD</th>       
-                        <th>PRECIO</th>
-                        <th>SUBTOTAL</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
+                            </tr>
+                            <?php endforeach; ?>
 
 
-                </tbody>
+
+                        </tbody>
 
 
-            </table>
+
+                    </table>
 
                 </div>
 
-        </div>
+            </div>
 
+            <?php endif; ?>
 
-
-    <?php if ($options["detail"] == true) : ?>
-
-                
-        <div class="col-md-5">
-        
-            <span class="glyphicon glyphicon-file" aria-hidden="true"></span> <b>Registro de Compras</b>
-
-            <div class="well">
-
-
-            <table id="<?php echo $table_name; ?>" class="detail_table_compra display" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-
-                    <?php foreach ($fields as $key => $value) : ?>
-
-                        <th><?php echo $value[0]; ?></th>
-
-                    <?php endforeach; ?>
-
-                </tr>
-                </thead>
-
-                <tbody>
-
-
-                <?php foreach ($registries as $key => $value) : ?>
-                <tr>
-
-
-                    <?php foreach ($value as $key => $value) : ?>
-                        <td><?php echo $value; ?></td>
-                    <?php endforeach; ?>
-
-
-
-                </tr>
-                <?php endforeach; ?>
-
-
-
-                </tbody>
-
-
-
-            </table>
-
-                </div>
 
         </div>
-
-        <?php endif; ?>
-
-
-    </div>
 
 
 
@@ -636,341 +637,274 @@ try {
 
 </div>
 
-        <script type="text/javascript">
+<script type="text/javascript">
+    var total = 0.00;
 
-                    var total = 0.00;
 
+    $("#remove").on('click', function() {
 
-                    $("#remove").on('click', function() {
 
+        r = detalle_compra_table.row().data();
 
-                        r = detalle_compra_table.row().data();
+        total = total - parseFloat(r[3]);
 
-                        total = total - parseFloat(r[3]);
 
+        $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
-                        $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+        detalle_compra_table.row().remove().draw();
 
-                        detalle_compra_table.row().remove().draw();
-
-                        $("#remove").attr("disabled", true);
-
-                    });
-
-
-                    $('.detalle_compra_table tbody').on( 'click', 'tr', function () {
-
-                            $("#remove").attr("disabled", false);
-
-                    });
-
-
-                
-        $("#add").on('click', function() {
-
-
-                    $(".hacerCompra").attr("disabled", false);
-
-
-                    $("#add").attr("disabled", true);
-
-
-                    cant = $("#cantidadCtn").val();
-
-
-                    $("#cantidadCtn").val(0);
-
-
-                    id = $("select#producto") .val();
-
-
-                    $("select#producto").select2("trigger", "select", {
-
-                        data: { id: 0 }
-
-                    });
-
-                    $.ajax({
-
-                        url: "../classes/Api.php?action=addItemCompra",
-                        method: "POST",
-                        data: { "data": cant, "table": "producto", "key": "idproducto", "cod": id},
-                        dataType: "JSON",
-                        success: function(r) {
-
-                            total = total + parseFloat(r[0][3]);
-
-                            $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
-
-                            $(".detalle_compra_table").DataTable().rows.add(r).draw();
-
-                            $("#remove").attr("disabled", true);
-
-                        }
-
-                    });
-
-                });
-
-
-                   table_details_compra = $('.detail_table_compra').DataTable({
-
-                        responsive: true,
-                        dom: 'Bfrtlip',
-                        order: [ 0, "desc" ],
-                        buttons: [
-                            {
-                                extend: 'pdfHtml5',
-                                title: ''
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: ''
-                            },
-                            {
-                                extend: 'print',
-                                title: '',
-                                customize: function ( win ) {
-
-                                    $(win.document.body).css('background', 'none');
-
-                                }
-                            },
-                            {
-                                extend: 'copyHtml5',
-                                title: ''
-                            }
-                        ],
-                        select: true,
-                        pageLength: 10,
-                        scrollY:    150,
-                        oLanguage:  {
-                            "sUrl": "../assets/libs/datatables/Spanish.json"
-                        }
-
-                    });
-
-
-                    $('.detail_table_compra tbody').on( 'click', 'tr', function () {
-
-                      $("#create").attr("disabled", true);
-
-
-                        if ( $(this).hasClass('selected') ) {
-
-
-                                var control = $(this).closest('.panel').find('.newCompra');
-
-                                var form = $(control).closest(".panel");
-
-
-                                var table = $(this).closest(".detail_table_compra").attr("id");
-
-                                var key = $(this).closest(".detail_table_compra").find("th").first().text();
-
-                                var cod = table_details_compra.row(this).data()[0];
-
-                                switchUDDevolucion(control, true);
-
-
-                            $.ajax({
-
-                                url: "../classes/Api.php?action=oneCompra",
-                                method: "POST",
-                                data: { "data": cod, "table": table, "key": key, "cod": cod },
-                                dataType: "JSON",
-                                success: function(r) {
-
-
-                                    $.each(r[0][0], function(key, value) {
-
-
-                                        $(form).find("#"+key).val(value);
-
-                                        if($(form).find("#"+key).data("select2")) {
-
-                                            $(form).find("#"+key).select2("trigger", "select", {
-                                                data: { id: value }
-                                            });
-
-                                        }
-
-
-                                    });
-
-
-                                    if(r[1]) {
-
-                                         $(".detalle_compra_table").DataTable().clear().draw();
-
-
-                                        $(".detalle_compra_table").DataTable().rows.add(r[1]).draw();
-
-
-                                    }
-
-                                }
-
-
-                            });
-
-                    }
-
-            });
-
-                    
-function addItemScanCompra(code, nombre, cantidad, precio) {
-
-    $(".hacerCompra").attr("disabled", false);
-
-    $("#add").attr("disabled", true);
-
-    $("#cantidadCtn").val(0);
-
-
-    id = code;
-
-    cant = cantidad;
-
-    $("select#producto").select2("trigger", "select", {
-
-        data: { id: 0 }
+        $("#remove").attr("disabled", true);
 
     });
 
-    $.ajax({
 
-        url: "../classes/Api.php?action=addItemCompra",
-        method: "POST",
-        data: { "data": cant, "table": "producto", "key": "idproducto", "cod": id},
-        dataType: "JSON",
-        success: function(r) {
+    $('.detalle_compra_table tbody').on('click', 'tr', function() {
 
-            total = total + parseFloat(r[0][3] * cant);
+        $("#remove").attr("disabled", false);
 
-            $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+    });
 
-            $(".detalle_compra_table").DataTable().rows.add(r).draw();
 
-            $("#remove").attr("disabled", true);
+
+    $("#add").on('click', function() {
+
+
+        $(".hacerCompra").attr("disabled", false);
+
+
+        $("#add").attr("disabled", true);
+
+
+        cant = $("#cantidadCtn").val();
+
+
+        $("#cantidadCtn").val(0);
+
+
+        id = $("select#producto").val();
+
+
+        $("select#producto").select2("trigger", "select", {
+
+            data: {
+                id: 0
+            }
+
+        });
+
+        $.ajax({
+
+            url: "../classes/Api.php?action=addItemCompra",
+            method: "POST",
+            data: {
+                "data": cant,
+                "table": "producto",
+                "key": "idproducto",
+                "cod": id
+            },
+            dataType: "JSON",
+            success: function(r) {
+
+                total = total + parseFloat(r[0][3]);
+
+                $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+
+                $(".detalle_compra_table").DataTable().rows.add(r).draw();
+
+                $("#remove").attr("disabled", true);
+
+            }
+
+        });
+
+    });
+
+
+    table_details_compra = $('.detail_table_compra').DataTable({
+
+        responsive: true,
+        dom: 'Bfrtlip',
+        order: [0, "desc"],
+        buttons: [{
+                extend: 'pdfHtml5',
+                title: ''
+            },
+            {
+                extend: 'excelHtml5',
+                title: ''
+            },
+            {
+                extend: 'print',
+                title: '',
+                customize: function(win) {
+
+                    $(win.document.body).css('background', 'none');
+
+                }
+            },
+            {
+                extend: 'copyHtml5',
+                title: ''
+            }
+        ],
+        select: true,
+        pageLength: 10,
+        scrollY: 150,
+        oLanguage: {
+            "sUrl": "../assets/libs/datatables/Spanish.json"
+        }
+
+    });
+
+
+    $('.detail_table_compra tbody').on('click', 'tr', function() {
+
+        $("#create").attr("disabled", true);
+
+
+        if ($(this).hasClass('selected')) {
+
+
+            var control = $(this).closest('.panel').find('.newCompra');
+
+            var form = $(control).closest(".panel");
+
+
+            var table = $(this).closest(".detail_table_compra").attr("id");
+
+            var key = $(this).closest(".detail_table_compra").find("th").first().text();
+
+            var cod = table_details_compra.row(this).data()[0];
+
+            switchUDDevolucion(control, true);
+
+
+            $.ajax({
+
+                url: "../classes/Api.php?action=oneCompra",
+                method: "POST",
+                data: {
+                    "data": cod,
+                    "table": table,
+                    "key": key,
+                    "cod": cod
+                },
+                dataType: "JSON",
+                success: function(r) {
+
+
+                    $.each(r[0][0], function(key, value) {
+
+
+                        $(form).find("#" + key).val(value);
+
+                        if ($(form).find("#" + key).data("select2")) {
+
+                            $(form).find("#" + key).select2("trigger", "select", {
+                                data: {
+                                    id: value
+                                }
+                            });
+
+                        }
+
+
+                    });
+
+
+                    if (r[1]) {
+
+                        $(".detalle_compra_table").DataTable().clear().draw();
+
+
+                        $(".detalle_compra_table").DataTable().rows.add(r[1]).draw();
+
+
+                    }
+
+                }
+
+
+            });
 
         }
 
     });
 
+
+    function addItemScanCompra(code, nombre, cantidad, precio) {
+
+        $(".hacerCompra").attr("disabled", false);
+
+        $("#add").attr("disabled", true);
+
+        $("#cantidadCtn").val(0);
+
+
+        id = code;
+
+        cant = cantidad;
+
+        $("select#producto").select2("trigger", "select", {
+
+            data: {
+                id: 0
+            }
+
+        });
+
+        $.ajax({
+
+            url: "../classes/Api.php?action=addItemCompra",
+            method: "POST",
+            data: {
+                "data": cant,
+                "table": "producto",
+                "key": "idproducto",
+                "cod": id
+            },
+            dataType: "JSON",
+            success: function(r) {
+
+                total = total + parseFloat(r[0][3] * cant);
+
+                $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
+
+                $(".detalle_compra_table").DataTable().rows.add(r).draw();
+
+                $("#remove").attr("disabled", true);
+
+            }
+
+        });
+
     }
 
-function scanProductoCompra(code) {
-    
-    $.ajax({
-        url: "../classes/Api.php?action=askExistencia",
-        method: "POST",
-        data: { "data": {"id_producto": code}, "table": "inventario", "key": "idproducto", "cod": code},
-        dataType: "JSON",
-        success: function(r) {
+    function scanProductoCompra(code) {
 
-            if(r) {
+        $.ajax({
+            url: "../classes/Api.php?action=askExistencia",
+            method: "POST",
+            data: {
+                "data": {
+                    "id_producto": code
+                },
+                "table": "inventario",
+                "key": "idproducto",
+                "cod": code
+            },
+            dataType: "JSON",
+            success: function(r) {
 
-                costo = r.preciocosto;
+                if (r) {
 
-                responsiveVoice.speak("Ingresa la cantidad comprada de "+r.nombre, idioma);
+                    costo = r.preciocosto;
 
-                swal({
-                    title: 'Inventario',
-                    html: '<strong>'+r.nombre+'</strong><br> Ingresa la "Cantidad Comprada"',
-                    input: 'text',
-                    type: 'info',
-                    showCancelButton: true,
-                    confirmButtonText: 'Siguiente',
-                    cancelButtonText: 'Cancelar',
-                    showLoaderOnConfirm: true,
-                    allowOutsideClick: true
-                }).then((result) => {
-                    
-                    if (result.value || result.value == " ") {
-
-                        cantidad = result.value;
-   
-                        responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
-                        
-                        swal({
-                            title: 'Inventario',
-                            html: '<strong>'+r.nombre+'</strong><br> Ingresa el "Precio costo, por unidad"',
-                            input: 'text',
-                            type: 'info',
-                            showCancelButton: true,
-                            confirmButtonText: 'Siguiente',
-                            cancelButtonText: 'Cancelar',
-                            showLoaderOnConfirm: true,
-                            allowOutsideClick: true
-                        }).then((result) => {
-                            
-                            if (result.value || result.value == " ") {
-
-                                nCosto = result.value;
-
-                                if(nCosto != costo) {
-
-                                    $.ajax({
-                                    url: "../classes/Api.php?action=updateProducto",
-                                    method: "POST",
-                                    data: { 
-                                        "data": {
-                                            "idproducto": code,
-                                            "preciocosto": nCosto,
-                                            "precioSugerido": nCosto * 1.20,
-                                            "precioTop": nCosto,
-                                        },  
-                                        "table": "producto",
-                                        "cod": "",
-                                        "key": ""
-                                    },
-                                    dataType: "JSON",
-                                    success: function(r) {
-
-                                        addItemScanCompra(code, r.nombre, cantidad, nCosto);
-
-                                    }
-                                    })
-
-                                }
-                                else {
-
-                                    addItemScanCompra(code, r.nombre, cantidad, costo);
-
-                                }
-
-                            }
-                            
-                        });
-
-                    }
-                    
-                });
-  
-            } 
-            else {
-
-            responsiveVoice.speak("No he encontrado este producto en mi base de datos, ¿Quieres agregarlo al sistema?'.", idioma);
-               
-            swal({
-                title: 'Compras',
-                text: 'El producto con código: '+code+', no existe en el inventario. ¿Quieres agregarlo al sistema?',
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Agregar',
-                cancelButtonText: 'Cancelar',
-                showLoaderOnConfirm: true,
-                allowOutsideClick: true
-            }).then((result) => {
-
-                if (result.value || result.value == " ") {
-
-                    responsiveVoice.speak("Muy bien, ingresa el nombre del producto.", idioma);
+                    responsiveVoice.speak("Ingresa la cantidad comprada de " + r.nombre, idioma);
 
                     swal({
                         title: 'Inventario',
-                        text: 'Ingresa el "Nombre del producto"',
+                        html: '<strong>' + r.nombre + '</strong><br> Ingresa la "Cantidad Comprada"',
                         input: 'text',
                         type: 'info',
                         showCancelButton: true,
@@ -979,16 +913,16 @@ function scanProductoCompra(code) {
                         showLoaderOnConfirm: true,
                         allowOutsideClick: true
                     }).then((result) => {
-                        
+
                         if (result.value || result.value == " ") {
 
-                            nombre = result.value;
+                            cantidad = result.value;
 
-                            responsiveVoice.speak("Ahora, Ingresa la cantidad comprada de este producto.", idioma);
+                            responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
 
                             swal({
                                 title: 'Inventario',
-                                text: 'Ingresa la "Cantidad Comprada"',
+                                html: '<strong>' + r.nombre + '</strong><br> Ingresa el "Precio costo, por unidad"',
                                 input: 'text',
                                 type: 'info',
                                 showCancelButton: true,
@@ -997,16 +931,89 @@ function scanProductoCompra(code) {
                                 showLoaderOnConfirm: true,
                                 allowOutsideClick: true
                             }).then((result) => {
-                                
+
                                 if (result.value || result.value == " ") {
 
-                                    cantidad = result.value;
+                                    nCosto = result.value;
 
-                                    responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
+                                    if (nCosto != costo) {
+
+                                        $.ajax({
+                                            url: "../classes/Api.php?action=updateProducto",
+                                            method: "POST",
+                                            data: {
+                                                "data": {
+                                                    "idproducto": code,
+                                                    "preciocosto": nCosto,
+                                                    "precioSugerido": nCosto * 1.20,
+                                                    "precioTop": nCosto,
+                                                },
+                                                "table": "producto",
+                                                "cod": "",
+                                                "key": ""
+                                            },
+                                            dataType: "JSON",
+                                            success: function(r) {
+
+                                                addItemScanCompra(code, r.nombre, cantidad, nCosto);
+
+                                            }
+                                        })
+
+                                    } else {
+
+                                        addItemScanCompra(code, r.nombre, cantidad, costo);
+
+                                    }
+
+                                }
+
+                            });
+
+                        }
+
+                    });
+
+                } else {
+
+                    responsiveVoice.speak("No he encontrado este producto en mi base de datos, ¿Quieres agregarlo al sistema?'.", idioma);
+
+                    swal({
+                        title: 'Compras',
+                        text: 'El producto con código: ' + code + ', no existe en el inventario. ¿Quieres agregarlo al sistema?',
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Agregar',
+                        cancelButtonText: 'Cancelar',
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: true
+                    }).then((result) => {
+
+                        if (result.value || result.value == " ") {
+
+                            responsiveVoice.speak("Muy bien, ingresa el nombre del producto.", idioma);
+
+                            swal({
+                                title: 'Inventario',
+                                text: 'Ingresa el "Nombre del producto"',
+                                input: 'text',
+                                type: 'info',
+                                showCancelButton: true,
+                                confirmButtonText: 'Siguiente',
+                                cancelButtonText: 'Cancelar',
+                                showLoaderOnConfirm: true,
+                                allowOutsideClick: true
+                            }).then((result) => {
+
+                                if (result.value || result.value == " ") {
+
+                                    nombre = result.value;
+
+                                    responsiveVoice.speak("Ahora, Ingresa la cantidad comprada de este producto.", idioma);
 
                                     swal({
                                         title: 'Inventario',
-                                        text: 'Ingresa el "Precio costo, por unidad"',
+                                        text: 'Ingresa la "Cantidad Comprada"',
                                         input: 'text',
                                         type: 'info',
                                         showCancelButton: true,
@@ -1015,141 +1022,181 @@ function scanProductoCompra(code) {
                                         showLoaderOnConfirm: true,
                                         allowOutsideClick: true
                                     }).then((result) => {
-                                        
+
                                         if (result.value || result.value == " ") {
 
-                                            precio = result.value;
+                                            cantidad = result.value;
 
-                                            $.ajax({
-                                                url: "../classes/Api.php?action=addProducto",
-                                                method: "POST",
-                                                data: { 
-                                                "data": {
-                                                    "idproducto": code,
-                                                    "idCategoria": "NULL",
-                                                    "nombre": nombre,
-                                                    "preciocosto": precio,
-                                                    "precioSugerido": precio * 1.20,
-                                                    "precioTop": precio,
-                                                    "marca": "NULL",
-                                                    "serie": "",
-                                                    "modelo": "",
-                                                },  
-                                                "table": "producto",
-                                                "cod": "",
-                                                "key": ""
-                                                },
-                                                dataType: "JSON",
-                                                success: function(r) {
+                                            responsiveVoice.speak("Ahora, Ingresa el precio costo, por unidad", idioma);
 
-                                                    addItemScanCompra(code, r.nombre, cantidad, precio);
+                                            swal({
+                                                title: 'Inventario',
+                                                text: 'Ingresa el "Precio costo, por unidad"',
+                                                input: 'text',
+                                                type: 'info',
+                                                showCancelButton: true,
+                                                confirmButtonText: 'Siguiente',
+                                                cancelButtonText: 'Cancelar',
+                                                showLoaderOnConfirm: true,
+                                                allowOutsideClick: true
+                                            }).then((result) => {
+
+                                                if (result.value || result.value == " ") {
+
+                                                    precio = result.value;
+
+                                                    $.ajax({
+                                                        url: "../classes/Api.php?action=addProducto",
+                                                        method: "POST",
+                                                        data: {
+                                                            "data": {
+                                                                "idproducto": code,
+                                                                "idCategoria": "NULL",
+                                                                "nombre": nombre,
+                                                                "preciocosto": precio,
+                                                                "precioSugerido": precio * 1.20,
+                                                                "precioTop": precio,
+                                                                "marca": "NULL",
+                                                                "serie": "",
+                                                                "modelo": "",
+                                                            },
+                                                            "table": "producto",
+                                                            "cod": "",
+                                                            "key": ""
+                                                        },
+                                                        dataType: "JSON",
+                                                        success: function(r) {
+
+                                                            addItemScanCompra(code, r.nombre, cantidad, precio);
+
+                                                        }
+                                                    })
+
 
                                                 }
-                                            })
+
+                                            });
 
 
                                         }
-                                        
+
                                     });
 
-
                                 }
-                                
+
                             });
 
                         }
 
                     });
 
-            }
+                }
 
+            }
         });
 
     }
-    
-}});
-
-}
-
 </script>
 <script>
+    var code = "";
 
-var code = "";
+    window.addEventListener("keydown", (e) => {
 
-window.addEventListener("keydown", (e) => {
+        if (e.keyCode === 13 && code.length > 1) {
 
-    if(e.keyCode === 13 && code.length > 1) {
+            //alert(code);
+            scanProductoCompra(code);
 
-        //alert(code);
-        scanProductoCompra(code);
+        } else {
 
-    }
-    else {
+            code += String.fromCharCode(e.keyCode);
+        }
 
-        code += String.fromCharCode(e.keyCode);  
-    }
+        setTimeout(() => {
 
-    setTimeout(() => {
+            code = "";
 
-        code = ""; 
+        }, 250);
 
-    }, 250);
-   
-});
+    });
 
 
-    $("select#idFormapago").parent().css({"display":"none"});
+    $("select#idFormapago").parent().css({
+        "display": "none"
+    });
 
 
     $("select#IDTIPOCOMPRA").on("change", function(e) {
 
 
-        switch(this.value) {
-
-        case "2":
-
-            $("select#idFormapago").parent().css({"display":"table"});
-            $("#noCheque").parent().css({"display":"none"});
-            $("#banco").parent().css({"display":"none"});
-            
-        break;
-        case "1":
-
-            $("select#idFormapago").parent().css({"display":"none"});
-            $("#noCheque").parent().css({"display":"none"});
-            $("#banco").parent().css({"display":"none"});
-            
-        break;
-
-        }
-
-    });
-
-
-    $("#noCheque").parent().css({"display":"none"});
-    $("#banco").parent().css({"display":"none"});
-
-    $("select#idFormapago").on("change", function(e) {
-
-        switch(this.value) {
-
-            case "1":
-
-                $("#noCheque").parent().css({"display":"none"});
-                $("#banco").parent().css({"display":"none"});
-
-            break;
+        switch (this.value) {
 
             case "2":
 
-                $("#noCheque").parent().css({"display":"table"});
-                $("#banco").parent().css({"display":"table"});
+                $("select#idFormapago").parent().css({
+                    "display": "table"
+                });
+                $("#noCheque").parent().css({
+                    "display": "none"
+                });
+                $("#banco").parent().css({
+                    "display": "none"
+                });
 
-            break;
+                break;
+            case "1":
+
+                $("select#idFormapago").parent().css({
+                    "display": "none"
+                });
+                $("#noCheque").parent().css({
+                    "display": "none"
+                });
+                $("#banco").parent().css({
+                    "display": "none"
+                });
+
+                break;
 
         }
-        
+
     });
 
 
-</script>
+    $("#noCheque").parent().css({
+        "display": "none"
+    });
+    $("#banco").parent().css({
+        "display": "none"
+    });
+
+    $("select#idFormapago").on("change", function(e) {
+
+        switch (this.value) {
+
+            case "1":
+
+                $("#noCheque").parent().css({
+                    "display": "none"
+                });
+                $("#banco").parent().css({
+                    "display": "none"
+                });
+
+                break;
+
+            case "2":
+
+                $("#noCheque").parent().css({
+                    "display": "table"
+                });
+                $("#banco").parent().css({
+                    "display": "table"
+                });
+
+                break;
+
+        }
+
+    });
+</script> 

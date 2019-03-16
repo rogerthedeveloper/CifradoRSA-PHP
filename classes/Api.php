@@ -1354,7 +1354,7 @@ public function hacerDevolucion($table, $data, $data_detalle) {
 
     public function askExistencia($data, $table, $key, $cod) {
 
-        $existencia = Controller::$connection->query("SELECT * FROM $table AS I INNER JOIN producto AS P on P.idproducto = I.idproducto WHERE P.$key = '$cod' ORDER BY I.idInventario DESC LIMIT 1");
+        $existencia = Controller::$connection->query("SELECT * FROM $table AS I RIGHT JOIN producto AS P on P.idproducto = I.idproducto WHERE P.$key = '$cod' ORDER BY I.idInventario DESC LIMIT 1");
         
         $exist = $existencia->fetch(PDO::FETCH_ASSOC);
 
