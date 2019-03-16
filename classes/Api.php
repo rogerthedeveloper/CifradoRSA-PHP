@@ -1075,7 +1075,6 @@ public function hacerCompra($table, $data, $data_detalle) {
 
             $data["motivo"] = "COMPRA";
 
-
             if($data["idFormapago"] == 1 || $data["idFormapago"] == 2) {
 
                 $this->actualizarCaja($totalCompra, $data, "ingreso");
