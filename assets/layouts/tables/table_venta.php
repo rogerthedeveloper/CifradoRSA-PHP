@@ -678,8 +678,7 @@ try {
                                 <th>Forma Pago</th>
                                 <th>No. Cheque</th>
                                 <th>Banco</th>
-                                <th>No. Cuenta</th>
-                                <th>Total</th>
+                                <th>Total</th>  
 
                             </tr>
                         </thead>

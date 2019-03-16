@@ -1170,6 +1170,10 @@ try {
         "display": "none"
     });
 
+    $("#nocuenta").parent().css({
+        "display": "none"
+    });
+
     $("select#idFormapago").on("change", function(e) {
 
         switch (this.value) {
@@ -1182,15 +1186,34 @@ try {
                 $("#banco").parent().css({
                     "display": "none"
                 });
+                $("#nocuenta").parent().css({
+                    "display": "none"
+                });
 
                 break;
 
-            case "2":
+             case "2":
 
                 $("#noCheque").parent().css({
                     "display": "table"
                 });
                 $("#banco").parent().css({
+                    "display": "table"
+                });
+                $("#nocuenta").parent().css({
+                    "display": "table"
+                });
+
+                break;
+                case "3":
+
+                $("#noCheque").parent().css({
+                    "display": "none"
+                });
+                $("#banco").parent().css({
+                    "display": "none"
+                });
+                $("#nocuenta").parent().css({
                     "display": "table"
                 });
 
