@@ -264,6 +264,14 @@ try {
 
                                     $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea").val("");
 
+                                    
+                                    $(".detalle_compra_table").DataTable().clear().draw();
+
+
+                                    switchUDDevolucion(control, false);
+                                    refreshDetailDevolucion(form);
+
+
                                     $("select").each(function(key, html) {
 
                                         $(html).select2("trigger", "select", {
@@ -272,13 +280,7 @@ try {
                                             }
                                         });
 
-                                    })
-
-
-                                    $(".detalle_compra_table").DataTable().clear().draw();
-
-                                    switchUDDevolucion(control, false);
-                                    refreshDetailDevolucion(form);
+                                    });
 
 
                                 });
