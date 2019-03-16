@@ -778,7 +778,6 @@ try {
 
             switchUDDevolucion(control, true);
 
-
             $.ajax({
 
                 url: "../classes/Api.php?action=oneCompra",
