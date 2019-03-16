@@ -942,6 +942,9 @@ public function hacerGasto($table, $param) {
 
                       $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
 
+                      print_r(Controller::$connection->errorInfo());
+
+
                       $cant = $value[2];
 
                       $c = $value[0];
