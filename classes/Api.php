@@ -973,6 +973,7 @@ public function hacerGasto($table, $param) {
 
                   $data["motivo"] = "VENTA";
 
+
                   if($data["idFormapago"] == 1 || $data["idFormapago"] == 2) {
 
                     $this->actualizarCaja($totalVenta, $data, "ingreso");
@@ -1034,7 +1035,6 @@ public function hacerCompra($table, $data, $data_detalle) {
 
     }
 
-
     if($mensaje === true) {
 
         if($data["idFormaPago"] == "nothing") {
@@ -1042,6 +1042,13 @@ public function hacerCompra($table, $data, $data_detalle) {
             $data["idFormaPago"] = 1;
 
         }
+
+        if($data["nocuenta"] == "nothing") {
+
+            $data["nocuenta"] = "NULL";
+
+        }
+
 
         $values = Controller::values($data);
 
@@ -1066,6 +1073,8 @@ public function hacerCompra($table, $data, $data_detalle) {
               $totalCompra = $totalCompra + $value[4];
 
           }
+
+          $data["motivo"] = "COMPRA";
 
           $this->actualizarCaja($totalCompra, $data, "egreso");
 
@@ -1311,19 +1320,24 @@ public function hacerDevolucion($table, $data, $data_detalle) {
             $fecha = $data["fecha"];
             $motivo = "";
 
-            if(isset($param["motivo"])) {
-                $motivo = $param["motivo"];
+            if(!isset($data["motivo"])) {
+
+                $motivo = "";
+            }
+            else {
+
+                $motivo = $data["motivo"];
             }
 
 
         if($type == "ingreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo, motivo) VALUES ('$fecha', $param, $saldo + $param, $motivo)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo, motivo) VALUES ('$fecha', $param, $saldo + $param, '$motivo')");
 
         }
         else if($type == "egreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo, motivo) VALUES ('$fecha', $param, $saldo - $param, $motivo)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo, motivo) VALUES ('$fecha', $param, $saldo - $param, '$motivo')");
 
         }
 
