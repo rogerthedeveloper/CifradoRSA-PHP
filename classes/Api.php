@@ -1549,7 +1549,7 @@ public function hacerDevolucion($table, $data, $data_detalle) {
                     // Nueva Existencia
                     $existencia = $existencia + $cantidad;
 
-                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES('$id_producto', '$fecha', $cantidad, 'Venta', $existencia)");
+                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES('$id_producto', '$fecha', $cantidad, 'Compra', $existencia)");
 
 
        
