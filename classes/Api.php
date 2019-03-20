@@ -1075,14 +1075,14 @@ public function hacerCompra($table, $data, $data_detalle) {
 
             $data["motivo"] = "COMPRA";
 
-            if($data["idFormapago"] == 1 || $data["idFormapago"] == 2) {
+            if($data["idFormaPago"] == 1 || $data["idFormaPago"] == 2) {
 
-                $this->actualizarCaja($totalCompra, $data, "ingreso");
+                $this->actualizarCaja($totalCompra, $data, "egreso");
 
             }
-            else if($data["idFormapago"] == 3) {
+            else if($data["idFormaPago"] == 3) {
 
-                $this->actualizarBancos($totalCompra, "ingreso", $data["nocuenta"]);
+                $this->actualizarBancos($totalCompra, "egreso", $data["nocuenta"]);
 
             }
 

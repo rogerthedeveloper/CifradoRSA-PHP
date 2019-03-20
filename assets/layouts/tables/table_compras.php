@@ -291,8 +291,8 @@ try {
 
 
                                         <?php $FK_table = Controller::$connection->query("SELECT referenced_table_name as table_name
-                  from information_schema.referential_constraints
-                  where table_name = '$table_name'");
+                                                                                                from information_schema.referential_constraints
+                                                                                                where table_name = '$table_name'");
 
                                         $FK_table = $FK_table->fetchAll(PDO::FETCH_NUM); ?>
 
