@@ -241,7 +241,7 @@ $('.detail_table tbody').on('click', 'tr', function () {
                     if ($(form).find("#" + key).data("select2")) {
 
                         $(form).find("#" + key).select2("trigger", "select", {
-                            data: { id: value }
+                            data: { id: value ? value : "nothing" }
                         });
 
                     }
@@ -1520,7 +1520,7 @@ $("button.prev").on("click", function () {
                    
                     $(form).find("#" + key).select2("trigger", "select", {
                        
-                        data: { id: value }
+                        data: { id: value ? value : "nothing" }
                     });
 
                 }
@@ -1582,7 +1582,7 @@ $("button.next").on("click", function () {
                 if ($(form).find("#" + key).data("select2")) {
 
                     $(form).find("#" + key).select2("trigger", "select", {
-                        data: { id: value }
+                        data: { id: value ? value : "nothing" }
                     });
 
                 }

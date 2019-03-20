@@ -1091,6 +1091,7 @@ public function hacerCompra($table, $data, $data_detalle) {
 
           foreach ($data_detalle as $key => $value) {
 
+            print_r($value);
 
               $values = "('$insert', '$value[0]', $value[2], $value[4])";
 
