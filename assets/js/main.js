@@ -822,8 +822,6 @@ $("button.hacerCompra").on("click", function () {
 
                         if (result.value) {
 
-                        
-
                             printManager.trigger("click");
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
                             $(control).closest(".panel").find(".inputs_wrapper").find("select").select2("trigger", "select", {
@@ -896,9 +894,7 @@ $("button.hacerVenta").on("click", function () {
 
     $.each(fields, function (key, value) {
 
-
         arrayFields[value.id] = $(value).val();
-
 
     });
 

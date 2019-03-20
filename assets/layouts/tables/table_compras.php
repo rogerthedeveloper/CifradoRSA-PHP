@@ -851,7 +851,7 @@ try {
         $("select#producto").select2("trigger", "select", {
 
             data: {
-                id: 0
+                id: "nothing"
             }
 
         });
