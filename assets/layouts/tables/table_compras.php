@@ -1049,6 +1049,24 @@ try {
 
                                                     precio = result.value;
 
+                                                    responsiveVoice.speak("Ahora, Ingresa el precio de venta, por unidad", idioma);
+
+                                                swal({
+                                                    title: 'Inventario',
+                                                    text: 'Ingresa el "Precio de Venta"',
+                                                    input: 'text',
+                                                    type: 'info',
+                                                    showCancelButton: true,
+                                                    confirmButtonText: 'Agregar',
+                                                    cancelButtonText: 'Cancelar',
+                                                    showLoaderOnConfirm: true,
+                                                    allowOutsideClick: true
+                                                }).then((result) => {
+
+                                                    if (result.value || result.value == " ") {
+
+                                                        precioVenta = result.value;
+                    
                                                     $.ajax({
                                                         url: "../classes/Api.php?action=addProducto",
                                                         method: "POST",
@@ -1058,7 +1076,7 @@ try {
                                                                 "idCategoria": "NULL",
                                                                 "nombre": nombre,
                                                                 "preciocosto": precio,
-                                                                "precioSugerido": precio * 1.20,
+                                                                "precioSugerido": precioVenta,
                                                                 "precioTop": precio,
                                                                 "marca": "NULL",
                                                                 "serie": "",
@@ -1074,7 +1092,12 @@ try {
                                                             addItemScanCompra(code, r.nombre, cantidad, precio);
 
                                                         }
-                                                    })
+
+                                                    });
+                                                        
+                                                    }
+                                                    
+                                                    });
 
 
                                                 }
