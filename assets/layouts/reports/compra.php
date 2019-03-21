@@ -14,7 +14,9 @@ setlocale(LC_TIME, "ES");
 <?php
 
 
-$queryCompra = Controller::$connection->query("SELECT c.fecha, c.idCompra, tp.descripcion AS TipoCompra, c.idProveedor, pv.nombre AS nombreProveedor, dc.idproducto, p.nombre AS nombreProducto, dc.precioUnitario, dc.cantidad,  (dc.precioUnitario * dc.cantidad) AS subtotal, dc.idDetalleCompra, tp.descripcion AS nombreTipoCompra, tp.idTipoCompra
+$queryCompra = Controller::$connection->query("SELECT c.fecha, c.idCompra, tp.descripcion AS TipoCompra, c.idProveedor, pv.nombre AS nombreProveedor, dc.idproducto, 
+p.nombre AS nombreProducto, dc.precioUnitario, dc.cantidad,  (dc.precioUnitario * dc.cantidad) AS subtotal, dc.idDetalleCompra, tp.descripcion AS nombreTipoCompra, 
+tp.idTipoCompra
         from compra as c
         inner join detalle_compra as dc on dc.idCompra = c.idCompra
         inner join producto as p on p.idproducto = dc.idproducto
@@ -89,7 +91,6 @@ $id_detalle_compra = $dataCompra[0]["idDetalleCompra"];
 $idProducto = $dataCompra[0]["idproducto"];
 $nombre_producto = $dataCompra[0]["nombreProducto"];
 $cantidad_venta = $dataCompra[0]["cantidad"];
-$subtotal = $dataCompra[0]["subtotal"];
 $total = 0;
 $nombreTipoCompra = $dataCompra[0]["nombreTipoCompra"];
 
@@ -99,24 +100,24 @@ $detalle = "";
 
 foreach($dataCompra as $key => $value) {
 
- //   if($value["cantidad"] < 1) {
+    //if($value["cantidad"] < 1) {
 
-  //      $precioVenta / 100;
-  ///      $value["cantidad"] =  $value["cantidad"] * 100;
+    //  $precioCompra / 100;
+  //    $value["cantidad"] =  $value["cantidad"] * 100;
 
- //   }
+//  }
 
-//    $precioVenta = sprintf("%.2f", $value["subtotal"] / $value["cantidad"]);
+   $precioCompra = sprintf("%.2f", $value["precioUnitario"] / $value["cantidad"]);
 
-    $total = $total + $value["subtotal"];
+    $total = $total + $value["precioUnitario"];
 
     $detalle .= "<tr>
 
     <td>".$value["idproducto"]."</td>
     <td>".$value["nombreProducto"]."</td>
-    <td>"."Q. ".$value["precioUnitario"]."</td>
+    <td>"."Q. ".$precioCompra."</td>
     <td>".$value["cantidad"]."</td>
-    <td>"."Q. ".$value["subtotal"]."</td>
+    <td>"."Q. ".$value["precioUnitario"]."</td>
 
     </tr>";
 }
