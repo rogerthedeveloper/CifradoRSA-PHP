@@ -83,7 +83,6 @@ $produ = $dataProductos[0]["nombre"];
       $detalle .= "<tr>
 
       <td>".$value["fecha"]."</td>
-      <td>".$value["idproducto"]."</td>
       <td>".$value["nombre"]."</td>
       <td>".$value["tipoMovimiento"]."</td>
       <td>".$value["ingreso"]."</td>
@@ -120,7 +119,7 @@ h1 {
     <div style="text-align:center; line-height: 1px;"><h1> Reporte de Movimiento de Productos</h1></div>
     <div> </div>
     <div style="text-align:center; line-height: 1px;"><h2> De la Fecha <u>"$cod"</u> para la Fecha <u>"$cod2"</u> </h2></div>
-    <div style="text-align:center;"> MISCELANEA EL EDEN </div>
+    <div style="text-align:center;"> COMERCIAL CINDY </div>
     <div> </div>
 
     <h3>Movimiento:</h3>
@@ -128,7 +127,6 @@ h1 {
 
     <tr align='center'>
         <td><strong><big>Fecha</big></strong></td>
-        <td><strong><big>Código de Producto</big></strong></td>
         <td><strong><big>Nombre del Producto</big></strong></td>
         <td><strong><big>Tipo de Movimiento</big></strong></td>
         <td><strong><big>Ingreso</big></strong></td>

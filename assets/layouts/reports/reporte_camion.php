@@ -265,7 +265,7 @@ h1 {
     <title> Llenado de Gas </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> MISCELANEA EL EDEN </h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> COMERCIAL CINDY </h1></div>
     <div> </div>
     <!-- <div style="text-align:center;">ESPECIAS Y DESECHABLES EBEN EZER 2</div> -->
 

@@ -82,7 +82,7 @@ catch(mysqli_sql_exception $e) {
                             <div class="form-group">
                                 <br>
                                 
-                                <button id="print" template="RPTProductosV" type="button" class="print btn btn-default btn-md btn-block">
+                                <button id="print" template="RPTComprasMes" type="button" class="print btn btn-default btn-md btn-block">
                                     <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir Reporte
                                 </button>
                                     <br>
