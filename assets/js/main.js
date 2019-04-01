@@ -1587,16 +1587,11 @@ $("button.next").on("click", function () {
 
                 }
 
-
-
             });
 
         }
 
-
     });
-
-
 
 });
 
