@@ -224,7 +224,7 @@ h1 {
 <body>
     <div style="text-align:center; line-height: 1px;"><h1> Informe Financiero del Mes $cod </h1></div>
     <!-- <div> </div>-->
-    <div style="text-align:center;"> MISCELANEA EL EDEN </div> 
+    <div style="text-align:center;"> COMERCIAL CINDY </div> 
     
     <br>
     <br>

@@ -5,7 +5,7 @@ $table = $_POST["table"];
 $key = $_POST["key"];
 $cod = $_POST["cod"];
 
-
+$mes = json_decode($data)->fecha_mes;
 ?>
 <?php
 
@@ -14,12 +14,16 @@ setlocale(LC_TIME, "ES");
 ?>
 <?php
 
+$cod2 = $mes . '-01';
+$cod3 = $mes . '-31';
+
 // Consulta de Ventas
 $queryVenta = Controller::$connection->query("SELECT v.idventa, v.idcliente, c.nombre as nombreCliente, v.total,  v.fecha, v.idtipo_venta, tp.nombre AS nombreVenta 
         from venta as v
         inner join cliente as c on v.idcliente = c.idcliente
         inner join tipo_venta as tp on tp.idtipo_venta = v.idtipo_venta
-        where v.idtipo_venta = '1' AND v.fecha = '$cod' order by v.idventa asc");
+        where v.idtipo_venta = '1' AND v.fecha BETWEEN '$cod2' AND '$cod3'
+        ");
 
 //  Asignamos la trama de datos a la variable Data
 if($queryVenta->rowCount()) {
@@ -133,9 +137,9 @@ h1 {
     <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Ventas al Contado</h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Compras del Mes</h1></div>
     
-    <div style="text-align:center;"> MISCELANEA EL EDEN </div> 
+    <div style="text-align:center;"> COMERCIAL CINDY </div> 
     <div> </div>
     <br>
 

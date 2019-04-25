@@ -93,9 +93,8 @@ class Api extends Controller  {
 
         $query1 = Controller::$connection->query("SELECT * FROM $table WHERE $key = '$cod' LIMIT 1");
 
-        $query2 = Controller::$connection->query("SELECT * FROM detalle_compra INNER JOIN PRODUCTO ON detalle_compra.idproducto = PRODUCTO.idproducto WHERE idCompra = '$cod'");
+        $query2 = Controller::$connection->query("SELECT * FROM detalle_compra INNER JOIN producto ON detalle_compra.idproducto = PRODUCTO.idproducto WHERE idCompra = '$cod'");
 
-       
 
         if($query1 && $query2) {
 
@@ -921,9 +920,26 @@ public function hacerGasto($table, $param) {
         
                 }
 
+
+                if($data["nocuenta"] == "nothing") {
+
+                    $data["nocuenta"] = "NULL";
+        
+                }
+
+                if($data["banco"] == "nothing") {
+
+                    $data["banco"] = "NULL";
+        
+                }
+
+
                 $values = Controller::values($data);
 
+            
+
                 $query = Controller::$connection->query("INSERT INTO $table $values");
+
 
         
                 $insert = Controller::$connection->lastInsertId();
@@ -935,12 +951,14 @@ public function hacerGasto($table, $param) {
 
                 if($tipo_venta == 1) {
 
+
                   foreach ($data_detalle as $key => $value) {
 
 
                       $values = "('$insert', '$value[0]', $value[2], $value[4])";
 
                       $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
+
 
                       $cant = $value[2];
 
@@ -952,8 +970,19 @@ public function hacerGasto($table, $param) {
 
                   $data["motivo"] = "VENTA";
 
-                  $this->actualizarCaja($totalVenta, $data, "ingreso");
 
+                  if($data["idFormapago"] == 1 || $data["idFormapago"] == 2) {
+
+                    $this->actualizarCaja($totalVenta, $data, "ingreso");
+
+                  }
+                  else if($data["idFormapago"] == 3) {
+
+                    $this->actualizarBancos($totalVenta, "ingreso", $data["nocuenta"]);
+
+                  }
+
+               
                 }
                 else if($tipo_venta == 2) {
 
@@ -974,25 +1003,7 @@ public function hacerGasto($table, $param) {
                   $this->actualizarSaldoCredito($data, $totalVenta);
 
                 }
-                else if($tipo_venta == 3) {
-
-
-                    foreach ($data_detalle as $key => $value) {
-  
-  
-                        $values = "('$insert', '$value[0]', $value[2], $value[4])";
-  
-                        $query = Controller::$connection->query("INSERT INTO detalle_venta (idventa, idproducto, cantidad, subtotal) VALUES $values");
-  
-                        $totalVenta = $totalVenta + $value[4];
-  
-                    }
-  
-                    $no_CuentaDepo = $data["nocuenta"];
-
-                    $this->actualizarBancos($totalVenta, "ingreso", $no_CuentaDepo);
-  
-                }
+            
 
                 $output[0] = ["Inserted"];
                 $output[1] = [$insert];
@@ -1021,17 +1032,24 @@ public function hacerCompra($table, $data, $data_detalle) {
 
     }
 
-
     if($mensaje === true) {
 
         if($data["idFormaPago"] == "nothing") {
 
-            $data["idFormaPago"] = 1;
+            $data["idFormaPago"] = "NULL";
 
         }
 
+        if($data["nocuenta"] == "nothing") {
+
+            $data["nocuenta"] = "NULL";
+
+        }
+
+
         $values = Controller::values($data);
 
+    
         $query = Controller::$connection->query("INSERT INTO $table $values");
 
         $insert = Controller::$connection->lastInsertId();
@@ -1042,7 +1060,7 @@ public function hacerCompra($table, $data, $data_detalle) {
         $tipo_compra = $data["idTipoCompra"];
 
 
-        if($tipo_compra == 1) {
+        if($tipo_compra == 2) {
 
           foreach ($data_detalle as $key => $value) {
 
@@ -1054,14 +1072,26 @@ public function hacerCompra($table, $data, $data_detalle) {
 
           }
 
-          $this->actualizarCaja($totalCompra, $data, "egreso");
 
+            $data["motivo"] = "COMPRA";
+
+            if($data["idFormaPago"] == 1) {
+
+                $this->actualizarCaja($totalCompra, $data, "egreso");
+
+            }
+            else if($data["idFormaPago"] == 2 || $data["idFormaPago"] == 3) {
+
+                $this->actualizarBancos($totalCompra, "egreso", $data["nocuenta"]);
+
+            }
         }
 
-        else if($tipo_compra == 2) {
+        else if($tipo_compra == 1) {
 
           foreach ($data_detalle as $key => $value) {
 
+            print_r($value);
 
               $values = "('$insert', '$value[0]', $value[2], $value[4])";
 
@@ -1298,19 +1328,24 @@ public function hacerDevolucion($table, $data, $data_detalle) {
             $fecha = $data["fecha"];
             $motivo = "";
 
-            if(isset($param["motivo"])) {
-                $motivo = $param["motivo"];
+            if(!isset($data["motivo"])) {
+
+                $motivo = "";
+            }
+            else {
+
+                $motivo = $data["motivo"];
             }
 
 
         if($type == "ingreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo, motivo) VALUES ('$fecha', $param, $saldo + $param, $motivo)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, ingreso, saldo, motivo) VALUES ('$fecha', $param, $saldo + $param, '$motivo')");
 
         }
         else if($type == "egreso") {
 
-            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo, motivo) VALUES ('$fecha', $param, $saldo - $param, $motivo)");
+            $query = Controller::$connection->query("INSERT INTO caja (fecha, retiro, saldo, motivo) VALUES ('$fecha', $param, $saldo - $param, '$motivo')");
 
         }
 
@@ -1524,8 +1559,10 @@ public function hacerDevolucion($table, $data, $data_detalle) {
                     // Nueva Existencia
                     $existencia = $existencia + $cantidad;
 
-                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES($id_producto, '$fecha', $cantidad, 'Venta', $existencia)");
+                    $query = Controller::$connection->query("INSERT INTO inventario (idproducto, fecha, ingreso, tipoMovimiento, existencia) VALUES('$id_producto', '$fecha', $cantidad, 'Compra', $existencia)");
 
+
+       
                     return true;
 
                 }

@@ -241,7 +241,7 @@ $('.detail_table tbody').on('click', 'tr', function () {
                     if ($(form).find("#" + key).data("select2")) {
 
                         $(form).find("#" + key).select2("trigger", "select", {
-                            data: { id: value }
+                            data: { id: value ? value : "nothing" }
                         });
 
                     }
@@ -831,7 +831,6 @@ $("button.hacerCompra").on("click", function () {
                             $(".detalle_compra_table").DataTable().clear().draw();
 
 
-
                         } else {
 
                             $(form).closest(".panel").find(".inputs_wrapper").find("input, textarea, select").val("");
@@ -895,9 +894,7 @@ $("button.hacerVenta").on("click", function () {
 
     $.each(fields, function (key, value) {
 
-
         arrayFields[value.id] = $(value).val();
-
 
     });
 
@@ -1520,9 +1517,10 @@ $("button.prev").on("click", function () {
                 $(form).find("#" + key).val(value);
 
                 if ($(form).find("#" + key).data("select2")) {
-
+                   
                     $(form).find("#" + key).select2("trigger", "select", {
-                        data: { id: value }
+                       
+                        data: { id: value ? value : "nothing" }
                     });
 
                 }
@@ -1584,21 +1582,16 @@ $("button.next").on("click", function () {
                 if ($(form).find("#" + key).data("select2")) {
 
                     $(form).find("#" + key).select2("trigger", "select", {
-                        data: { id: value }
+                        data: { id: value ? value : "nothing" }
                     });
 
                 }
-
-
 
             });
 
         }
 
-
     });
-
-
 
 });
 
@@ -1832,9 +1825,9 @@ function refreshDetailDevolucion(control) {
             if (r) {
 
 
-                $(control).closest(".panel").find('.detail_table_devolucion').DataTable().clear().draw();
+                $(control).closest(".panel").find('.detail_table_'+table).DataTable().clear().draw();
 
-                $(control).closest(".panel").find('.detail_table_devolucion').DataTable().rows.add(r).draw();
+                $(control).closest(".panel").find('.detail_table_'+table).DataTable().rows.add(r).draw();
 
                 adjustHeaders();
 

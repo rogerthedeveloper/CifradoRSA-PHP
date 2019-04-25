@@ -1,12 +1,8 @@
 <?php
 
 $data = $_POST["data"];
-
-
 $table = $_POST["table"];
-
 $key = $_POST["key"];
-
 $cod = $_POST["cod"];
 
 ?>
@@ -18,17 +14,19 @@ setlocale(LC_TIME, "ES");
 <?php
 
 
-$queryVenta = Controller::$connection->query("select *, p.nombre as nombre_producto, dv.cantidad as cantidad_venta, tp.nombre as nombreTipoVenta, c.nombre as nombreCliente
-        from venta as v
-        inner join detalle_venta as dv on dv.idventa = v.idventa
-        inner join producto as p on p.idproducto = dv.idproducto
-        inner join cliente as c on c.idcliente = v.idcliente
-        inner join tipo_venta as tp on v.idtipo_venta = tp.idtipo_venta
-        where v.idventa = $cod");
+$queryCompra = Controller::$connection->query("SELECT c.fecha, c.idCompra, tp.descripcion AS TipoCompra, c.idProveedor, pv.nombre AS nombreProveedor, dc.idproducto, 
+p.nombre AS nombreProducto, dc.precioUnitario, dc.cantidad,  (dc.precioUnitario * dc.cantidad) AS subtotal, dc.idDetalleCompra, tp.descripcion AS nombreTipoCompra, 
+tp.idTipoCompra
+        from compra as c
+        inner join detalle_compra as dc on dc.idCompra = c.idCompra
+        inner join producto as p on p.idproducto = dc.idproducto
+        inner join proveedor AS pv ON pv.idProveedor = c.idProveedor
+        INNER JOIN tipocompra as tp on tp.idTipoCompra = c.idTipoCompra
+        where c.idCompra = '$cod'");
 
-if($queryVenta) {
+if($queryCompra) {
 
-    $dataVenta = $queryVenta->fetchAll(PDO::FETCH_ASSOC);
+    $dataCompra = $queryCompra->fetchAll(PDO::FETCH_ASSOC);
 
 }else {
     die("No hay datos.");
@@ -83,42 +81,43 @@ $pdf->AddPage('L', 'HALF_LETTER');
 
 
 
-$idventa = $dataVenta[0]["idventa"];
-$fecha = $dataVenta[0]["fecha"];
-$idtipo_venta = $dataVenta[0]["idtipo_venta"];
-$cliente = $dataVenta[0]["idcliente"];
-$nombre_cliente = $dataVenta[0]["nombreCliente"];
-$id_venta = $dataVenta[0]["idventa"];
-$id_detalle_venta = $dataVenta[0]["id_detalle_venta"];
-$idProducto = $dataVenta[0]["idproducto"];
-$nombre_producto = $dataVenta[0]["nombre_producto"];
-$cantidad_venta = $dataVenta[0]["cantidad_venta"];
-$subtotal = $dataVenta[0]["subtotal"];
-$total = $dataVenta[0]["total"];
-$nombreTipoVenta = $dataVenta[0]["nombreTipoVenta"];
+$idCompra = $dataCompra[0]["idCompra"];
+$fecha = $dataCompra[0]["fecha"];
+$idtipocomrpa = $dataCompra[0]["idTipoCompra"];
+$proveedor = $dataCompra[0]["idProveedor"];
+$nombre_proveedor = $dataCompra[0]["nombreProveedor"];
+$id_compra = $dataCompra[0]["idCompra"];
+$id_detalle_compra = $dataCompra[0]["idDetalleCompra"];
+$idProducto = $dataCompra[0]["idproducto"];
+$nombre_producto = $dataCompra[0]["nombreProducto"];
+$cantidad_venta = $dataCompra[0]["cantidad"];
+$total = 0;
+$nombreTipoCompra = $dataCompra[0]["nombreTipoCompra"];
 
 
 
 $detalle = "";
 
-foreach($dataVenta as $key => $value) {
+foreach($dataCompra as $key => $value) {
 
-    if($value["cantidad_venta"] < 1) {
+    //if($value["cantidad"] < 1) {
 
-        $precioVenta / 100;
-        $value["cantidad_venta"] =  $value["cantidad_venta"] * 100;
+    //  $precioCompra / 100;
+  //    $value["cantidad"] =  $value["cantidad"] * 100;
 
-    }
+//  }
 
-    $precioVenta = sprintf("%.2f", $value["subtotal"] / $value["cantidad_venta"]);
+   $precioCompra = sprintf("%.2f", $value["precioUnitario"] / $value["cantidad"]);
+
+    $total = $total + $value["precioUnitario"];
 
     $detalle .= "<tr>
 
     <td>".$value["idproducto"]."</td>
-    <td>".$value["nombre_producto"]."</td>
-    <td>"."Q. ".$precioVenta."</td>
-    <td>".$value["cantidad_venta"]."</td>
-    <td>"."Q. ".$value["subtotal"]."</td>
+    <td>".$value["nombreProducto"]."</td>
+    <td>"."Q. ".$precioCompra."</td>
+    <td>".$value["cantidad"]."</td>
+    <td>"."Q. ".$value["precioUnitario"]."</td>
 
     </tr>";
 }
@@ -144,17 +143,17 @@ h1 {
 
 <html>
 <head>
-    <title> Venta </title>
+    <title> Compra </title>
 </head>
 <body>
 
-    <div style="text-align:center; line-height: 1px;"><h1> Recibo de Venta </h1></div>
-    <div style="text-align:center;"> COMERCIAL CINDY </div>
+    <div style="text-align:center; line-height: 1px;"><h1> Recibo de Compra </h1></div>
+    <div style="text-align:center;"> COMERCIAL CINDY</div>
 
     <div style="text-align:right; float:right"> <strong>Fecha:</strong> $fecha</div>
-    <div> <strong>No. venta:</strong> $idventa </div>
-    <div> <strong>Tipo de venta:</strong> $nombreTipoVenta</div>
-    <div> <span style='display:inline; white-space:pre;'><strong>Código Cliente:</strong> $cliente  <strong>  Nombre:</strong> $nombre_cliente              </span></div>
+    <div> <strong>No. venta:</strong> $idCompra </div>
+    <div> <strong>Tipo de venta:</strong> $nombreTipoCompra</div>
+    <div> <span style='display:inline; white-space:pre;'><strong>Código Cliente:</strong> $proveedor  <strong>  Nombre:</strong> $nombre_proveedor              </span></div>
     <br>
     <br>
 

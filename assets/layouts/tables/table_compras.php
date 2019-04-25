@@ -264,22 +264,23 @@ try {
 
                                     $(this).closest(".panel").find(".inputs_wrapper").find("input, textarea").val("");
 
-                                    $("select#IDCLIENTE").select2("trigger", "select", {
-                                        data: {
-                                            id: "nothing"
-                                        }
-                                    });
-
-                                    $("select#IDVENTA").select2("trigger", "select", {
-                                        data: {
-                                            id: "nothing"
-                                        }
-                                    });
-
+                                    
                                     $(".detalle_compra_table").DataTable().clear().draw();
+
 
                                     switchUDDevolucion(control, false);
                                     refreshDetailDevolucion(form);
+
+
+                                    $("select").each(function(key, html) {
+
+                                        $(html).select2("trigger", "select", {
+                                            data: {
+                                                id: "nothing"
+                                            }
+                                        });
+
+                                    });
 
 
                                 });
@@ -290,8 +291,8 @@ try {
 
 
                                         <?php $FK_table = Controller::$connection->query("SELECT referenced_table_name as table_name
-                  from information_schema.referential_constraints
-                  where table_name = '$table_name'");
+                                                                                                from information_schema.referential_constraints
+                                                                                                where table_name = '$table_name'");
 
                                         $FK_table = $FK_table->fetchAll(PDO::FETCH_NUM); ?>
 
@@ -443,7 +444,7 @@ try {
 
                         <select id="producto" class="form-control" aria-describedby="basic-addon">
 
-                            <option value="0">Selecciona un Producto</option>
+                            <option value="nothing">Selecciona un Producto</option>
 
                         </select>
 
@@ -646,7 +647,7 @@ try {
 
         r = detalle_compra_table.row().data();
 
-        total = total - parseFloat(r[3]);
+        total = total - parseFloat(r[4]);
 
 
         $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
@@ -687,7 +688,7 @@ try {
         $("select#producto").select2("trigger", "select", {
 
             data: {
-                id: 0
+                id: "nothing"
             }
 
         });
@@ -705,7 +706,7 @@ try {
             dataType: "JSON",
             success: function(r) {
 
-                total = total + parseFloat(r[0][3]);
+                total = total + parseFloat(r[0][4]);
 
                 $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
@@ -759,6 +760,7 @@ try {
 
     $('.detail_table_compra tbody').on('click', 'tr', function() {
 
+   
         $("#create").attr("disabled", true);
 
 
@@ -778,7 +780,6 @@ try {
 
             switchUDDevolucion(control, true);
 
-
             $.ajax({
 
                 url: "../classes/Api.php?action=oneCompra",
@@ -791,28 +792,30 @@ try {
                 },
                 dataType: "JSON",
                 success: function(r) {
-
+                
 
                     $.each(r[0][0], function(key, value) {
 
-
                         $(form).find("#" + key).val(value);
+
 
                         if ($(form).find("#" + key).data("select2")) {
 
                             $(form).find("#" + key).select2("trigger", "select", {
                                 data: {
-                                    id: value
+                                    id: value ? value : "nothing"
                                 }
                             });
 
                         }
 
-
                     });
+
+                    console.log(r);
 
 
                     if (r[1]) {
+                  
 
                         $(".detalle_compra_table").DataTable().clear().draw();
 
@@ -848,7 +851,7 @@ try {
         $("select#producto").select2("trigger", "select", {
 
             data: {
-                id: 0
+                id: "nothing"
             }
 
         });
@@ -866,7 +869,8 @@ try {
             dataType: "JSON",
             success: function(r) {
 
-                total = total + parseFloat(r[0][3] * cant);
+                total = total + parseFloat(r[0][4]);
+
 
                 $(".inputs_wrapper").find("#total").val(parseFloat(total).toFixed(2));
 
@@ -1045,6 +1049,24 @@ try {
 
                                                     precio = result.value;
 
+                                                    responsiveVoice.speak("Ahora, Ingresa el precio de venta, por unidad", idioma);
+
+                                                swal({
+                                                    title: 'Inventario',
+                                                    text: 'Ingresa el "Precio de Venta"',
+                                                    input: 'text',
+                                                    type: 'info',
+                                                    showCancelButton: true,
+                                                    confirmButtonText: 'Agregar',
+                                                    cancelButtonText: 'Cancelar',
+                                                    showLoaderOnConfirm: true,
+                                                    allowOutsideClick: true
+                                                }).then((result) => {
+
+                                                    if (result.value || result.value == " ") {
+
+                                                        precioVenta = result.value;
+                    
                                                     $.ajax({
                                                         url: "../classes/Api.php?action=addProducto",
                                                         method: "POST",
@@ -1054,7 +1076,7 @@ try {
                                                                 "idCategoria": "NULL",
                                                                 "nombre": nombre,
                                                                 "preciocosto": precio,
-                                                                "precioSugerido": precio * 1.20,
+                                                                "precioSugerido": precioVenta,
                                                                 "precioTop": precio,
                                                                 "marca": "NULL",
                                                                 "serie": "",
@@ -1070,7 +1092,12 @@ try {
                                                             addItemScanCompra(code, r.nombre, cantidad, precio);
 
                                                         }
-                                                    })
+
+                                                    });
+                                                        
+                                                    }
+                                                    
+                                                    });
 
 
                                                 }
@@ -1170,6 +1197,10 @@ try {
         "display": "none"
     });
 
+    $("#nocuenta").parent().css({
+        "display": "none"
+    });
+
     $("select#idFormapago").on("change", function(e) {
 
         switch (this.value) {
@@ -1182,15 +1213,34 @@ try {
                 $("#banco").parent().css({
                     "display": "none"
                 });
+                $("#nocuenta").parent().css({
+                    "display": "none"
+                });
 
                 break;
 
-            case "2":
+             case "2":
 
                 $("#noCheque").parent().css({
                     "display": "table"
                 });
                 $("#banco").parent().css({
+                    "display": "table"
+                });
+                $("#nocuenta").parent().css({
+                    "display": "table"
+                });
+
+                break;
+                case "3":
+
+                $("#noCheque").parent().css({
+                    "display": "none"
+                });
+                $("#banco").parent().css({
+                    "display": "none"
+                });
+                $("#nocuenta").parent().css({
                     "display": "table"
                 });
 

@@ -199,7 +199,7 @@ h1 {
 <body>
     <div style="text-align:center; line-height: 1px;"><h1> Reporte de Ventas y Devoluciones del día </h1></div>
     
-    <div style="text-align:center;"><big> MISCELANEA EL EDEN </big></div>
+    <div style="text-align:center;"><big> COMERCIAL CINDY </big></div>
     <div> </div>
     <br>
 
