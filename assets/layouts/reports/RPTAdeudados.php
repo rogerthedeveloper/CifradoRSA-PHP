@@ -93,7 +93,7 @@ $detalle = "";
   // Llena el reporte con las ventas diarias
 foreach($dataVenta as $key => $value) {
 
-    $totalCredito = $value["total"];
+    $totalCredito = $totalCredito + $value["total"];
 
     $detalle .= "<tr>
 
