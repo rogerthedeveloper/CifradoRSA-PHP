@@ -19,7 +19,7 @@ include("../classes/permissions.inc");
 
 ?>
 
-<title>MISCELANEA</title>
+<title>SISTEMA POS</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
 

@@ -128,7 +128,7 @@ h1 {
     <title> Venta </title>
 </head>
 <body>
-    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Deudas de Clienres </h1></div>
+    <div style="text-align:center; line-height: 1px;"><h1> Reporte de Deudas de Clientes </h1></div>
     
     <div style="text-align:center;"> COMERCIAL CINDY </div> 
     <div> </div>
