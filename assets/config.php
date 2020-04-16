@@ -19,7 +19,7 @@ include("../classes/permissions.inc");
 
 ?>
 
-<title>SISTEMA POS</title>
+<title>CIFRADO ASIMÉTRICO </title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
 
@@ -89,10 +89,6 @@ include("../classes/permissions.inc");
 
 <!-- Main Style -->
 <link rel="stylesheet" href="../assets/css/main.css"> 
-
-<!-- Responsive Voice -->
-<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-<script> idioma = "Spanish Female"; </script> 
 
 <script type="text/javascript">            
                               

@@ -131,7 +131,7 @@ catch(mysqli_sql_exception $e) {
 
                         {
                             id: '<?php echo $value[0]; ?>',
-                            text: '<?php if(isset($value[0])) {echo $value[0];} ?><?php if(isset($value[1])) {echo " - ".$value[1];} ?><?php if(isset($value[2])) {echo " - ".$value[2];} ?>'
+                            text: '<?php if(isset($value[0])) {echo $value[0];} ?><?php if(isset($value[1])) {echo " - ".$value[1];} ?><?php if(isset($value[2])) {echo " - ".$value[2];} ?><?php if(isset($value[3])) {echo " - ".$value[3];} ?><?php if(isset($value[4])) {echo " ".$value[4];} ?>'
                         },
 
 

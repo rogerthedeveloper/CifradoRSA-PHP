@@ -9,7 +9,7 @@ html { width: 100%; height:100%; overflow:hidden; }
 
 body {
 
-    background-image: url("../../img/fondo.jpg");
+    background-image: url("../../img/hacker.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover; 

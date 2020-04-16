@@ -6,7 +6,7 @@ function supportInfo() {
 
     swal({
         title: 'Soporte',
-        text: "Llamar: 5960 - 0502",
+        text: "Llamar: 5419 8733",
         type: 'info',
         cancelButtonText: 'Aceptar'
     });

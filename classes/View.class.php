@@ -13,24 +13,18 @@ class View extends App
 
     public static function showViewFromTable($table_name, $table_title, $options = null, $view = "table_default")  {
 
-
         include("../assets/layouts/tables/".strtolower($view).".php");
-
 
     }
 
-
     public static function showView($view = "view_default")  {
 
-
         include("../assets/layouts/views/view_".strtolower($view).".php");
-
 
     }
 
 
     static function newChart($title, $array) {
-
 
         ?>
 

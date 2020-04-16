@@ -15,12 +15,28 @@ html {
 }
 
 
+.btnAtendido {
+
+  padding: 10px;
+  background-color: grey;
+  color: #FFF;
+  border: 0px;
+
+}
+
+
+.btnAtendido:hover {
+
+  background-color: green;
+
+}
+
 body {
 	background: none;
 	width: 100%;
 	height:100%;
 	font-family: 'Open Sans', sans-serif;
-	background-image: url('../img/back-app.jpg'); 
+	background-image: url('../img/back-h.jpg'); 
 	background-size: cover;
 	background-attachment: fixed; 
 }

@@ -1,21 +1,65 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: RSpro
- * Date: 22/05/16
- * Time: 13:59
- */
 
-require_once("../assets/config.php");
+    /**
+     * Created by PhpStorm.
+     * User: RSpro
+     * Date: 22/05/16
+     * Time: 13:59
+     */
 
-$cliente = Controller::$connection->query("SELECT * FROM cliente");
-
-$cliente = $cliente->fetchAll(PDO::FETCH_NUM);
+    require_once("../assets/config.php");
 
 ?>
 
+<?php include("../assets/layouts/header.php"); 
 
-<?php include("../assets/layouts/header.php"); ?>
+try {
+
+    $users = Controller::$connection->query("SELECT * FROM user order by idUser DESC");
+
+    if ($users) {
+
+        $users = $users->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+} catch (mysqli_sql_exception $e) {
+
+    echo $e->getMessage();
+
+}
+
+
+?>
+
+<script type="text/javascript">
+    
+
+$(document).ready(function() {
+
+$("select#usuarios").select2({ data:[
+
+
+<?php foreach ($users as $key => $value): ?>
+
+        {
+            id: '<?php echo $value["idUser"]; ?>',
+            text: '<?php echo $value["nombre"]; ?>'
+        },
+
+
+<?php endforeach; ?>
+
+
+],
+
+    minimumInputLength: 0
+
+});
+
+
+})
+
+</script>
 
 
 <div class="container">
@@ -26,47 +70,9 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                <h3 class="panel-title"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 
-                    <strong>Evolución de Ventas</strong>
-
-                </h3>
-
-            </div>
-
-            <div class="panel-collapse">
-
-                <div class="panel-body">
-
-
-           <?php View::newChart("Ventas", Controller::getChartData("SELECT fecha AS FECHA, SUM(v.total) as VENTA FROM venta as V
-            WHERE FECHA BETWEEN curdate() - INTERVAL 1 MONTH AND curdate() group by FECHA")); ?>
-
-
-                </div>
-
-                <div class="panel-footer">
-
-                    <div style="text-align: center;">
-
-
-                    </div>
-
-                </div>
-
-
-
-            </div>
-
-        </div>
-
-
-        <div class="panel panel-default">
-
-            <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-
-                    <strong>Compra de Cliente</strong>
+                    <strong>Mensajes: <?php echo Security::$username; ?></strong>
 
                 </h3>
 
@@ -76,212 +82,142 @@ $cliente = $cliente->fetchAll(PDO::FETCH_NUM);
 
                 <div class="panel-body">
 
-              <?php View::newChart("Clientes", Controller::getChartData("SELECT fecha AS FECHA, SUM(v.total) as VENTA FROM venta as V
-              WHERE idcliente = 1 and FECHA BETWEEN curdate() - INTERVAL 1 MONTH AND curdate() group by FECHA")); ?>
+                    <div class="col-md-12">
+
+                        <div id="transmition_wrapper" style="border: 1px solid lightgray; padding: 15px; height: 300px; overflow-x: hidden; overflow-y: auto;">
 
 
-                <br>
+                        </div>
+                          
+                        <?php if(Security::$permission == 1 || Security::$permission == 2): ?>    
+                            <div class="well">  
 
-
-                <script type="text/javascript">
-
-
-                $(document).ready(function() {
-
-
-                  $("select#cliente").select2({ data:[
-
-
-                    <?php foreach($cliente as $key => $value): ?>
-
-                            {
-                                id: '<?php echo $value[0]; ?>',
-                                text: '<?php if(isset($value[0])) {echo $value[0];} ?><?php if(isset($value[1])) {echo " - ".$value[1];} ?>'
-                            },
-
-
-                    <?php endforeach; ?>
-
-
-                    ],
-
-                        minimumInputLength: 1
-
-
-                    });
-
-
-                  $("select#cliente").on("change", function() {
-
-                    cod = $(this).val();
-
-                        query = "SELECT fecha AS FECHA, SUM(v.total) as VENTA FROM venta as V WHERE idcliente = "+cod+" and FECHA BETWEEN curdate() - INTERVAL 1 MONTH AND curdate() group by FECHA";
-
-
-                        $.ajax({
-
-                                url: "../classes/Api.php?action=getChartData",
-                                method: "POST",
-                                data: { "data": query, "table": 0, "key": 0, "cod": 0 },
-                                dataType: "JSON",
-                                success: function(r) {
-
-            
-                                    r.unshift(["Fecha", "Venta"]);
-
-                                    chartClientes.draw(google.visualization.arrayToDataTable(r), optionsClientes);
-
-                                }
-
-
-                            });
-
-
-                    });
-
-
-
-                  });
-
-                
-
-
-                </script>
-
-
-                <div class="col-md-6">
-
-                    <select id="cliente" class="form-control" aria-describedby="basic-addon">
-
-                            <option value="nothing">Selecciona un Cliente</option>
-
-                    </select>
-
-                </div>
-
-                </div>
-
-                <div class="panel-footer">
-
-                    <div style="text-align: center;">
-
+                            <select id="usuarios" class="form-control" aria-describedby="basic-addon">
+                                <option value="nothing">Selecciona un Usuario</option>
+                            </select>  
+                            <br>
+                            <br>
+                            <div class="input-group">
+                            <textarea id="messageInput" style="resize: none;" placeholder="Escribe un Mensaje..." class="form-control" rows="3"></textarea>
+                              <span class="input-group-btn">
+                                <button onclick="sendMessage()" style="height: 74px;" class="btn btn-success" type="button">Enviar</button>
+                              </span>
+                            </div>      
+                            </div>
+                        <?php endif; ?>    
 
                     </div>
-
+  
                 </div>
-
 
 
             </div>
 
         </div>
-
-
-
-
-
-    </div>
-
-
-    <div class="col-md-6">
-
-
-
-        <div class="panel panel-default">
-
-            <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-
-                    <strong>Reporte de Créditos</strong>
-
-                </h3>
-
-            </div>
-
-            <div class="panel-collapse">
-
-                <div class="panel-body">
-
-
-                  <p style="text-align: center;">Haz click en imprimir para ver un registro detallado.</p>
-
-
-                </div>
-
-                <div class="panel-footer">
-
-                    <div style="text-align: center;">
-
-                        <button template="reporte_morosos" id="print" type="button" class="print btn btn-default btn-md">
-                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-
-            </div>
-
-        </div>
-
-
-
-
-
-    </div>
-
-
-    <div class="col-md-6">
-
-
-
-        <div class="panel panel-default">
-
-            <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-
-                    <strong>Ventas de hoy</strong>
-
-                </h3>
-
-            </div>
-
-            <div class="panel-collapse">
-
-                <div class="panel-body">
-
-                <p style="text-align: center;">Haz click en imprimir para ver un registro detallado.</p>
-
-                </div>
-
-                <div class="panel-footer">
-
-                    <div style="text-align: center;">
-
-                        <button template="ventas_hoy" id="print" type="button" class="print btn btn-default btn-md">
-                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-
-            </div>
-
-        </div>
-
-
-
-
 
     </div>
 
 </div>
 
+<script>
 
+
+function sendMessage() {
+
+    if(usuarios.value == "nothing") {
+
+        alert("Selecciona un Usuario para enviarle el mensaje");
+        return false;
+    }
+
+    var tmpMessage = messageInput.value;
+
+    messageInput.value = "";
+
+    var idUser = <?php echo Security::$userID; ?>
+
+    $.ajax({
+
+        url: "../classes/Api.php?action=sendMessage",
+        method: "POST",
+        data: { "data": {"sendMessage": tmpMessage, "idUser": idUser, "idReceiver": usuarios.value }, "table": "message", "key": "a", "cod": 1 },
+        dataType: "JSON",
+        success: function(r) {
+
+            if(r) {
+
+                msgEnviado = `<div style="width: 80%; float: right;" class="alert alert-success text-right" role="alert">
+                <span style="font-weight: bold;">Mensaje Enviado:</span>
+                <span class="innerTextPlain">${tmpMessage}</span>
+                <br>
+                <br>
+                <span style="font-weight: bold;">Mensaje Enviado Cifrado: </span>
+                <span class="innerTextEncrypt">${r.encryptMessage}</span>
+                </div>`;
+
+
+                $("#transmition_wrapper").append(msgEnviado);
+                
+
+                $("#transmition_wrapper")
+                .animate({"scrollTop": $("#transmition_wrapper")[0].scrollHeight}, 1000);
+
+            }
+
+        }
+
+    });
+
+}
+
+var lastMessage = "";
+
+function getMessage() {
+
+    var idUser = <?php echo Security::$userID; ?>
+
+    $.ajax({
+
+        url: "../classes/Api.php?action=getMessage",
+        method: "POST",
+        data: { "data": {"idUser": idUser}, "table": "message", "key": "a", "cod": 1 },
+        dataType: "JSON",
+        success: function(r) {
+
+            if(r) {
+
+                if(r.idMessage != lastMessage) {
+
+                    msgRecibido = `<div style="width: 80%; float: left;" class="alert alert-info" role="alert">
+                    <span style="font-weight: bold;">Mensaje Recibido Descifrado:</span>
+                    <span class="innerTextPlain">${r.decryptMessage}</span>
+                    <br>
+                    <br>
+                    <span style="font-weight: bold;">Mensaje Recibido Cifrado:</span>
+                    <span class="innerTextEncrypt">${r.message}</span>
+                    </div>`;
+
+
+                    $("#transmition_wrapper")
+                    .append(msgRecibido);
+
+                    $("#transmition_wrapper")
+                    .animate({"scrollTop": $("#transmition_wrapper")[0].scrollHeight}, 500);
+
+                    lastMessage = r.idMessage;
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+setInterval(() => getMessage(), 1000);
+
+</script>
 
 <?php include("../assets/layouts/footer.php"); ?>
